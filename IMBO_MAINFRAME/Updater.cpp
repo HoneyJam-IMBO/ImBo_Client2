@@ -85,6 +85,8 @@ void CUpdater::LoadSpaceInfo(){
 }
 void CUpdater::LoadTerrainInfo(wstring wsOutputPath, wstring wsSceneName){
 	if (m_pTerrainContainer->GetActive()) {//terrain container가 있다면..
+		//추가 navi object
+		CNaviObjectManager::LoadData();
 
 		//추가
 		float zn = IMPORTER->ReadFloat();

@@ -240,6 +240,11 @@ void CResourceManager::CreateMeshs() {
 	pMesh->Begin();
 	m_mvMesh["WaterT"].push_back(pMesh);
 
+	//navimesh
+	pMesh = make_shared<CNaviMesh>();// new CNaviMesh;
+	pMesh->Begin();
+	m_mvMesh["NaviMesh"].push_back(pMesh);
+
 }
 void CResourceManager::CreateStempMeshs() {
 	

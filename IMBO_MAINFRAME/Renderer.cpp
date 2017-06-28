@@ -143,6 +143,8 @@ void CRenderer::NoPostProcessRender(shared_ptr<CCamera> pCamera)
 	SetForwardRenderTargets(m_pd3ddsvReadOnlyDepthStencil);//gbuff가 될 rtv/ dsv set
 	m_pObjectRenderer->Excute(pCamera);
 	m_pObjectRenderer->CleanShaderState();
+
+	
 	if (true == bDebug) DEBUGER->end_Timemeasurement(L"object_render");
 	GLOBALVALUEMGR->GetDeviceContext()->OMSetDepthStencilState(m_pd3dDSSEarlyZWrite, 1);
 
@@ -250,6 +252,9 @@ void CRenderer::Render(shared_ptr<CCamera> pCamera) {
 	SetForwardRenderTargets(m_pd3ddsvReadOnlyDepthStencil);//gbuff가 될 rtv/ dsv set
 	m_pObjectRenderer->Excute(pCamera);
 	m_pObjectRenderer->CleanShaderState();
+
+	//naviobject render
+	if (true == bDebug) CNaviObjectManager::Render();
 	if (true == bDebug) DEBUGER->end_Timemeasurement(L"object_render");
 	GLOBALVALUEMGR->GetDeviceContext()->OMSetDepthStencilState(m_pd3dDSSEarlyZWrite, 1);
 

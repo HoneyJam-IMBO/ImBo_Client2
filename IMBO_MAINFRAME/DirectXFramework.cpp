@@ -22,6 +22,7 @@ void CDirectXFramework::End() {
 	SCENEMGR->End();
 	NETWORKMGR->End();
 	RCSELLER->End();
+	CNaviObjectManager::End();
 }
 void CDirectXFramework::FrameAdvance()
 {
@@ -108,6 +109,7 @@ void CDirectXFramework::InitSingleton(HINSTANCE hInstance, HWND hWnd)
 	UPDATER->Begin();
 	SCENEMGR->Begin(this);
 	NETWORKMGR->Begin();
+	CNaviObjectManager::Begin();
 
 #ifdef NO_SERVER
 	SCENEMGR->ChangeScene(SCN_ORITOWN);

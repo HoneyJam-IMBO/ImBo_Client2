@@ -465,6 +465,9 @@
     <Filter Include="1. 소스 파일\04. DXObject\-02. Mesh\OBJECT\NaviMesh">
       <UniqueIdentifier>{ef379594-3f78-4cd5-9c0a-19beb429691a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="0. HLSL\16. NaviObject">
+      <UniqueIdentifier>{a285637f-b439-4697-8644-0c435b54d39c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Light.h">
@@ -1372,6 +1375,15 @@
     </FxCompile>
     <FxCompile Include="PSFinalPass.hlsl">
       <Filter>0. HLSL\15. FinalPass</Filter>
+    </FxCompile>
+    <FxCompile Include="VSNaviObject.hlsl">
+      <Filter>0. HLSL\16. NaviObject</Filter>
+    </FxCompile>
+    <FxCompile Include="PSNaviObject.hlsl">
+      <Filter>0. HLSL\16. NaviObject</Filter>
+    </FxCompile>
+    <FxCompile Include="GSNaviObject.hlsl">
+      <Filter>0. HLSL\16. NaviObject</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

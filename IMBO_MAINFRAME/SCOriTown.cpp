@@ -75,6 +75,7 @@ bool CSCOriTown::Begin() {
 			m_ppPawn[i]->SetScale(XMVectorSet(1, 1, 1, 1));
 			break;
 		}
+
 		if (bSoul) {//player에게 camera 붙혀주기
 			m_ppPawn[i]->SetTerrainContainer(UPDATER->GetTerrainContainer());
 			m_ppPawn[i]->SetUTag(utag::UTAG_PLAYER);
@@ -90,6 +91,9 @@ bool CSCOriTown::Begin() {
 			UPDATER->GetSpaceContainer()->AddObject(m_ppPawn[i]);
 			m_ppPawn[i]->GetAnimater()->SetCurAnimationIndex(0);
 		}
+
+		//navi object
+		m_ppPawn[i]->SetNaviMeshIndex();
 	}
 
 	

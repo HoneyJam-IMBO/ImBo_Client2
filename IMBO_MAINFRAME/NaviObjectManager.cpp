@@ -219,6 +219,12 @@ XMVECTOR CNaviObjectManager::GetNaviMeshPosition(int index){
 	return xmvPos;
 }
 int CNaviObjectManager::GetValiableIndex(XMVECTOR pos){
+	XMFLOAT3 xmf3Pos;
+	XMStoreFloat3(&xmf3Pos, pos);
+	for (auto pNaviObject : m_vNaviObject) {
+		if (pNaviObject->IsIntersection(xmf3Pos.x, xmf3Pos.z))
+			return pNaviObject->GetNaviObjectID();
+	}
 
 	return -1;
 }
