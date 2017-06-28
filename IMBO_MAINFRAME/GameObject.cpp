@@ -55,12 +55,38 @@ void CGameObject::Animate(float fTimeElapsed) {
 }
 void CGameObject::Move(XMVECTOR xmvDir, float fDistance) {
 
-	XMFLOAT3 xmfDir;
-	XMStoreFloat3(&xmfDir, XMVector3Normalize(xmvDir)*fDistance);
+	XMVECTOR pos;
+	pos = GetPosition() + XMVector3Normalize(xmvDir)*fDistance;
 
-	m_xmf4x4World._41 += xmfDir.x;
-	m_xmf4x4World._42 += xmfDir.y;
-	m_xmf4x4World._43 += xmfDir.z;
+	//추가 
+	if (m_indexNaviMesh != -1) {
+		XMFLOAT3 xmf3Pos;
+		XMStoreFloat3(&xmf3Pos, pos);
+		//미리 가봐서 
+		if (CNaviObjectManager::IsIntersection(xmf3Pos.x, xmf3Pos.z, m_indexNaviMesh)) {
+			//그 자리가 아직 내 navi mesh안이라면
+			xmf3Pos.y = CNaviObjectManager::GetHeight(XMFLOAT2(xmf3Pos.x, xmf3Pos.z), m_indexNaviMesh);
+		}
+		else {
+			//아니면 index를 새로 구하는데 만약 navi mesh위가 아니라면
+			int new_index = CNaviObjectManager::GetIndex(xmf3Pos.x, xmf3Pos.z, m_indexNaviMesh);
+			if (new_index != -1) {
+				//만약 다른 navi mesh위에 내가 위치하게 됬다면.
+				//navi mesh index를 갱신하고 내 높이도 갱신
+				m_indexNaviMesh = new_index;
+				xmf3Pos.y = CNaviObjectManager::GetHeight(XMFLOAT2(xmf3Pos.x, xmf3Pos.z), m_indexNaviMesh);
+			}
+			else {
+				//만약 내가 navi mesh위에 있지 않다면
+				//나는 이동하지 않는다.
+				pos = GetPosition();
+			}
+		}
+	}
+
+
+
+	SetPosition(pos);
 }
 void CGameObject::Rotate(XMMATRIX xmMtx) {
 	XMMATRIX xmmtxRotate = XMMatrixMultiply(xmMtx, XMLoadFloat4x4(&m_xmf4x4World));
@@ -616,7 +642,7 @@ void CGameObject::RegistToDebuger(){
 //}
 float CGameObject::GetTerrainHeight(){
 
-	return m_pTerrainContainer->GetHeight(GetPosition());
+	return m_pTerrainContainer->GetHeight(GetPosition(), m_indexNaviMesh);
 //	return 100.0f;
 }
 //flustum culling
@@ -672,6 +698,20 @@ CGameObject* CGameObject::CreateObject(string name, tag t, XMMATRIX xmmtxWorld){
 	return pObject;
 }
 
+
+void CGameObject::SetNaviMeshIndex(int index) {
+	if (CNaviObjectManager::IsValiableIndex(index)) {
+		m_indexNaviMesh = index;
+		SetPosition(CNaviObjectManager::GetNaviMeshPosition(index));
+	}
+}
+
+void CGameObject::SetNaviMeshIndex() {
+	m_indexNaviMesh = CNaviObjectManager::GetValiableIndex(GetPosition());
+
+	if (m_indexNaviMesh == -1) SetNaviMeshIndex(0);
+	else SetNaviMeshIndex(m_indexNaviMesh);
+}
 
 //생성자는 위에서부터 
 CGameObject::CGameObject(string name, tag t) : CObject(name, t) {

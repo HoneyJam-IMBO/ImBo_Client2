@@ -133,7 +133,14 @@ public:
 	virtual void LoadInfo();
 
 	static CGameObject* CreateObject(string name, tag t, XMMATRIX xmmtxWorld);
+
+	//navi mesh index
+	void SetNaviMeshIndex(int index);
+	void SetNaviMeshIndex();
 protected:
+	//navi mesh index
+	int m_indexNaviMesh{ -1 };
+
 	int m_indexSelectMesh{ 0 };
 
 	BoundingBox m_OriBoundingBox;

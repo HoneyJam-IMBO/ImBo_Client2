@@ -112,16 +112,19 @@ void CTerrainContainer::PrepareRender(){
 	}
 }
 
-float CTerrainContainer::GetHeight(XMVECTOR xmvPos){
+float CTerrainContainer::GetHeight(XMVECTOR xmvPos, int index) {
 	XMFLOAT3 xmf3Pos;
 	XMStoreFloat3(&xmf3Pos, xmvPos);
 	float fx = xmf3Pos.x;
 	float fz = xmf3Pos.z;
 
-	return GetHeight(XMFLOAT2(fx, fz));
+	return GetHeight(XMFLOAT2(fx, fz), index);
 }
 
-float CTerrainContainer::GetHeight(XMFLOAT2 xmf2Pos){
+float CTerrainContainer::GetHeight(XMFLOAT2 xmf2Pos, int index){
+	if (index != -1) {
+		return CNaviObjectManager::GetHeight(xmf2Pos, index);
+	}
 	/*
 	float fx = m_pSpaceContainer->GetSpaceSize() - xmf2Pos.x;
 	float fz = m_pSpaceContainer->GetSpaceSize() - xmf2Pos.y;

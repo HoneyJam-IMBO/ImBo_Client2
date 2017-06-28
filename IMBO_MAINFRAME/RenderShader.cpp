@@ -226,6 +226,15 @@ bool CRenderShader::CreateVS(LPCTSTR name, UINT InputElementFlag){
 			}
 			nInstanceElement++;
 		}
+		if (InputElementFlag&IE_INSUINT_C_A) {
+			if (nInstanceElement == 0) {
+				vDesc.push_back({ "INSUINT_C_A", 0, DXGI_FORMAT_R32G32B32_UINT, nElement, 0, D3D11_INPUT_PER_INSTANCE_DATA, 1 });
+			}
+			else {
+				vDesc.push_back({ "INSUINT_C_A", 0, DXGI_FORMAT_R32G32B32_UINT, nElement, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_INSTANCE_DATA, 1 });
+			}
+			nInstanceElement++;
+		}
 		D3D11_INPUT_ELEMENT_DESC* pDesc = new D3D11_INPUT_ELEMENT_DESC[vDesc.size()];
 		for (int i = 0; i < vDesc.size(); ++i) {
 			pDesc[i] = vDesc[i];

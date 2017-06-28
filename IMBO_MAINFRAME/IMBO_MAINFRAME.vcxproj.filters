@@ -453,6 +453,18 @@
     <Filter Include="1. 소스 파일\03. Scene\-01. Title">
       <UniqueIdentifier>{49196597-eb69-49cf-a173-5d35aef3b1ff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="1. 소스 파일\05. GameObject\-04. Terrain\NaviObject">
+      <UniqueIdentifier>{8c33a27d-0811-4aa1-8a4c-b9978c87cbe6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1. 소스 파일\05. GameObject\-04. Terrain\NaviObject\NaviVertex">
+      <UniqueIdentifier>{98dabc8e-a562-40b9-9096-75ff94b0b2f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1. 소스 파일\05. GameObject\-04. Terrain\NaviObject\NaviObjectManager">
+      <UniqueIdentifier>{fac77996-861a-4533-9085-952d27fb079b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1. 소스 파일\04. DXObject\-02. Mesh\OBJECT\NaviMesh">
+      <UniqueIdentifier>{ef379594-3f78-4cd5-9c0a-19beb429691a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Light.h">
@@ -785,8 +797,20 @@
     <ClInclude Include="LabClientSession.h">
       <Filter>1. 소스 파일\00. Singleton\-12. NetworkMGR\-1 LabClientSession</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\0. JH%27s Folder\Study\IBClient\ImBo_Projects\ImpossibleBoss_Server\IMBO_MAINFRAME\SCTitle.h">
+    <ClInclude Include="SCTitle.h">
       <Filter>1. 소스 파일\03. Scene\-01. Title</Filter>
+    </ClInclude>
+    <ClInclude Include="NaviObject.h">
+      <Filter>1. 소스 파일\05. GameObject\-04. Terrain\NaviObject</Filter>
+    </ClInclude>
+    <ClInclude Include="NaviObjectManager.h">
+      <Filter>1. 소스 파일\05. GameObject\-04. Terrain\NaviObject\NaviObjectManager</Filter>
+    </ClInclude>
+    <ClInclude Include="NaviVertex.h">
+      <Filter>1. 소스 파일\05. GameObject\-04. Terrain\NaviObject\NaviVertex</Filter>
+    </ClInclude>
+    <ClInclude Include="NaviMesh.h">
+      <Filter>1. 소스 파일\04. DXObject\-02. Mesh\OBJECT\NaviMesh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1102,11 +1126,23 @@
     <ClCompile Include="LabClientSession.cpp">
       <Filter>1. 소스 파일\00. Singleton\-12. NetworkMGR\-1 LabClientSession</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\0. JH%27s Folder\Study\IBClient\ImBo_Projects\ImpossibleBoss_Server\IMBO_MAINFRAME\SCTitle.cpp">
-      <Filter>1. 소스 파일\03. Scene\-01. Title</Filter>
-    </ClCompile>
     <ClCompile Include="Loading.cpp">
       <Filter>1. 소스 파일\03. Scene\-00. Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="SCTitle.cpp">
+      <Filter>1. 소스 파일\03. Scene\-01. Title</Filter>
+    </ClCompile>
+    <ClCompile Include="NaviObject.cpp">
+      <Filter>1. 소스 파일\05. GameObject\-04. Terrain\NaviObject</Filter>
+    </ClCompile>
+    <ClCompile Include="NaviObjectManager.cpp">
+      <Filter>1. 소스 파일\05. GameObject\-04. Terrain\NaviObject\NaviObjectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="NaviVertex.cpp">
+      <Filter>1. 소스 파일\05. GameObject\-04. Terrain\NaviObject\NaviVertex</Filter>
+    </ClCompile>
+    <ClCompile Include="NaviMesh.cpp">
+      <Filter>1. 소스 파일\04. DXObject\-02. Mesh\OBJECT\NaviMesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

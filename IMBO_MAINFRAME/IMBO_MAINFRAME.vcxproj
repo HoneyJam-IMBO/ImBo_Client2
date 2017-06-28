@@ -172,7 +172,11 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\..\0. JH%27s Folder\Study\IBClient\ImBo_Projects\ImpossibleBoss_Server\IMBO_MAINFRAME\SCTitle.h" />
+    <ClInclude Include="NaviMesh.h" />
+    <ClInclude Include="NaviObject.h" />
+    <ClInclude Include="NaviObjectManager.h" />
+    <ClInclude Include="NaviVertex.h" />
+    <ClInclude Include="SCTitle.h" />
     <ClInclude Include="ElfSkillArrow.h" />
     <ClInclude Include="FinalRenderer.h" />
     <ClInclude Include="HpBar.h" />
@@ -285,7 +289,11 @@
     <ClInclude Include="WaterRenderer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\..\0. JH%27s Folder\Study\IBClient\ImBo_Projects\ImpossibleBoss_Server\IMBO_MAINFRAME\SCTitle.cpp" />
+    <ClCompile Include="NaviMesh.cpp" />
+    <ClCompile Include="NaviObject.cpp" />
+    <ClCompile Include="NaviObjectManager.cpp" />
+    <ClCompile Include="NaviVertex.cpp" />
+    <ClCompile Include="SCTitle.cpp" />
     <ClCompile Include="ElfSkillArrow.cpp" />
     <ClCompile Include="FinalRenderer.cpp" />
     <ClCompile Include="HpBar.cpp" />

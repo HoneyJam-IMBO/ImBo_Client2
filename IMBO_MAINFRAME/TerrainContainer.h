@@ -28,9 +28,9 @@ public:
 	bool End();
 
 	void PrepareRender();
-	float GetHeight(XMVECTOR xmvPos);
-	float GetHeight(XMFLOAT2 xmf2Pos);
-	
+	float GetHeight(XMVECTOR xmvPos, int index = -1);
+	float GetHeight(XMFLOAT2 xmf2Pos, int index = -1);
+
 	void Update(shared_ptr<CCamera> pCamera);
 	CGameObject* PickObjects(XMVECTOR xmvWorldCameraStartPos, XMVECTOR xmvRayDir, float& distance);
 	void ReadyHeightMap();

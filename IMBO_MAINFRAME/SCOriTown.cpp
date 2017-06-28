@@ -271,7 +271,7 @@ VOID CSCOriTown::PROC_PT_FREQUENCY_MOVE_SC(DWORD dwProtocol, BYTE * Packet, DWOR
 
 void CSCOriTown::ReadMapData()
 {
-	IMPORTER->Begin("../../Assets/SceneResource/FirstTown/FirstTown.scn");
+	IMPORTER->Begin("../../Assets/SceneResource/test/test.scn");
 	//output path
 	wstring wsOutputPath = IMPORTER->ReadWstring();
 	//scene name

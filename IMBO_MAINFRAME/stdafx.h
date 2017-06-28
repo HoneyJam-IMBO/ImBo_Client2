@@ -130,6 +130,7 @@ using namespace DirectX::PackedVector;
 #include "SceneMgr.h"
 #include "CameraMgr.h"
 #include "NetworkMgr.h"
+#include "NaviObjectManager.h"
 
 #define		GLOBALVALUEMGR	CGlobalValueManager::GetInstance()
 #define		TIMEMGR			CGameTimer::GetInstance()
