@@ -4,29 +4,12 @@
 
 //--------------------------container---------------------------------
 void CDebugRenderContainer::UpdateShaderState(shared_ptr<CCamera> pCamera) {
-	if (m_vpBuffer.IsEmpty()) return;
+	if (m_vpBuffer.empty()) return;
 
 	m_vpMesh[0]->UpdateShaderState();
 	m_pShader->UpdateShaderState();
 
-	size_t vecSize = m_vpTexture.GetCount();
-	for (size_t i = 0; i < vecSize; ++i)
-	{
-		m_vpTexture[i]->UpdateShaderState();
-	}
-
-	vecSize = m_vpMaterial.GetCount();
-	for (size_t i = 0; i < vecSize; ++i)
-	{
-		m_vpMaterial[i]->UpdateShaderState();
-	}
-
-	vecSize = m_vpBuffer.GetCount();
-	for (size_t i = 0; i < vecSize; ++i)
-	{
-		m_vpBuffer[i]->UpdateShaderState();
-	}
-	/*for (auto p : m_vpTexture) {
+	for (auto p : m_vpTexture) {
 		p->UpdateShaderState();
 	}
 	for (auto p : m_vpMaterial) {
@@ -34,7 +17,7 @@ void CDebugRenderContainer::UpdateShaderState(shared_ptr<CCamera> pCamera) {
 	}
 	for (auto p : m_vpBuffer) {
 		p->UpdateShaderState();
-	}*/
+	}
 
 	//if (m_pGlobalBuffer) m_pGlobalBuffer->UpdateShaderState();
 	//----------------------------update instance buffer--------------------------
@@ -44,7 +27,7 @@ void CDebugRenderContainer::UpdateShaderState(shared_ptr<CCamera> pCamera) {
 
 	int nBuffer = 0;
 	//map
-	vecSize = m_vpBuffer.GetCount();
+	size_t vecSize = m_vpBuffer.size();
 	for (size_t i = 0; i < vecSize; ++i)
 	{
 		m_ppBufferData[nBuffer++] = m_vpBuffer[i]->Map();
@@ -52,7 +35,7 @@ void CDebugRenderContainer::UpdateShaderState(shared_ptr<CCamera> pCamera) {
 	//for (auto p : m_vpBuffer) {
 	//	m_ppBufferData[nBuffer++] = p->Map();
 	//}
-	vecSize = m_lpObjects.GetCount();
+	vecSize = m_lpObjects.size();
 	for (size_t i = 0; i < vecSize; ++i)
 	{
 		m_lpObjects[i]->SetBufferInfo(m_ppBufferData, nInstance, pCamera);
@@ -64,7 +47,7 @@ void CDebugRenderContainer::UpdateShaderState(shared_ptr<CCamera> pCamera) {
 	}*/
 
 	//unmap
-	vecSize = m_vpBuffer.GetCount();
+	vecSize = m_vpBuffer.size();
 	for (size_t i = 0; i < vecSize; ++i)
 	{
 		m_vpBuffer[i]->Unmap();

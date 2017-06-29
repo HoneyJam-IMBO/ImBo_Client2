@@ -41,7 +41,7 @@ public:
 
 private:
 	//vector<LoadFileStructSP> m_vLoadFileStruct;
-	CAtlArray<LoadFileStructSP> m_vLoadFileStruct;
+	vector<LoadFileStructSP> m_vLoadFileStruct;
 	//shared_ptr<CTexture> m_pBlendInfoTexture{ nullptr };
 	//shared_ptr<CTexture> m_pDetailTexture{ nullptr };
 	wstring m_pBlendInfoTexturePath;

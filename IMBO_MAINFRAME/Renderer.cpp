@@ -154,7 +154,7 @@ void CRenderer::NoPostProcessRender(shared_ptr<CCamera> pCamera)
 	if (true == bDebug) DEBUGER->start_Timemeasurement();
 	//SetRenderTargetViews(1, &m_pd3drtvLight, m_pd3ddsvReadOnlyDepthStencil);
 	SetMainRenderTargetView(); 
-	size_t iVecSize = m_vObjectLayerResultTexture.GetCount();
+	size_t iVecSize = m_vObjectLayerResultTexture.size();
 	for (size_t i = 0; i < iVecSize; ++i) {
 		m_vObjectLayerResultTexture[i]->SetShaderState();
 	}
@@ -264,7 +264,7 @@ void CRenderer::Render(shared_ptr<CCamera> pCamera) {
 	if (true == bDebug) DEBUGER->start_Timemeasurement(); 
 	SetRenderTargetViews(1, &m_pd3drtvLight, m_pd3ddsvReadOnlyDepthStencil);
 
-	size_t iVecSize = m_vObjectLayerResultTexture.GetCount();
+	size_t iVecSize = m_vObjectLayerResultTexture.size();
 	for (size_t i = 0; i < iVecSize; ++i) {
 		m_vObjectLayerResultTexture[i]->SetShaderState();
 	}
@@ -315,7 +315,7 @@ void CRenderer::Render(shared_ptr<CCamera> pCamera) {
 	GLOBALVALUEMGR->GetDeviceContext()->PSSetShaderResources(0, 1, &pBlendSrv);
 	GLOBALVALUEMGR->GetDeviceContext()->CSSetShaderResources(0, 1, &pBlendSrv);
 	PostProcessing(pCamera);
-	size_t iLightVecSize = m_vLightLayerResultTexture.GetCount();
+	size_t iLightVecSize = m_vLightLayerResultTexture.size();
 
 	ID3D11ShaderResourceView* pNull = nullptr;
 	GLOBALVALUEMGR->GetDeviceContext()->PSSetShaderResources(0, 1, &pNull);
@@ -539,25 +539,25 @@ bool CRenderer::CreateRenderTargetView() {
 		UINT Slot = { 0 };
 		UINT BindFlag = { BIND_PS | BIND_CS };
 		shared_ptr<CTexture> pTexture = CTexture::CreateTexture(pd3dSRV, Slot, BindFlag);
-		m_vObjectLayerResultTexture.Add(pTexture);
+		m_vObjectLayerResultTexture.push_back(pTexture);
 
 		pd3dSRV = { m_pd3dsrvColorSpecInt };
 		Slot = { 1 };
 		BindFlag = { BIND_PS | BIND_CS };
 		pTexture = CTexture::CreateTexture(pd3dSRV, Slot, BindFlag);
-		m_vObjectLayerResultTexture.Add(pTexture);
+		m_vObjectLayerResultTexture.push_back(pTexture);
 
 		pd3dSRV = { m_pd3dsrvNormal };
 		Slot = { 2 };
 		BindFlag = { BIND_PS | BIND_CS };
 		pTexture = CTexture::CreateTexture(pd3dSRV, Slot, BindFlag);
-		m_vObjectLayerResultTexture.Add(pTexture);
+		m_vObjectLayerResultTexture.push_back(pTexture);
 
 		pd3dSRV = { m_pd3dsrvSpecPow };
 		Slot = { 3 };
 		BindFlag = { BIND_PS | BIND_CS };
 		pTexture = CTexture::CreateTexture(pd3dSRV, Slot, BindFlag);
-		m_vObjectLayerResultTexture.Add(pTexture);
+		m_vObjectLayerResultTexture.push_back(pTexture);
 		//---------------------make texture---------------------
 
 
@@ -570,7 +570,7 @@ bool CRenderer::CreateRenderTargetView() {
 		UINT LightTexSlot = { 0 };
 		UINT LightTexBindFlag = { BIND_PS | BIND_CS };
 		pTexture = CTexture::CreateTexture(m_pd3dsrvLight, LightTexSlot, LightTexBindFlag);
-		m_vLightLayerResultTexture.Add(pTexture);
+		m_vLightLayerResultTexture.push_back(pTexture);
 		//light textureÁ¦ÀÛ
 	}
 	m_pAORenderer->ResizeBuffer();
@@ -590,8 +590,8 @@ bool CRenderer::CreateRenderTargetView() {
 
 void CRenderer::ReleaseForwardRenderTargets() {
 	//texture end
-	m_vObjectLayerResultTexture.RemoveAll();
-	m_vLightLayerResultTexture.RemoveAll();
+	m_vObjectLayerResultTexture.clear();
+	m_vLightLayerResultTexture.clear();
 
 	if (m_pd3dtxtColorSpecInt) m_pd3dtxtColorSpecInt->Release();//0
 	m_pd3dtxtColorSpecInt = nullptr;

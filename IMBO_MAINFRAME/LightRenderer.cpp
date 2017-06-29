@@ -2,19 +2,10 @@
 #include "LightRenderer.h"
 
 bool CLightRenderer::Begin() {
-	/*for (auto RenderContainer : RCSELLER->GetTagRenderContainer()[tag::TAG_LIGHT]) {
+	for (auto RenderContainer : RCSELLER->GetTagRenderContainer()[tag::TAG_LIGHT]) {
 		m_mRenderContainer[RenderContainer.first] = RenderContainer.second;
-	}*/
-	CAtlMap<tag, mapRC>::CPair* pOutPair = RCSELLER->GetTagRenderContainer().Lookup(tag::TAG_LIGHT);
-	CAtlMap<CString, CRenderContainer*>::CPair*	pInPair = NULL;
-	if (pOutPair != nullptr) {
-		POSITION pos = pOutPair->m_value.GetStartPosition();
-		while (pos != NULL) {
-			pInPair = pOutPair->m_value.GetNext(pos);
-			m_mRenderContainer[pInPair->m_key] = pInPair->m_value;
-		}
 	}
-
+	
 	//depth stencil state
 	D3D11_DEPTH_STENCIL_DESC descDepthStencil;
 	ZeroMemory(&descDepthStencil, sizeof(D3D11_DEPTH_STENCIL_DESC));
@@ -52,8 +43,7 @@ bool CLightRenderer::Begin() {
 }
 
 bool CLightRenderer::End() {
-	//m_mRenderContainer.clear();
-	m_mRenderContainer.RemoveAll();
+	m_mRenderContainer.clear();
 
 	return true;
 }
@@ -68,18 +58,9 @@ void CLightRenderer::CleanShaderState() {
 	GLOBALVALUEMGR->GetDeviceContext()->OMSetDepthStencilState(m_pPreDepthStencilState, m_PreStencilRef);
 	GLOBALVALUEMGR->GetDeviceContext()->RSSetState(m_pPreRasterizerState);
 
-
-	POSITION pos = m_mRenderContainer.GetStartPosition();
-	CAtlMap<CString, CRenderContainer*>::CPair*	pInPair = NULL;
-	while (pos != NULL)
-	{
-		pInPair = m_mRenderContainer.GetNext(pos);
-		pInPair->m_value->ClearObjectList();
+	for (auto RenderContainer : m_mRenderContainer) {
+		RenderContainer.second->ClearObjectList();
 	}
-
-	//for (auto RenderContainer : m_mRenderContainer) {
-	//	RenderContainer.second->ClearObjectList();
-	//}
 
 }
 
@@ -99,7 +80,7 @@ void CLightRenderer::Excute(shared_ptr<CCamera> pCamera, CShadow* m_pShadow){
 	GLOBALVALUEMGR->GetDeviceContext()->OMGetBlendState(&m_pPreBlendState, m_pPreBlendFactor, &m_PreSampleMask);
 
 
-	m_mRenderContainer[CA2CT("directionallight")]->Render(pCamera);
+	m_mRenderContainer["directionallight"]->Render(pCamera);
 	GLOBALVALUEMGR->GetDeviceContext()->OMSetBlendState(m_pLightBlendState, nullptr, 0xffffffff);
 	GLOBALVALUEMGR->GetDeviceContext()->OMSetDepthStencilState(m_pLightDepthStencilState, 0);
 	GLOBALVALUEMGR->GetDeviceContext()->RSSetState(m_pLightRasterizerState);
@@ -107,9 +88,9 @@ void CLightRenderer::Excute(shared_ptr<CCamera> pCamera, CShadow* m_pShadow){
 	if (m_pShadow){
 		m_pShadow->CleanShaderState();
 	}
-	m_mRenderContainer[CA2CT("pointlight")]->Render(pCamera);
-	m_mRenderContainer[CA2CT("capsulelight")]->Render(pCamera);
-	m_mRenderContainer[CA2CT("spotlight")]->Render(pCamera);
+	m_mRenderContainer["pointlight"]->Render(pCamera);
+	m_mRenderContainer["capsulelight"]->Render(pCamera);
+	m_mRenderContainer["spotlight"]->Render(pCamera);
 
 	CleanShaderState();
 }

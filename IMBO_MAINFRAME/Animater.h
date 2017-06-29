@@ -25,7 +25,7 @@ public:
 	CAnimationInfo* GetAnimationInfo(UINT AnimationIndex = 0) { return m_vpAnimationInfos[AnimationIndex]; }
 	CSkeletonData* GetSkeletonData() { return m_pSkeletonData; }
 
-	size_t GetAnimationCnt() { return m_vpAnimationInfos.GetCount(); }
+	size_t GetAnimationCnt() { return m_vpAnimationInfos.size(); }
 
 	CBoundingBox* GetMainAABB() { return m_pMainBoundingBox; }
 
@@ -64,8 +64,8 @@ private:
 	CBoundingBox* m_pMainBoundingBox{ nullptr };
 	CSkeletonData* m_pSkeletonData{ nullptr };
 
-	//vector<CAnimationInfo*> m_vpAnimationInfos;
-	CAtlArray<CAnimationInfo*> m_vpAnimationInfos;
+	vector<CAnimationInfo*> m_vpAnimationInfos;
+	//CAtlArray<CAnimationInfo*> m_vpAnimationInfos;
 	UINT m_CurAnimationIndex{ 0 };
 
 	//	//joint tree Á¤º¸

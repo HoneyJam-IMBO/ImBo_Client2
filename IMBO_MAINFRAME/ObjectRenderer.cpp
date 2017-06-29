@@ -9,9 +9,9 @@ bool CObjectRenderer::Begin() {
 	//for (auto RenderContainer : RCSELLER->GetTagRenderContainer()[tag::TAG_STATIC_OBJECT]) {
 	//	m_mObjectRenderContainer[RenderContainer.first] = RenderContainer.second;
 	//}
-	CString csName = CA2CT("terrain");
-	m_pTerrainRenderContainer = RCSELLER->GetTagRenderContainer()[tag::TAG_TERRAIN][CA2CT("terrain")];
-	m_pSkyBoxRenderContainer = RCSELLER->GetTagRenderContainer()[tag::TAG_SPACE][CA2CT("skybox")];
+	CString csName =  ("terrain");
+	m_pTerrainRenderContainer = RCSELLER->GetTagRenderContainer()[tag::TAG_TERRAIN][ ("terrain")];
+	m_pSkyBoxRenderContainer = RCSELLER->GetTagRenderContainer()[tag::TAG_SPACE][ ("skybox")];
 
 	//skybox depth stencil
 	D3D11_DEPTH_STENCIL_DESC descDepth;
@@ -30,8 +30,7 @@ bool CObjectRenderer::Begin() {
 }
 
 bool CObjectRenderer::End() {
-//	m_mObjectRenderContainer.clear();
-	m_mObjectRenderContainer.RemoveAll();
+	m_mObjectRenderContainer.clear();
 	m_pTerrainRenderContainer = nullptr;
 	m_pSkyBoxRenderContainer = nullptr;
 	if (m_pd3dDepthStencilState)m_pd3dDepthStencilState->Release();
@@ -46,48 +45,7 @@ void CObjectRenderer::SetShaderState() {
 
 void CObjectRenderer::CleanShaderState() {
 
-	
-	CAtlMap<tag, mapRC>::CPair* pOutPair = RCSELLER->GetTagRenderContainer().Lookup(tag::TAG_STATIC_OBJECT);
-	CAtlMap<CString, CRenderContainer*>::CPair*	pInPair = NULL;
-	if (pOutPair != nullptr) {
-		POSITION pos = pOutPair->m_value.GetStartPosition();
-		while (pos != NULL) {
-			pInPair = pOutPair->m_value.GetNext(pos);
-			pInPair->m_value->ClearObjectList();
-		}
-	}
-
-	pOutPair = RCSELLER->GetTagRenderContainer().Lookup(tag::TAG_DYNAMIC_OBJECT);
-	if (pOutPair != nullptr) {
-		POSITION pos = pOutPair->m_value.GetStartPosition();
-		while (pos != NULL) {
-			pInPair = pOutPair->m_value.GetNext(pos);
-			pInPair->m_value->ClearObjectList();
-		}
-	}
-
-	pOutPair = RCSELLER->GetStempRenderContainer().Lookup(tag::TAG_STATIC_OBJECT);
-	if (pOutPair != nullptr) {
-		POSITION pos = pOutPair->m_value.GetStartPosition();
-		while (pos != NULL) {
-			pInPair = pOutPair->m_value.GetNext(pos);
-			pInPair->m_value->ClearObjectList();
-		}
-	}
-
-	pOutPair = RCSELLER->GetStempRenderContainer().Lookup(tag::TAG_DYNAMIC_OBJECT);
-	if (pOutPair != nullptr) {
-		POSITION pos = pOutPair->m_value.GetStartPosition();
-		while (pos != NULL) {
-			pInPair = pOutPair->m_value.GetNext(pos);
-			pInPair->m_value->ClearObjectList();
-		}
-	}
-
-
-
-
-	/*for (auto pRenderContainer : RCSELLER->GetTagRenderContainer()[tag::TAG_DYNAMIC_OBJECT]) {
+	for (auto pRenderContainer : RCSELLER->GetTagRenderContainer()[tag::TAG_DYNAMIC_OBJECT]) {
 		pRenderContainer.second->ClearObjectList();
 	}
 	for (auto pRenderContainer : RCSELLER->GetTagRenderContainer()[tag::TAG_STATIC_OBJECT]) {
@@ -99,7 +57,6 @@ void CObjectRenderer::CleanShaderState() {
 	for (auto pRenderContainer : RCSELLER->GetStempRenderContainer()[tag::TAG_STATIC_OBJECT]) {
 		pRenderContainer.second->ClearObjectList();
 	}
-*/
 	m_pTerrainRenderContainer->ClearObjectList();
 }
 
@@ -113,43 +70,18 @@ void CObjectRenderer::Excute(shared_ptr<CCamera> pCamera) {
 
 	m_pTerrainRenderContainer->Render(pCamera);
 
-	CAtlMap<tag, mapRC>::CPair* pOutPair = RCSELLER->GetTagRenderContainer().Lookup(tag::TAG_STATIC_OBJECT);
-	CAtlMap<CString, CRenderContainer*>::CPair*	pInPair = NULL;
-	if (pOutPair != nullptr) {
-		POSITION pos = pOutPair->m_value.GetStartPosition();
-		while (pos != NULL) {
-			pInPair = pOutPair->m_value.GetNext(pos);
-			pInPair->m_value->Render(pCamera);
-		}
+	for (auto pRenderContainer : RCSELLER->GetTagRenderContainer()[tag::TAG_DYNAMIC_OBJECT]) {
+		pRenderContainer.second->Render(pCamera);
 	}
-
-	pOutPair = RCSELLER->GetTagRenderContainer().Lookup(tag::TAG_DYNAMIC_OBJECT);
-	if (pOutPair != nullptr) {
-		POSITION pos = pOutPair->m_value.GetStartPosition();
-		while (pos != NULL) {
-			pInPair = pOutPair->m_value.GetNext(pos);
-			pInPair->m_value->Render(pCamera);
-		}
+	for (auto pRenderContainer : RCSELLER->GetTagRenderContainer()[tag::TAG_STATIC_OBJECT]) {
+		pRenderContainer.second->Render(pCamera);
 	}
-
-	pOutPair = RCSELLER->GetStempRenderContainer().Lookup(tag::TAG_STATIC_OBJECT);
-	if (pOutPair != nullptr) {
-		POSITION pos = pOutPair->m_value.GetStartPosition();
-		while (pos != NULL) {
-			pInPair = pOutPair->m_value.GetNext(pos);
-			pInPair->m_value->Render(pCamera);
-		}
+	for (auto pRenderContainer : RCSELLER->GetStempRenderContainer()[tag::TAG_DYNAMIC_OBJECT]) {
+		pRenderContainer.second->Render(pCamera);
 	}
-
-	pOutPair = RCSELLER->GetStempRenderContainer().Lookup(tag::TAG_DYNAMIC_OBJECT);
-	if (pOutPair != nullptr) {
-		POSITION pos = pOutPair->m_value.GetStartPosition();
-		while (pos != NULL) {
-			pInPair = pOutPair->m_value.GetNext(pos);
-			pInPair->m_value->Render(pCamera);
-		}
+	for (auto pRenderContainer : RCSELLER->GetStempRenderContainer()[tag::TAG_STATIC_OBJECT]) {
+		pRenderContainer.second->Render(pCamera);
 	}
-
 
 
 	//CleanShaderState();
@@ -159,59 +91,22 @@ void CObjectRenderer::ExcuteShadowRender(shared_ptr<CCamera> pCamera)
 	m_pTerrainRenderContainer->Render(pCamera);
 	m_pTerrainRenderContainer->ClearObjectList();
 
-	CAtlMap<tag, mapRC>::CPair* pOutPair = RCSELLER->GetTagRenderContainer().Lookup(tag::TAG_STATIC_OBJECT);
-	CAtlMap<CString, CRenderContainer*>::CPair*	pInPair = NULL;
-	if (pOutPair != nullptr) {
-		POSITION pos = pOutPair->m_value.GetStartPosition();
-		while (pos != NULL) {
-			pInPair = pOutPair->m_value.GetNext(pos);
-			pInPair->m_value->Render(pCamera);
-			pInPair->m_value->ClearObjectList();
-		}
+	for (auto pRenderContainer : RCSELLER->GetTagRenderContainer()[tag::TAG_DYNAMIC_OBJECT]) {
+		pRenderContainer.second->Render(pCamera);
+		pRenderContainer.second->ClearObjectList();
 	}
-
-	pOutPair = RCSELLER->GetTagRenderContainer().Lookup(tag::TAG_DYNAMIC_OBJECT);
-	if (pOutPair != nullptr) {
-		POSITION pos = pOutPair->m_value.GetStartPosition();
-		while (pos != NULL) {
-			pInPair = pOutPair->m_value.GetNext(pos);
-			pInPair->m_value->Render(pCamera);
-			pInPair->m_value->ClearObjectList();
-		}
+	for (auto pRenderContainer : RCSELLER->GetTagRenderContainer()[tag::TAG_STATIC_OBJECT]) {
+		pRenderContainer.second->Render(pCamera);
+		pRenderContainer.second->ClearObjectList();
 	}
-
-	pOutPair = RCSELLER->GetStempRenderContainer().Lookup(tag::TAG_STATIC_OBJECT);
-	if (pOutPair != nullptr) {
-		POSITION pos = pOutPair->m_value.GetStartPosition();
-		while (pos != NULL) {
-			pInPair = pOutPair->m_value.GetNext(pos);
-			pInPair->m_value->Render(pCamera);
-			pInPair->m_value->ClearObjectList();
-		}
+	for (auto pRenderContainer : RCSELLER->GetStempRenderContainer()[tag::TAG_DYNAMIC_OBJECT]) {
+		pRenderContainer.second->Render(pCamera);
+		pRenderContainer.second->ClearObjectList();
 	}
-
-	pOutPair = RCSELLER->GetStempRenderContainer().Lookup(tag::TAG_DYNAMIC_OBJECT);
-	if (pOutPair != nullptr) {
-		POSITION pos = pOutPair->m_value.GetStartPosition();
-		while (pos != NULL) {
-			pInPair = pOutPair->m_value.GetNext(pos);
-			pInPair->m_value->Render(pCamera);
-			pInPair->m_value->ClearObjectList();
-		}
+	for (auto pRenderContainer : RCSELLER->GetStempRenderContainer()[tag::TAG_STATIC_OBJECT]) {
+		pRenderContainer.second->Render(pCamera);
+		pRenderContainer.second->ClearObjectList();
 	}
-
-	//for (auto pRenderContainer : RCSELLER->GetTagRenderContainer()[tag::TAG_DYNAMIC_OBJECT]) {
-	//	pRenderContainer.second->Render(pCamera);
-	//}
-	//for (auto pRenderContainer : RCSELLER->GetTagRenderContainer()[tag::TAG_STATIC_OBJECT]) {
-	//	pRenderContainer.second->Render(pCamera);
-	//}
-	//for (auto pRenderContainer : RCSELLER->GetStempRenderContainer()[tag::TAG_DYNAMIC_OBJECT]) {
-	//	pRenderContainer.second->Render(pCamera);
-	//}
-	//for (auto pRenderContainer : RCSELLER->GetStempRenderContainer()[tag::TAG_STATIC_OBJECT]) {
-	//	pRenderContainer.second->Render(pCamera);
-	//}
 }
 
 void CObjectRenderer::RenderSkyBox() {

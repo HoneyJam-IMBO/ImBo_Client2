@@ -21,22 +21,12 @@ void CSpaceContainer::Begin(){
 
 bool CSpaceContainer::End(){
 	
-	//POSITION pos = m_lpBlockObject.
-	size_t vecSize = m_lpBlockObject.GetCount();
-	for (size_t i = 0; i < vecSize; ++i)
-	{
-		m_lpBlockObject[i]->End();
-		delete m_lpBlockObject[i];
-		m_lpBlockObject[i] = nullptr;
+	for (auto pObject : m_lpBlockObject) {
+		pObject->End();
+		delete pObject;
+		pObject = nullptr;
 	}
-	m_lpBlockObject.RemoveAll();
-	//m_lpBlockObject.FreeExtra();
-	//for (auto pObject : m_lpBlockObject) {
-	//	pObject->End();
-	//	delete pObject;
-	//	pObject = nullptr;
-	//}
-	//m_lpBlockObject.clear();
+	m_lpBlockObject.clear();
 
 	//all space end
 	//+ delete space pointer
@@ -53,19 +43,12 @@ void CSpaceContainer::Animate(float fTimeElapsed){
 	m_pStartSpace->Animate(fTimeElapsed);
 	
 	//animate 이후에 분명히 block object가 등장한다.
-	if (false == m_lpBlockObject.IsEmpty()) {//block object list가 empty가 아니라면
-		size_t vecSize = m_lpBlockObject.GetCount();
-		for (size_t i = 0; i < vecSize; ++i)
-		{
-			AddObject(m_lpBlockObject[i]);
+	if (false == m_lpBlockObject.empty()) {//block object list가 empty가 아니라면
+		
+		for (auto pObject : m_lpBlockObject) {//객체 다시 배치
+			AddObject(pObject);
 		}
-
-		//for (auto pObject : m_lpBlockObject) {//객체 다시 배치
-		//	AddObject(pObject);
-		//}
-		//m_lpBlockObject.clear();
-		m_lpBlockObject.RemoveAll();
-		//m_lpBlockObject.FreeExtra();
+		m_lpBlockObject.clear();
 	}
 }
 
@@ -93,8 +76,7 @@ void CSpaceContainer::PrepareRender(shared_ptr<CCamera> pCamera, UINT renderFlag
 }
 
 void CSpaceContainer::AddBlockObjectList(CGameObject * pObject){
-	//m_lpBlockObject.emplace_back(pObject);
-	m_lpBlockObject.Add(pObject);
+	m_lpBlockObject.emplace_back(pObject);
 }
 
 void CSpaceContainer::AddObject(CGameObject * pObject){
@@ -125,9 +107,7 @@ void CSpaceContainer::RemoveObject(string name){
 }
 
 void CSpaceContainer::ClearBlockObjectList() {
-	//m_lpBlockObject.clear();
-	m_lpBlockObject.RemoveAll();
-	//m_lpBlockObject.FreeExtra();
+	m_lpBlockObject.clear();
 }
 
 int CSpaceContainer::SearchSpace(XMVECTOR xmvPos){

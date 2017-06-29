@@ -17,7 +17,7 @@ public:
 private:
 	map<const TCHAR*, vector<CMyEffect*>> m_mapProto;			// 복사용
 	map<const TCHAR*, vector<CMyEffect*>> m_mapEffectList;		// 담아두는용
-	CAtlArray<CMyEffect*> m_vecPlayEffect;	//플레이용
+	vector<CMyEffect*> m_vecPlayEffect;	//플레이용
 	
 
 public:

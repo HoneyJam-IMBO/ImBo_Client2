@@ -103,7 +103,7 @@ public:
 
 	//instancing buffer set
 	void AddInstancingBuffer(CBuffer* pBuffer);
-	CAtlArray<CBuffer*>&	 GetvInstancingBuffer() { return m_vInstancingBuffer; }
+	vector<CBuffer*>&	 GetvInstancingBuffer() { return m_vInstancingBuffer; }
 protected:
 	//CBoundingBox m_tmpBOUNDINGBOX;
 	//aabb
@@ -154,8 +154,7 @@ protected:
 	//---------------------------------index buffer-------------------------
 
 	//--------------------------------instancing buffer----------------------
-	//vector<CBuffer*>					m_vInstancingBuffer;
-	CAtlArray<CBuffer*>					m_vInstancingBuffer;
+	vector<CBuffer*>					m_vInstancingBuffer;
 	//--------------------------------instancing buffer----------------------
 
 public:

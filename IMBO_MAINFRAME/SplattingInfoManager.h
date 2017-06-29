@@ -24,7 +24,7 @@ public:
 
 	UINT GetCurIndex() { return m_nCurIndex; }
 	void SetCurIndex(UINT index) { m_nCurIndex = index; }
-	CAtlArray<CSplattingInfo*>& GetSplattingInfos() { return m_vSplattinfInfo; }
+	vector<CSplattingInfo*>& GetSplattingInfos() { return m_vSplattinfInfo; }
 
 	void RemoveSplattingInfoByIndex(UINT index);
 	void ClearSplattingInfo();
@@ -39,7 +39,7 @@ public:
 private:
 	CTerrainContainer* m_pTerrainContainer{ nullptr };
 	UINT m_nCurIndex{ 0 };
-	CAtlArray<CSplattingInfo*> m_vSplattinfInfo;
+	vector<CSplattingInfo*> m_vSplattinfInfo;
 
 	shared_ptr<CBuffer> m_pSplattingInfoBuffer{ nullptr };
 

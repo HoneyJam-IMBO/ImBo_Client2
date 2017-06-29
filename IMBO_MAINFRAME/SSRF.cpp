@@ -43,7 +43,7 @@ void CSSRF::UpdateShaderState() {
 }
 
 void CSSRF::Excute(shared_ptr<CCamera>pCamera, ID3D11RenderTargetView* prtvHDR, ID3D11DepthStencilView* pdsvReadOnlyDepthStencil, ID3D11ShaderResourceView* psrvHDR, ID3D11ShaderResourceView* psrvDepth, ID3D11ShaderResourceView* psrvNormal) {
-	if(RCSELLER->GetTagRenderContainer().Lookup(tag::TAG_REFLECTION)->m_value.GetCount() == 0) return;
+	if (RCSELLER->GetTagRenderContainer()[tag::TAG_REFLECTION].size() == 0) return;
 
 	FLOAT clearColor[4] = { 0,0,0,0 };
 	GLOBALVALUEMGR->GetDeviceContext()->ClearRenderTargetView(m_pd3drtvRef, clearColor);
@@ -65,15 +65,9 @@ void CSSRF::Excute(shared_ptr<CCamera>pCamera, ID3D11RenderTargetView* prtvHDR, 
 	GLOBALVALUEMGR->GetDeviceContext()->PSSetShaderResources(0, 3, ppSRV);
 
 	//2. 모든 메시를 랜더한다. s
-	CAtlMap<tag, mapRC>::CPair* pOutPair = RCSELLER->GetTagRenderContainer().Lookup(tag::TAG_REFLECTION);
-	CAtlMap<CString, CRenderContainer*>::CPair*	pInPair = NULL;
-	if (pOutPair != nullptr) {
-		POSITION pos = pOutPair->m_value.GetStartPosition();
-		while (pos != NULL) {
-			pInPair = pOutPair->m_value.GetNext(pos);
-			pInPair->m_value->Render(pCamera);
-			pInPair->m_value->ClearObjectList();
-		}
+	for (auto pObject : RCSELLER->GetTagRenderContainer()[tag::TAG_REFLECTION]) {
+		pObject.second->Render(pCamera);
+		pObject.second->ClearObjectList();
 	}//이녀석들은 shader가 필요없다. mesh랑 instance buff만 채워줄뿐..
 	 //3. 정리 후
 	//clear
@@ -89,7 +83,7 @@ void CSSRF::Excute(shared_ptr<CCamera>pCamera, ID3D11RenderTargetView* prtvHDR, 
 	GLOBALVALUEMGR->GetDeviceContext()->OMSetRenderTargets(1, &prtvHDR, nullptr);
 	//5. hdr rt에 ref image를 blending에서 그린다.
 	GLOBALVALUEMGR->GetDeviceContext()->PSSetShaderResources(0, 1, &m_pd3dsrvRef);
-	RCSELLER->GetTagRenderContainer()[tag::TAG_SSRF][CA2CT("SSRF")]->RenderWithOutObject(pCamera);
+	RCSELLER->GetTagRenderContainer()[tag::TAG_SSRF]["SSRF"]->RenderWithOutObject(pCamera);
 
 	GLOBALVALUEMGR->GetDeviceContext()->OMSetBlendState(pPrevBlendState, prevBlendFactor, prevSampleMask);
 

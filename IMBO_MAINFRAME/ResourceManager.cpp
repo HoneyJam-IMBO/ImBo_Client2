@@ -46,16 +46,9 @@ void CResourceManager::CreateSamplers() {
 		D3D11_COMPARISON_LESS, 0, 0, 1);
 
 
-	POSITION Pos = m_mSampler.GetStartPosition();
-	CAtlMap<CString, shared_ptr<CSampler>>::CPair*		pOutPair = NULL;
-	while (Pos != NULL)
-	{
-		pOutPair = m_mSampler.GetNext(Pos);
-		pOutPair->m_value->SetShaderState();
+	for (auto pSampler : m_mSampler) {
+		pSampler.second->SetShaderState();
 	}
-	//for (auto pSampler : m_mSampler) {
-	//	pSampler.second->SetShaderState();
-	//}
 }
 
 void CResourceManager::CreateTextures() {
@@ -123,62 +116,54 @@ void CResourceManager::CreateRenderShaders() {
 
 	pShader = CRenderShader::CreateRenderShader(L"Effect", 0,
 		BIND_VS | BIND_GS | BIND_PS);
-	m_mRenderShader.SetAt(CA2CT("Effect"), pShader);
+	m_mRenderShader.insert( pairShader(("Effect"), pShader));
 
 	pShader = CRenderShader::CreateRenderShader(L"Blend", 0,
 		BIND_VS | BIND_PS);
-	m_mRenderShader.SetAt(CA2CT("Blend"), pShader);
+	m_mRenderShader.insert(pairShader(("Blend"), pShader));
 
 	pShader = CRenderShader::CreateRenderShader(L"FinalPass", 0,
 		BIND_VS | BIND_PS);
-	m_mRenderShader.SetAt(CA2CT("FinalPass"), pShader);
+	m_mRenderShader.insert(pairShader(("FinalPass"), pShader));
 	//light shader
 	pShader = CRenderShader::CreateRenderShader(L"DirectionalLight");
-	//m_mRenderShader.insert(pairShader("DirectionalLight", pShader));
-	m_mRenderShader.SetAt(CA2CT("DirectionalLight"), pShader);
-
+	m_mRenderShader.insert(pairShader("DirectionalLight", pShader));
+	
 	pShader = CRenderShader::CreateRenderShader(L"PointLight", 0,
 		BIND_VS | BIND_HS | BIND_DS | BIND_PS);
-	//m_mRenderShader.insert(pairShader("PointLight", pShader));
-	m_mRenderShader.SetAt(CA2CT("PointLight"), pShader);
-
+	m_mRenderShader.insert(pairShader("PointLight", pShader));
+	
 	LPCTSTR pDebugPointLightShaderName[] = { TEXT("VSPointLight.cso") , TEXT("HSPointLight.cso"), TEXT("DSPointLight.cso"), TEXT("PSDebugLight.cso") };
 	pShader = CRenderShader::CreateRenderShader(pDebugPointLightShaderName, 0,
 		BIND_VS | BIND_HS | BIND_DS | BIND_PS);
-	//m_mRenderShader.insert(pairShader("DebugPointLight", pShader));
-	m_mRenderShader.SetAt(CA2CT("DebugPointLight"), pShader);
-
+	m_mRenderShader.insert(pairShader("DebugPointLight", pShader));
+	
 	pShader = CRenderShader::CreateRenderShader(L"CapsuleLight", 0,
 		BIND_VS | BIND_HS | BIND_DS | BIND_PS);
-	//m_mRenderShader.insert(pairShader("CapsuleLight", pShader));
-	m_mRenderShader.SetAt(CA2CT("CapsuleLight"), pShader);
-
+	m_mRenderShader.insert(pairShader("CapsuleLight", pShader));
+	
 	LPCTSTR pDebugCapsuleLightShaderName[] = { TEXT("VSCapsuleLight.cso") , TEXT("HSCapsuleLight.cso"), TEXT("DSCapsuleLight.cso"), TEXT("PSDebugLight.cso") };
 	pShader = CRenderShader::CreateRenderShader(pDebugCapsuleLightShaderName, 0,
 		BIND_VS | BIND_HS | BIND_DS | BIND_PS);
-	//m_mRenderShader.insert(pairShader("DebugCapsuleLight", pShader));
-	m_mRenderShader.SetAt(CA2CT("DebugCapsuleLight"), pShader);
-
+	m_mRenderShader.insert(pairShader("DebugCapsuleLight", pShader));
+	
 	pShader = CRenderShader::CreateRenderShader(L"SpotLight", 0,
 		BIND_VS | BIND_HS | BIND_DS | BIND_PS);
-	//m_mRenderShader.insert(pairShader("SpotLight", pShader));
-	m_mRenderShader.SetAt(CA2CT("SpotLight"), pShader);
-
+	m_mRenderShader.insert(pairShader("SpotLight", pShader));
+	
 	LPCTSTR pDebugSpotLightShaderName[] = { TEXT("VSSpotLight.cso") , TEXT("HSSpotLight.cso"), TEXT("DSSpotLight.cso"), TEXT("PSDebugLight.cso") };
 	pShader = CRenderShader::CreateRenderShader(pDebugSpotLightShaderName, 0,
 		BIND_VS | BIND_HS | BIND_DS | BIND_PS);
-	//m_mRenderShader.insert(pairShader("DebugSpotLight", pShader));
-	m_mRenderShader.SetAt(CA2CT("DebugSpotLight"), pShader);
+	m_mRenderShader.insert(pairShader("DebugSpotLight", pShader));
 	//light shader
 
 	//lay trace shader
 	pShader = CRenderShader::CreateRenderShader(L"RayTrace");
-	//m_mRenderShader.insert(pairShader("RayTrace", pShader));
-	m_mRenderShader.SetAt(CA2CT("RayTrace"), pShader);
+	m_mRenderShader.insert(pairShader("RayTrace", pShader));
 	//combine shader
 	pShader = CRenderShader::CreateRenderShader(L"Combine");
-	//m_mRenderShader.insert(pairShader("Combine", pShader));
-	m_mRenderShader.SetAt(CA2CT("Combine"), pShader);
+	m_mRenderShader.insert(pairShader("Combine", pShader));
+	
 }
 
 void CResourceManager::CreateMeshs() {
@@ -314,195 +299,113 @@ void CResourceManager::CreateFBXResources() {
 
 shared_ptr<CTexture> CResourceManager::CreateTexture(string name, UINT nTextures, _TCHAR(*ppstrFilePaths)[128], UINT Slot, UINT BindFlag, shared_ptr<CBuffer> pConstantBuffer) {
 	shared_ptr<CTexture> pTexture = CTexture::CreateTexture(nTextures, ppstrFilePaths, Slot, BindFlag, pConstantBuffer);
-	bool bIsHave = m_mTexture.Lookup(CA2CT(name.c_str()));
-	if (bIsHave)
-	{
-		m_mTexture[CA2CT(name.c_str())]->End();
-		m_mTexture.RemoveKey(CA2CT(name.c_str()));
-	}
-	m_mTexture.SetAt(CA2CT(name.c_str()), pTexture);
-
-	return m_mTexture[CA2CT(name.c_str())];
-	/*if (m_mTexture.find(name) != m_mTexture.end()) {
+	
+	if (m_mTexture.find(name) != m_mTexture.end()) {
 	m_mTexture[name]->End();
 	m_mTexture.erase(name);
 	}
-	m_mTexture.insert(pairTexture(name, pTexture))*/;
-	//return m_mTexture[name];
+	m_mTexture.insert(pairTexture(name, pTexture));
+	return m_mTexture[name];
 }
 
 shared_ptr<CTexture> CResourceManager::CreateTexture(string name, UINT nTextures, ID3D11Texture2D ** ppd3dTextures, UINT Slot, UINT BindFlag, shared_ptr<CBuffer> pConstantBuffer) {
 	shared_ptr<CTexture> pTexture = CTexture::CreateTexture(nTextures, ppd3dTextures, Slot, BindFlag, pConstantBuffer);
-	bool bIsHave = m_mTexture.Lookup(CA2CT(name.c_str()));
-	if (bIsHave)
-	{
-		m_mTexture[CA2CT(name.c_str())]->End();
-		m_mTexture.RemoveKey(CA2CT(name.c_str()));
-	}
-	m_mTexture.SetAt(CA2CT(name.c_str()), pTexture);
-
-	return m_mTexture[CA2CT(name.c_str())];
-	/*if (m_mTexture.find(name) != m_mTexture.end()) {
-		m_mTexture[name]->End();
-		m_mTexture.erase(name);
-	}
-	m_mTexture.insert(pairTexture(name, pTexture));
-	return m_mTexture[name];*/
-}
-
-shared_ptr<CTexture> CResourceManager::CreateTexture(string name, _TCHAR(pstrFilePath)[128], UINT Slot, UINT BindFlag, shared_ptr<CBuffer> pConstantBuffer) {
-	shared_ptr<CTexture> pTexture = CTexture::CreateTexture(pstrFilePath, Slot, BindFlag, pConstantBuffer);
-	bool bIsHave = m_mTexture.Lookup(CA2CT(name.c_str()));
-	if (bIsHave)
-	{
-		m_mTexture[CA2CT(name.c_str())]->End();
-		m_mTexture.RemoveKey(CA2CT(name.c_str()));
-	}
-	m_mTexture.SetAt(CA2CT(name.c_str()), pTexture);
-	return m_mTexture[CA2CT(name.c_str())];
-	/*return m_mTexture[CA2CT(name.c_str())];
 	if (m_mTexture.find(name) != m_mTexture.end()) {
 		m_mTexture[name]->End();
 		m_mTexture.erase(name);
 	}
 	m_mTexture.insert(pairTexture(name, pTexture));
-	return m_mTexture[name];*/
+	return m_mTexture[name];
 }
 
-shared_ptr<CTexture> CResourceManager::CreateTexture(string name, ID3D11ShaderResourceView * pShaderResourceView, UINT Slot, UINT BindFlag, shared_ptr<CBuffer> pConstantBuffer) {
-	shared_ptr<CTexture> pTexture = CTexture::CreateTexture(pShaderResourceView, Slot, BindFlag, pConstantBuffer);
-	bool bIsHave = m_mTexture.Lookup(CA2CT(name.c_str()));
-	if (bIsHave)
-	{
-		m_mTexture[CA2CT(name.c_str())]->End();
-		m_mTexture.RemoveKey(CA2CT(name.c_str()));
-	}
-	m_mTexture.SetAt(CA2CT(name.c_str()), pTexture);
-
-	return m_mTexture[CA2CT(name.c_str())];
-	/*if (m_mTexture.find(name) != m_mTexture.end()) {
+shared_ptr<CTexture> CResourceManager::CreateTexture(string name, _TCHAR(pstrFilePath)[128], UINT Slot, UINT BindFlag, shared_ptr<CBuffer> pConstantBuffer) {
+	shared_ptr<CTexture> pTexture = CTexture::CreateTexture(pstrFilePath, Slot, BindFlag, pConstantBuffer);
+	
+	if (m_mTexture.find(name) != m_mTexture.end()) {
 		m_mTexture[name]->End();
 		m_mTexture.erase(name);
 	}
 	m_mTexture.insert(pairTexture(name, pTexture));
-	return m_mTexture[name];*/
+	return m_mTexture[name];
+}
+
+shared_ptr<CTexture> CResourceManager::CreateTexture(string name, ID3D11ShaderResourceView * pShaderResourceView, UINT Slot, UINT BindFlag, shared_ptr<CBuffer> pConstantBuffer) {
+	shared_ptr<CTexture> pTexture = CTexture::CreateTexture(pShaderResourceView, Slot, BindFlag, pConstantBuffer);
+	
+	if (m_mTexture.find(name) != m_mTexture.end()) {
+		m_mTexture[name]->End();
+		m_mTexture.erase(name);
+	}
+	m_mTexture.insert(pairTexture(name, pTexture));
+	return m_mTexture[name];
 }
 
 shared_ptr<CSampler> CResourceManager::CreateSampler(string name, UINT Slot, UINT BindFlags, D3D11_TEXTURE_ADDRESS_MODE Mode, D3D11_FILTER Filter, D3D11_COMPARISON_FUNC ComparisionFunc, float MinLOD, float MaxLOD, float BorderColor) {
 	shared_ptr<CSampler> pSampler = CSampler::CreateSampler(Slot, BindFlags, Mode, Filter, ComparisionFunc, MinLOD, MaxLOD, BorderColor);
-	/*if (m_mSampler.find(name) != m_mSampler.end()) {
+	if (m_mSampler.find(name) != m_mSampler.end()) {
 		m_mSampler[name]->End();
 		m_mSampler.erase(name);
 	}
 	m_mSampler.insert(pairSampler(name, pSampler));
-	return m_mSampler[name];*/
-	bool bIsHave = m_mSampler.Lookup(CA2CT(name.c_str()));
-	if (bIsHave)
-	{
-		m_mSampler[CA2CT(name.c_str())]->End();
-		m_mSampler.RemoveKey(CA2CT(name.c_str()));
-	}
-	m_mSampler.SetAt(CA2CT(name.c_str()), pSampler);
+	return m_mSampler[name];
 
-	return m_mSampler[CA2CT(name.c_str())];
 }
 
 shared_ptr<CRenderShader> CResourceManager::CreateRenderShader(string name, LPCTSTR ShaderName, UINT InputElementFlag, UINT BindFlag) {
 	shared_ptr<CRenderShader> pShader = CRenderShader::CreateRenderShader(ShaderName, InputElementFlag, BindFlag);
 
-	/*if (m_mRenderShader.find(name) != m_mRenderShader.end()) {
+	if (m_mRenderShader.find(name) != m_mRenderShader.end()) {
 		m_mRenderShader[name]->End();
 		m_mRenderShader.erase(name);
 	}
 	m_mRenderShader.insert(pairShader(name, pShader));
-	return m_mRenderShader[name];*/
-	bool bIsHave = m_mRenderShader.Lookup(CA2CT(name.c_str()));
-	if (bIsHave)
-	{
-		m_mRenderShader[CA2CT(name.c_str())]->End();
-		m_mRenderShader.RemoveKey(CA2CT(name.c_str()));
-	}
-	m_mRenderShader.SetAt(CA2CT(name.c_str()), pShader);
-
-	return m_mRenderShader[CA2CT(name.c_str())];
+	return m_mRenderShader[name];
+	
 }
 
 shared_ptr<CBuffer> CResourceManager::CreateConstantBuffer(string name, UINT nObject, UINT BufferStride, UINT Slot, UINT BindFlag, UINT Offset) {
 	shared_ptr<CBuffer> pBuffer = CBuffer::CreateConstantBuffer(nObject, BufferStride, Slot, BindFlag, Offset);
-	//if (m_mBuffer.find(name) != m_mBuffer.end()) {//있으면 기존의것을 대체
-	//	m_mBuffer[name]->End();
-	//	m_mBuffer.erase(name);
-	//}
-
-	//m_mBuffer.insert(pairBuffer(name, pBuffer));
-
-	//return m_mBuffer[name];
-	bool bIsHave = m_mBuffer.Lookup(CA2CT(name.c_str()));
-	if (bIsHave)
-	{
-		m_mBuffer[CA2CT(name.c_str())]->End();
-		m_mBuffer.RemoveKey(CA2CT(name.c_str()));
+	if (m_mBuffer.find(name) != m_mBuffer.end()) {//있으면 기존의것을 대체
+		m_mBuffer[name]->End();
+		m_mBuffer.erase(name);
 	}
-	m_mBuffer.SetAt(CA2CT(name.c_str()), pBuffer);
 
-	return m_mBuffer[CA2CT(name.c_str())];
+	m_mBuffer.insert(pairBuffer(name, pBuffer));
+
+	return m_mBuffer[name];
 }
 
 shared_ptr<CBuffer> CResourceManager::CreateInstancingBuffer(string name, UINT nObject, UINT BufferStride, UINT Offset) {
 	shared_ptr<CBuffer> pBuffer = CBuffer::CreateInstancingBuffer(nObject, BufferStride, Offset);
-	//if (m_mBuffer.find(name) != m_mBuffer.end()) {//있으면 기존의것을 대체
-	//	m_mBuffer[name]->End();
-	//	m_mBuffer.erase(name);
-	//}
-	//m_mBuffer.insert(pairBuffer(name, pBuffer));
-	//return m_mBuffer[name];
-	bool bIsHave = m_mBuffer.Lookup(CA2CT(name.c_str()));
-	if (bIsHave)
-	{
-		m_mBuffer[CA2CT(name.c_str())]->End();
-		m_mBuffer.RemoveKey(CA2CT(name.c_str()));
+	if (m_mBuffer.find(name) != m_mBuffer.end()) {//있으면 기존의것을 대체
+		m_mBuffer[name]->End();
+		m_mBuffer.erase(name);
 	}
-	m_mBuffer.SetAt(CA2CT(name.c_str()), pBuffer);
+	m_mBuffer.insert(pairBuffer(name, pBuffer));
+	return m_mBuffer[name];
 
-	return m_mBuffer[CA2CT(name.c_str())];
 }
 
 shared_ptr<CBuffer> CResourceManager::CreateGlobalBuffer(string name, UINT nObject, UINT BufferStride, UINT Slot, UINT BindFlag, UINT Offset) {
 	shared_ptr<CBuffer> pBuffer = CBuffer::CreateConstantBuffer(nObject, BufferStride, Slot, BindFlag, Offset);
-	/*if (m_mGlobalBuffer.find(name) != m_mGlobalBuffer.end()) {
+	if (m_mGlobalBuffer.find(name) != m_mGlobalBuffer.end()) {
 		m_mGlobalBuffer[name]->End();
 		m_mGlobalBuffer.erase(name);
 	}
 	m_mGlobalBuffer.insert(pairBuffer(name, pBuffer));
-	return m_mGlobalBuffer[name];*/
-	bool bIsHave = m_mGlobalBuffer.Lookup(CA2CT(name.c_str()));
-	if (bIsHave)
-	{
-		m_mGlobalBuffer[CA2CT(name.c_str())]->End();
-		m_mGlobalBuffer.RemoveKey(CA2CT(name.c_str()));
-	}
-	m_mGlobalBuffer.SetAt(CA2CT(name.c_str()), pBuffer);
-
-	return m_mGlobalBuffer[CA2CT(name.c_str())];
+	return m_mGlobalBuffer[name];
+	
 }
 
 shared_ptr<CMaterial> CResourceManager::CreateMaterial(string name, XMFLOAT4 color, float specExp, float specIntensity) {
 	shared_ptr<CMaterial> pMaterial = CMaterial::CreateMaterial(color, specExp, specIntensity);;
-	/*if (m_mMaterial.find(name) != m_mMaterial.end()) {
+	if (m_mMaterial.find(name) != m_mMaterial.end()) {
 		m_mMaterial[name]->End();
 		m_mMaterial.erase(name);
 	}
 	m_mMaterial.insert(pairMaterial(name, pMaterial));
-	return m_mMaterial[name];*/
-	bool bIsHave = m_mMaterial.Lookup(CA2CT(name.c_str()));
-	if (bIsHave)
-	{
-		m_mMaterial[CA2CT(name.c_str())]->End();
-		m_mMaterial.RemoveKey(CA2CT(name.c_str()));
-	}
-	m_mMaterial.SetAt(CA2CT(name.c_str()), pMaterial);
-
-	return m_mMaterial[CA2CT(name.c_str())];
+	return m_mMaterial[name];
+	
 }
 
 void CResourceManager::CreateAnimater(string path, string animaterName) {
@@ -554,8 +457,7 @@ UINT CResourceManager::CreateGJMResource(string path, string name) {
 	//animater
 	sprintf(pName, "%s", name.c_str());
 	shared_ptr<CAnimater> pAnimater = CAnimater::CreateAnimaterFromGJMFile();
-	//m_mAnimater.insert(pairAnimater(pName, pAnimater));
-	m_mAnimater.SetAt(CA2CT(name.c_str()), pAnimater);
+	m_mAnimater.insert(pairAnimater(pName, pAnimater));
 
 	//animation info
 	int animationCnt = IMPORTER->ReadInt();
@@ -618,62 +520,29 @@ void CResourceManager::CreateTerrainMesh(float fOneSpaceSize, string name) {
 
 //Release
 void CResourceManager::ReleaseSamplers() {
-	POSITION Pos = m_mSampler.GetStartPosition();
-	CAtlMap<CString, shared_ptr<CSampler>>::CPair*		pOutPair = NULL;
-	while (Pos != NULL)
-	{
-		pOutPair = m_mSampler.GetNext(Pos);
-		if (pOutPair->m_value)
-		{
-			pOutPair->m_value->CleanShaderState();
-			pOutPair->m_value->End();
-		}		
+	
+	for (auto data : m_mSampler) {
+		if (data.second) {
+			data.second->CleanShaderState();
+			data.second->End();
+		}
 	}
-	m_mSampler.RemoveAll();
-	//for (auto data : m_mSampler) {
-	//	if (data.second) {
-	//		data.second->CleanShaderState();
-	//		data.second->End();
-	//	}
-	//}
-	//m_mSampler.clear();
+	m_mSampler.clear();
 }
 
 void CResourceManager::ReleaseTextures() {
 
-	POSITION Pos = m_mTexture.GetStartPosition();
-	CAtlMap<CString, shared_ptr<CTexture>>::CPair*		pOutPair = NULL;
-	while (Pos != NULL)
-	{
-		pOutPair = m_mTexture.GetNext(Pos);
-		if (pOutPair->m_value == nullptr)continue;
-		pOutPair->m_value->CleanShaderState();
-		pOutPair->m_value->End();
-		
-	}
-	m_mTexture.RemoveAll();
-	/*for (auto data : m_mTexture) {
+	for (auto data : m_mTexture) {
 		if (data.second)data.second->End();
 	}
-	m_mTexture.clear();*/
+	m_mTexture.clear();
 }
 
 void CResourceManager::ReleaseRenderShaders() {
-	POSITION Pos = m_mRenderShader.GetStartPosition();
-	CAtlMap<CString, shared_ptr<CRenderShader>>::CPair*		pOutPair = NULL;
-	while (Pos != NULL)
-	{
-		pOutPair = m_mRenderShader.GetNext(Pos);
-		if (pOutPair->m_value)
-		{
-			pOutPair->m_value->End();
-		}
+	for (auto data : m_mRenderShader) {
+		if (data.second)data.second->End();
 	}
-	m_mRenderShader.RemoveAll();
-	//for (auto data : m_mRenderShader) {
-	//	if (data.second)data.second->End();
-	//}
-	//m_mRenderShader.clear();
+	m_mRenderShader.clear();
 }
 
 void CResourceManager::ReleaseMeshs() {
@@ -729,90 +598,41 @@ void CResourceManager::ReleaseStempMesh(string name) {
 
 void CResourceManager::ReleaseAnimater(string name) {
 
-	shared_ptr<CAnimater> isHave;
-	bool bFind = m_mAnimater.Lookup(CA2CT(name.c_str()), isHave);
-	if (bFind)
-	{
-		isHave->End();
-		m_mAnimater.RemoveKey(CA2CT(name.c_str()));
-	}
-	/*map<string, shared_ptr<CAnimater>> ::iterator iter = m_mAnimater.find(name);
+	map<string, shared_ptr<CAnimater>> ::iterator iter = m_mAnimater.find(name);
 	(iter->second)->End();
-	m_mAnimater.erase(iter);*/
+	m_mAnimater.erase(iter);
 }
 
 void CResourceManager::ReleaseBuffers() {
-	POSITION Pos = m_mBuffer.GetStartPosition();
-	CAtlMap<CString, shared_ptr<CBuffer>>::CPair*		pOutPair = NULL;
-	while (Pos != NULL)
-	{
-		pOutPair = m_mBuffer.GetNext(Pos);
-		if (pOutPair->m_value)
-		{
-			pOutPair->m_value->End();
-		}
+	for (auto data : m_mBuffer) {
+		if (data.second)data.second->End();
 	}
-	m_mBuffer.RemoveAll();
-
-	//for (auto data : m_mBuffer) {
-	//	if (data.second)data.second->End();
-	//}
-	//m_mBuffer.clear();
+	m_mBuffer.clear();
 }
 
 void CResourceManager::ReleaseGlobalBuffers() {
-	POSITION Pos = m_mGlobalBuffer.GetStartPosition();
-	CAtlMap<CString, shared_ptr<CBuffer>>::CPair*		pOutPair = NULL;
-	while (Pos != NULL)
-	{
-		pOutPair = m_mGlobalBuffer.GetNext(Pos);
-		if (pOutPair->m_value)
-		{
-			pOutPair->m_value->End();
-		}
-	}
-	m_mGlobalBuffer.RemoveAll();
-/*
+	
+
 	for (auto data : m_mGlobalBuffer) {
 		if (data.second)data.second->End();
 	}
-	m_mGlobalBuffer.clear();*/
+	m_mGlobalBuffer.clear();
 }
 
 void CResourceManager::ReleaseMaterials() {
-	POSITION Pos = m_mMaterial.GetStartPosition();
-	CAtlMap<CString, shared_ptr<CMaterial>>::CPair*		pOutPair = NULL;
-	while (Pos != NULL)
-	{
-		pOutPair = m_mMaterial.GetNext(Pos);
-		if (pOutPair->m_value)
-		{
-			pOutPair->m_value->End();
-		}
-	}
-	m_mMaterial.RemoveAll();
-	/*for (auto data : m_mMaterial) {
+
+	for (auto data : m_mMaterial) {
 		if (data.second)data.second->End();
 	}
-	m_mMaterial.clear();*/
+	m_mMaterial.clear();
 }
 
 void CResourceManager::ReleaseAnimaters() {
-	POSITION Pos = m_mAnimater.GetStartPosition();
-	CAtlMap<CString, shared_ptr<CAnimater>>::CPair*		pOutPair = NULL;
-	while (Pos != NULL)
-	{
-		pOutPair = m_mAnimater.GetNext(Pos);
-		if (pOutPair->m_value)
-		{
-			pOutPair->m_value->End();
-		}
+	
+	for (auto data : m_mAnimater) {
+		if (data.second)data.second->End();
 	}
-	m_mAnimater.RemoveAll();
-	//for (auto data : m_mAnimater) {
-	//	if (data.second)data.second->End();
-	//}
-	//m_mAnimater.clear();
+	m_mAnimater.clear();
 }
 CResourceManager::CResourceManager() :CSingleTonBase<CResourceManager>("resourcemanager") {
 

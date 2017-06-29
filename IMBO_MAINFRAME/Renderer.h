@@ -103,10 +103,10 @@ private:
 	ID3D11RenderTargetView	 *m_pd3drtvPostProcess{ nullptr };//2
 
 
-															  //vector<shared_ptr<CTexture>> m_vObjectLayerResultTexture;
-															  //vector<shared_ptr<CTexture>> m_vLightLayerResultTexture;
-	CAtlArray<shared_ptr<CTexture>> m_vObjectLayerResultTexture;
-	CAtlArray<shared_ptr<CTexture>> m_vLightLayerResultTexture;
+	//vector<shared_ptr<CTexture>> m_vObjectLayerResultTexture;
+	//vector<shared_ptr<CTexture>> m_vLightLayerResultTexture;
+	vector<shared_ptr<CTexture>> m_vObjectLayerResultTexture;
+	vector<shared_ptr<CTexture>> m_vLightLayerResultTexture;
 
 	//--------------------------light render target----------------
 	ID3D11Texture2D			 *m_pd3dtxtLight{ nullptr };

@@ -20,7 +20,7 @@ bool CMesh::Begin() {
 }
 bool CMesh::End() {
 	//instancing buffer는 resourceMGR가 해제한다
-	m_vInstancingBuffer.RemoveAll();//그래서 clear만 해준다.
+	m_vInstancingBuffer.clear();//그래서 clear만 해준다.
 	ReleaseConnectingVertexBuffers(); 
 
 	delete[] m_pnIndices;
@@ -189,7 +189,7 @@ void CMesh::SetMeshTexture(UINT index, shared_ptr<CTexture> pTexture){
 	m_vMeshTexture[index] = pTexture;
 }
 void CMesh::AddInstancingBuffer(CBuffer * pBuffer){
-	m_vInstancingBuffer.Add(pBuffer);
+	m_vInstancingBuffer.push_back(pBuffer);
 	CreateConnectingVertexBuffers();
 }
 XMVECTOR CMesh::CalculateTriAngleNormal(UINT nIndex0, UINT nIndex1, UINT nIndex2)
@@ -268,7 +268,7 @@ void CMesh::CreateConnectingVertexBuffers(){
 	ReleaseConnectingVertexBuffers();
 
 	//여기서 기존에 set된 vertexbuffer랑 set된 instancing buffer랑 합친걸 만든다.
-	m_nConnectingVertexBuffers = m_nVertexBuffers + m_vInstancingBuffer.GetCount();
+	m_nConnectingVertexBuffers = m_nVertexBuffers + m_vInstancingBuffer.size();
 	if (m_nConnectingVertexBuffers <= 0) return;
 	m_ppd3dConnectingVertexBuffers = new ID3D11Buffer*[m_nConnectingVertexBuffers];
 	m_pnConnectingVertexStrides = new UINT[m_nConnectingVertexBuffers];
@@ -280,7 +280,7 @@ void CMesh::CreateConnectingVertexBuffers(){
 		m_pnConnectingVertexStrides[nBufferIndex] = m_pnVertexStrides[i];
 		m_pnConnectingVertexOffsets[nBufferIndex++] = m_pnVertexOffsets[i];
 	}
-	size_t vecSize = m_vInstancingBuffer.GetCount();
+	size_t vecSize = m_vInstancingBuffer.size();
 	for (size_t i = 0; i < vecSize; ++i)
 	{
 		m_ppd3dConnectingVertexBuffers[nBufferIndex] = m_vInstancingBuffer[i]->GetBuffer();

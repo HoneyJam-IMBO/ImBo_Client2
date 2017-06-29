@@ -2,7 +2,7 @@
 #include "Animater.h"
 
 bool CAnimater::Begin() {
-	m_vpAnimationInfos.RemoveAll();
+	m_vpAnimationInfos.clear();
 //	m_pAnimBuffer = CBuffer::CreateConstantBuffer(256, sizeof(XMMATRIX), 0, BIND_VS, 0);
 
 	return true;
@@ -10,7 +10,7 @@ bool CAnimater::Begin() {
 
 bool CAnimater::End() {
 
-	size_t iVecSize = m_vpAnimationInfos.GetCount();
+	size_t iVecSize = m_vpAnimationInfos.size();
 	for (size_t i = 0; i < iVecSize; ++i) {
 		m_vpAnimationInfos[i]->End();
 		delete m_vpAnimationInfos[i];
@@ -19,7 +19,7 @@ bool CAnimater::End() {
 		data->End();
 		delete data;
 	}*/
-	m_vpAnimationInfos.RemoveAll();
+	m_vpAnimationInfos.clear();
 
 	if (m_pMainBoundingBox) {
 		m_pMainBoundingBox->End();
@@ -38,7 +38,7 @@ bool CAnimater::End() {
 }
 
 void CAnimater::SetShaderState() {
-	if (m_vpAnimationInfos.IsEmpty()) {
+	if (m_vpAnimationInfos.empty()) {
 		m_pAnimBuffer->SetShaderState();
 		return;
 	}
@@ -46,7 +46,7 @@ void CAnimater::SetShaderState() {
 }
 
 void CAnimater::CleanShaderState() {
-	if (m_vpAnimationInfos.IsEmpty()) {
+	if (m_vpAnimationInfos.empty()) {
 
 		return;
 	}
@@ -54,7 +54,7 @@ void CAnimater::CleanShaderState() {
 }
 
 void CAnimater::Update(float fTimeElapsed) {
-	if (m_vpAnimationInfos.IsEmpty()) {
+	if (m_vpAnimationInfos.empty()) {
 		void* pData = m_pAnimBuffer->Map();
 		XMMATRIX* pAnimationData = static_cast<XMMATRIX*>(pData);
 
@@ -69,7 +69,7 @@ void CAnimater::Update(float fTimeElapsed) {
 
 void CAnimater::AddAnimationInfo(CAnimationInfo * pAnimationInfo) {
 	//1. 넣고
-	m_vpAnimationInfos.Add(pAnimationInfo);
+	m_vpAnimationInfos.push_back(pAnimationInfo);
 
 	//	//2. 모든 anim info를 가지고. 전체적인 Joint tree를 제작한다.
 	//	CreateJointTree();
@@ -128,7 +128,7 @@ void CAnimater::SetCurAnimationIndex(UINT AnimationIndex) {
 }
 
 void CAnimater::ResetAnimationInfos() {
-	size_t iVecSize = m_vpAnimationInfos.GetCount();
+	size_t iVecSize = m_vpAnimationInfos.size();
 	for(size_t i = 0; i < iVecSize; ++i)
 	{
 	//for (auto pAnimationInfo : m_vpAnimationInfos) {
@@ -140,7 +140,7 @@ void CAnimater::ResetAnimationInfos() {
 UINT CAnimater::GetAnimaterJointCnt() {
 	UINT JointCnt{ 0 };
 
-	if (false == m_vpAnimationInfos.IsEmpty()) {
+	if (false == m_vpAnimationInfos.empty()) {
 		JointCnt = m_pSkeletonData->GetJointCnt();
 	}
 

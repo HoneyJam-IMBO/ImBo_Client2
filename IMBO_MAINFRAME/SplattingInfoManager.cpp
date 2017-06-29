@@ -34,11 +34,11 @@ void CSplattingInfoManager::UpdateShaderState(){
 }
 
 void CSplattingInfoManager::RemoveSplattingInfoByIndex(UINT index){
-	if (m_vSplattinfInfo.IsEmpty())return;
+	if (m_vSplattinfInfo.empty())return;
 
 	//remove
 	//vector<CSplattingInfo*>::iterator iter;
-	size_t iVecSplattingInfoSize = m_vSplattinfInfo.GetCount();
+	size_t iVecSplattingInfoSize = m_vSplattinfInfo.size();
 	size_t i = 0;
 	for (; i < iVecSplattingInfoSize; ++i)
 	{
@@ -58,7 +58,7 @@ void CSplattingInfoManager::RemoveSplattingInfoByIndex(UINT index){
 	//m_vSplattinfInfo.erase(iter);
 
 	//for 전부 돌면서 index 새로 set
-	for (size_t i = 0; i < m_vSplattinfInfo.GetCount(); ++i) {
+	for (size_t i = 0; i < m_vSplattinfInfo.size(); ++i) {
 		m_vSplattinfInfo[i]->SetIndex(i);
 		m_vSplattinfInfo[i]->UpdateShaderState();
 	}
@@ -66,32 +66,23 @@ void CSplattingInfoManager::RemoveSplattingInfoByIndex(UINT index){
 }
 
 void CSplattingInfoManager::ClearSplattingInfo(){
-
-	size_t iVecSplattingInfoSize = m_vSplattinfInfo.GetCount();
-	for (size_t i = 0; i < iVecSplattingInfoSize; ++i)
-	{
-		m_vSplattinfInfo[i]->CleanShaderState();
-		delete m_vSplattinfInfo[i];
+	for (auto pData : m_vSplattinfInfo) {
+		pData->CleanShaderState();
+		delete pData;
 	}
-	m_vSplattinfInfo.RemoveAll();
-	//for (auto pData : m_vSplattinfInfo) {
-	//	pData->CleanShaderState();
-	//	delete pData;
-	//}
-	//m_vSplattinfInfo.clear();
+	m_vSplattinfInfo.clear();
 
 	if (m_pSplattingInfoBuffer) {
 		SPLATTING_INFO* pData = (SPLATTING_INFO*)m_pSplattingInfoBuffer->Map();
-		pData->nSplattingInfo = m_vSplattinfInfo.GetCount();
+		pData->nSplattingInfo = m_vSplattinfInfo.size();
 		m_pSplattingInfoBuffer->Unmap();
 	}
 }
 
 void CSplattingInfoManager::CreateSplattingInfo(const WCHAR * pDetailTextureName){
-	if (m_vSplattinfInfo.GetCount() >= 10) return;
+	if (m_vSplattinfInfo.size() >= 10) return;
 	CSplattingInfo* pSplattingInfo = CSplattingInfo::CreateSplattingInfo(this, pDetailTextureName);
-	//m_vSplattinfInfo.push_back(pSplattingInfo);
-	m_vSplattinfInfo.Add(pSplattingInfo);
+	m_vSplattinfInfo.push_back(pSplattingInfo);
 
 	if (m_pDetailTextures)m_pDetailTextures->End();
 	m_pDetailTextures = nullptr;
@@ -103,7 +94,7 @@ void CSplattingInfoManager::CreateSplattingInfo(const WCHAR * pDetailTextureName
 	_TCHAR ppstrDetailTextureNames[MAX_SPLATTINGINFO_NUM][128];
 	UINT index{ 0 };
 
-	size_t iVecSize = m_vSplattinfInfo.GetCount();
+	size_t iVecSize = m_vSplattinfInfo.size();
 	for(size_t i = 0; i < iVecSize; ++i)
 	{
 	//for (auto pSplattingInfo : m_vSplattinfInfo) {
@@ -114,13 +105,13 @@ void CSplattingInfoManager::CreateSplattingInfo(const WCHAR * pDetailTextureName
 	m_pDetailTextures = CTexture::CreateTexture(index, ppstrDetailTextureNames, 1, BIND_PS);;
 
 	SPLATTING_INFO* pData = (SPLATTING_INFO*)m_pSplattingInfoBuffer->Map();
-	pData->nSplattingInfo = m_vSplattinfInfo.GetCount();
+	pData->nSplattingInfo = m_vSplattinfInfo.size();
 	m_pSplattingInfoBuffer->Unmap();
 }
 void CSplattingInfoManager::CreateSplattingInfo(const WCHAR * pDetailTextureName, const WCHAR * pBlendInfoTextureName) {
-	if (m_vSplattinfInfo.GetCount() >= 10) return;
+	if (m_vSplattinfInfo.size() >= 10) return;
 	CSplattingInfo* pSplattingInfo = CSplattingInfo::CreateSplattingInfo(this, pDetailTextureName, pBlendInfoTextureName);
-	m_vSplattinfInfo.Add(pSplattingInfo);
+	m_vSplattinfInfo.push_back(pSplattingInfo);
 	
 	if (m_pDetailTextures)m_pDetailTextures->End();
 	m_pDetailTextures = nullptr;
@@ -131,7 +122,7 @@ void CSplattingInfoManager::CreateSplattingInfo(const WCHAR * pDetailTextureName
 	_TCHAR ppstrBlendInfoTextureNames[MAX_SPLATTINGINFO_NUM][128];
 	_TCHAR ppstrDetailTextureNames[MAX_SPLATTINGINFO_NUM][128];
 	UINT index{ 0 };
-	size_t iVecSize = m_vSplattinfInfo.GetCount();
+	size_t iVecSize = m_vSplattinfInfo.size();
 	for (size_t i = 0; i < iVecSize; ++i)
 	{
 		wsprintf(ppstrBlendInfoTextureNames[index], m_vSplattinfInfo[i]->GetBlendInfoTexturePath());
@@ -141,7 +132,7 @@ void CSplattingInfoManager::CreateSplattingInfo(const WCHAR * pDetailTextureName
 	m_pDetailTextures = CTexture::CreateTexture(index, ppstrDetailTextureNames, 1, BIND_PS);;
 
 	SPLATTING_INFO* pData = (SPLATTING_INFO*)m_pSplattingInfoBuffer->Map();
-	pData->nSplattingInfo = m_vSplattinfInfo.GetCount();
+	pData->nSplattingInfo = m_vSplattinfInfo.size();
 	m_pSplattingInfoBuffer->Unmap();
 }
 

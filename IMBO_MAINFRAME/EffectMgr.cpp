@@ -115,19 +115,33 @@ vector<CMyEffect*>* CEffectMgr::Find_EffectList(TCHAR * pKey)
 
 void CEffectMgr::Update_PlayEffectList(float fTimeDelta)
 {
-	size_t iPlayEffectSize = m_vecPlayEffect.GetCount();
+	size_t iPlayEffectSize = m_vecPlayEffect.size();
 	DEBUGER->AddText(20.f, 100.f, 650.f, YT_Color(255.f, 255.f, 255.f), L"EffectCnt %d", iPlayEffectSize);
-	for (size_t i = 0; i < iPlayEffectSize; )
+
+	vector<CMyEffect*>::iterator Iter = m_vecPlayEffect.begin();
+	while (Iter != m_vecPlayEffect.end())
 	{
-		m_vecPlayEffect[i]->Update(fTimeDelta);
-		if (m_vecPlayEffect[i]->m_bAlive == false)
-		{
-			m_vecPlayEffect.RemoveAt(i);
-			iPlayEffectSize = m_vecPlayEffect.GetCount();
+		(*Iter)->Update(fTimeDelta);
+		if ((*Iter)->m_bAlive == false) {
+			m_vecPlayEffect.erase(Iter);
 		}
 		else
-			++i;
+			++Iter;
 	}
+
+
+//	auto Iter = m_vecPlayEffect.begin();
+//	auto Iter_end = m_vecPlayEffect.end();
+//	//for (size_t i = 0; i < iPlayEffectSize; i++)
+//	for( ; Iter != m_vecPlayEffect.end(); ){
+//		(*Iter)->Update(fTimeDelta);
+//		if ((*Iter)->m_bAlive == false){
+//			m_vecPlayEffect.erase(Iter);
+//			Iter_end = m_vecPlayEffect.end();
+//		}
+//		else
+//			++Iter;
+//	}
 }
 
 void CEffectMgr::Create_Effect(TCHAR* pKey)
@@ -185,7 +199,7 @@ void CEffectMgr::Play_Effect(TCHAR * pKey, XMVECTOR xmvPos, XMVECTOR xmvRot, XMV
 				(*pVecEffect)[i]->Modify_Point(xmvPos, xmvRot, xmvScl);
 			(*pVecEffect)[j + i]->m_bAlive = true;
 			(*pVecEffect)[j + i]->m_fAccTime = 0.f;
-			m_vecPlayEffect.Add((*pVecEffect)[j + i]);
+			m_vecPlayEffect.push_back((*pVecEffect)[j + i]);
 
 		}
 		return;

@@ -16,18 +16,6 @@ void CSpace::Begin(CSpaceContainer * pSpaceContainer, UINT size, int lv, XMVECTO
 	m_mlpObject.clear();
 	m_mlpCollisionObject.clear();
 
-	//for (int i = 0; i < TAG_END; ++i)
-	//{
-	//	CAtlArray<CGameObject*>* pObjectArray = new CAtlArray<CGameObject*>;
-	//	m_mlpObject[tag(i)] = pObjectArray;
-	//}
-	//for (int i = 0; i < UTAG_END; ++i)
-	//{
-	//	CAtlArray<CGameObject*>* pObjectArray = new CAtlArray<CGameObject*>;
-	//	m_mlpCollisionObject[utag(i)] = pObjectArray;
-	//}
-	//m_mlpObject
-
 	
 	//자신의 위치를 정해줌 
 	//공간의 중간이 아니라 제일 처음/ 좌표가 시작 좌표
@@ -140,11 +128,9 @@ void CSpace::Animate(float fTimeElapsed) {
 			{
 				utag ut = (*iter)->GetUTag();
 				m_pSpaceContainer->AddBlockObjectList((*iter));//block Object list에 등록
-				m_mlpObject[tag::TAG_DYNAMIC_OBJECT].erase(iter++);
+				m_mlpObject[tag::TAG_DYNAMIC_OBJECT].erase(iter);
 
-				m_mlpCollisionObject[ut].remove_if([&iter](CGameObject* pO) {
-					return (*iter) == pO;
-				});
+				m_mlpCollisionObject[ut].erase(iter++);
 			}
 			else
 				++iter;

@@ -6,7 +6,7 @@ void CSplattingInfo::Begin(){
 }
 
 bool CSplattingInfo::End(){
-	m_vLoadFileStruct.RemoveAll();
+	m_vLoadFileStruct.clear();
 	if (m_pBlendInfo) delete[] m_pBlendInfo; 
 	m_pBlendInfo = nullptr;
 	return true;
@@ -52,7 +52,7 @@ CSplattingInfo * CSplattingInfo::CreateSplattingInfo(CSplattingInfoManager* pSpl
 CSplattingInfo * CSplattingInfo::CreateSplattingInfo(CSplattingInfoManager * pSplattingManager, const WCHAR * pDetailTextureName, const WCHAR * pBlendInfoTextureName){
 	CSplattingInfo* pSplattingInfo = new CSplattingInfo;
 
-	pSplattingInfo->SetIndex(pSplattingManager->GetSplattingInfos().GetCount());
+	pSplattingInfo->SetIndex(pSplattingManager->GetSplattingInfos().size());
 	pSplattingInfo->SetSplattingManager(pSplattingManager);
 	pSplattingInfo->SetDetailTextuePath(pDetailTextureName);
 	pSplattingInfo->SetBlendInfoTextuePath(pBlendInfoTextureName);
