@@ -33,7 +33,7 @@ void CTerrainContainer::Begin() {
 	for (UINT j = 0; j < m_pSpaceContainer->GetOneSideSpaceNum(); ++j) {
 		for (UINT i = 0; i < m_pSpaceContainer->GetOneSideSpaceNum(); ++i) {
 			pTerrain = CTerrain::CreateTerrain(this, i, j);
-			m_vpTerrain.Add(pTerrain);
+			m_vpTerrain.push_back(pTerrain);
 		}
 	}
 	//terrain
@@ -85,7 +85,7 @@ bool CTerrainContainer::End() {
 	/*for (auto pTerrain : m_vpTerrain) {
 		m_pSpaceContainer->RemoveObject(pTerrain);
 	}*/
-	m_vpTerrain.RemoveAll();
+	m_vpTerrain.clear();
 
 	if(m_pd3dSpaceRSState)m_pd3dSpaceRSState->Release();
 	if(m_pd3dTempRSState)m_pd3dTempRSState->Release();
@@ -206,27 +206,16 @@ CGameObject * CTerrainContainer::PickObjects(XMVECTOR xmvWorldCameraStartPos, XM
 	float fNearHitDistance = FLT_MAX;
 	CGameObject* pObj = nullptr;
 	//자신의 모든 객체에 대해서 검사
-	size_t iVecSize = m_vpTerrain.GetCount();
-	for (size_t i = 0; i < iVecSize; ++i)
-	{
-		if (m_vpTerrain[i]->CheckPickObject(xmvWorldCameraStartPos, xmvRayDir, fHitDistance)) {//ray와 충돌했다면
+	for (auto pObject : m_vpTerrain) {
+		if (pObject->CheckPickObject(xmvWorldCameraStartPos, xmvRayDir, fHitDistance)) {//ray와 충돌했다면
 			if (fNearHitDistance > fHitDistance) {//이전의 가장 가까운 녀석과 비교
 				distance = fHitDistance;//더 가까우면 가장 가까운 객체 변경
-				return m_vpTerrain[i];
+				return pObject;
 			}
 
 		}
 	}
-	//for (auto pObject : m_vpTerrain) {
-	//	if (pObject->CheckPickObject(xmvWorldCameraStartPos, xmvRayDir, fHitDistance)) {//ray와 충돌했다면
-	//		if (fNearHitDistance > fHitDistance) {//이전의 가장 가까운 녀석과 비교
-	//			distance = fHitDistance;//더 가까우면 가장 가까운 객체 변경
-	//			return pObject;
-	//		}
-
-	//	}
-	//}
-	//return pObj;
+	return pObj;
 }
 //터레인 추가분
 void CTerrainContainer::ReadyHeightMap() {
@@ -524,7 +513,7 @@ void CTerrainContainer::ChangeSpaceData(){
 	//for (auto pTerrain : m_vpTerrain) {
 	//	m_pSpaceContainer->RemoveObject(pTerrain);
 	//}
-	m_vpTerrain.RemoveAll();
+	m_vpTerrain.clear();
 	RENDERER->GetTerrainRenderContainer()->ClearObjectList();
 	//2. mesh/ buffer새로 제작
 	//Begin();
@@ -547,7 +536,7 @@ void CTerrainContainer::ChangeSpaceData(){
 	for (int j = 0; j < m_pSpaceContainer->GetOneSideSpaceNum(); ++j) {
 		for (int i = 0; i < m_pSpaceContainer->GetOneSideSpaceNum(); ++i) {
 			pTerrain = CTerrain::CreateTerrain(this, i, j);
-			m_vpTerrain.Add(pTerrain);
+			m_vpTerrain.push_back(pTerrain);
 		}
 	}
 	//terrain
@@ -561,10 +550,8 @@ void CTerrainContainer::ChangeSpaceData(){
 
 }
 void CTerrainContainer::SetActive(bool b){
-	size_t iVecSize = m_vpTerrain.GetCount();
-	for (size_t i = 0; i < iVecSize; ++i)
-	{
-		m_vpTerrain[i]->SetActive(b);
+	for (auto pTerrain : m_vpTerrain) {
+		pTerrain->SetActive(b);
 	}
 	/*for (auto pTerrain : m_vpTerrain) {
 		pTerrain->SetActive(b);

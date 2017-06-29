@@ -22,20 +22,16 @@ void CLesserGiant::RegistToContainer()
 	CGameObject::RegistToContainer();
 }
 
-void CLesserGiant::PhisicsLogic(CAtlMap<utag, CAtlArray<CGameObject*>*>* pUtagObjectAtlMap, float fDeltaTime)
+void CLesserGiant::PhisicsLogic(map<utag, list<CGameObject*>>& mlpObject, float fDeltaTime)
 {
-	CAtlArray<CGameObject*>* lpCollsion;
-	pUtagObjectAtlMap->Lookup(utag::UTAG_ARROW, lpCollsion);
-	// move player to mapmesh
-	size_t iSize = lpCollsion->GetCount();
-	for (size_t i = 0; i < iSize; ++i)
-	{
-		if (false == (*lpCollsion)[i]->GetActive()) continue;
-		if (true == IsCollision((*lpCollsion)[i]))
+	for (auto pArrow : mlpObject[utag::UTAG_ARROW]) {
+		
+		if (false == pArrow->GetActive()) continue;
+		if (true == IsCollision(pArrow))
 		{
 			//XMStoreFloat3(&m_xmf3Position, XMLoadFloat3(&m_xmf3Position) + ((XMVector3Normalize(m_xmvShift) * -m_fSpeed) * fDeltaTime));
 			//SetPosition(XMLoadFloat3(&m_xmf3Position));
-			(*lpCollsion)[i]->DisappearSkill();
+			pArrow->DisappearSkill();
 			break;
 		}
 	}

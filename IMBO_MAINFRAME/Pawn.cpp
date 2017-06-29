@@ -392,20 +392,14 @@ void CPawn::RegistToContainer(){
 	if(m_pWeapon) m_pWeapon->RegistToContainer();
 }
 
-void CPawn::PhisicsLogic(CAtlMap<utag, CAtlArray<CGameObject*>*>* pUtagObjectAtlMap, float fDeltaTime)
+void CPawn::PhisicsLogic(map<utag, list<CGameObject*>>& mlpObject, float fDeltaTime)
 {
-	CAtlArray<CGameObject*>* lpCollsion;
-	pUtagObjectAtlMap->Lookup(utag::UTAG_COLLISION, lpCollsion);
-	// move player to mapmesh
 	float fShift = XMVector4Length(m_xmvShift).m128_f32[0];
 	if (fShift > 0.f)
 	{
-
-		size_t iSize = lpCollsion->GetCount();
-		for (size_t i = 0; i < iSize; ++i)
-		{
-			if (false == (*lpCollsion)[i]->GetActive()) continue;
-			if (true == IsCollision((*lpCollsion)[i]))
+		for (auto pCollision : mlpObject[utag::UTAG_COLLISION]) {
+			if (false == pCollision->GetActive()) continue;
+			if (true == IsCollision(pCollision))
 			{
 				XMStoreFloat3(&m_xmf3Position, XMLoadFloat3(&m_xmf3Position) + ((XMVector3Normalize(m_xmvShift) * -m_fSpeed) * fDeltaTime));
 				SetPosition(XMLoadFloat3(&m_xmf3Position));
@@ -413,13 +407,9 @@ void CPawn::PhisicsLogic(CAtlMap<utag, CAtlArray<CGameObject*>*>* pUtagObjectAtl
 			}
 		}
 	}
-	pUtagObjectAtlMap->Lookup(utag::UTAG_BOSS1, lpCollsion);
-	size_t iSize = lpCollsion->GetCount();
 	if (false == m_bDamaged) {
-		for (size_t i = 0; i < iSize; ++i)
-		{
-			//if (false == (*lpCollsion)[i]->GetActive()) continue;
-			if (true == IsCollision((*lpCollsion)[i]))
+		for (auto pBoss1 : mlpObject[utag::UTAG_BOSS1]) {
+			if (true == IsCollision(pBoss1))
 			{
 				m_bDamaged = true;
 				CEffectMgr::GetInstance()->Play_Effect(L"TestBlood", XMVectorSet(m_xmf3Position.x, m_xmf3Position.y + 2.f, m_xmf3Position.z, 1.f),
@@ -432,6 +422,7 @@ void CPawn::PhisicsLogic(CAtlMap<utag, CAtlArray<CGameObject*>*>* pUtagObjectAtl
 			}
 		}
 	}
+	
 }
 
 CPawn::CPawn(string name, tag t, bool bSprit, CGameObject* pWeapon, INT slot_id)

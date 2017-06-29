@@ -162,15 +162,10 @@ void CSpaceContainer::ChangeSpaceData(){
 	//1. space안의 모든 객체 임시 저장
 	vector<CGameObject*> m_vTempObjects;//임시 객체 벡터
 	for (int i = 0; i < m_nSpace; ++i) {//모든 space에 대해서
-		POSITION ContainerPos = m_ppSpace[i]->GetmlpObject().GetStartPosition();
-		CAtlMap<tag, CAtlArray<CGameObject*>*>::CPair*		pOutPair = NULL;
-		while (ContainerPos != NULL)
-		{
-			pOutPair = m_ppSpace[i]->GetmlpObject().GetNext(ContainerPos);
-			size_t iVecSize = pOutPair->m_value->GetCount();
-			for (size_t i = 0; i < iVecSize; ++i)
-			{
-				m_vTempObjects.push_back((*pOutPair->m_value)[i]);//임시 저장
+		auto mlpObject = m_ppSpace[i]->GetmlpObject();
+		for (auto lpObject : mlpObject) {
+			for (auto pObject : lpObject.second) {
+				m_vTempObjects.push_back(pObject);
 			}
 		}
 	}
@@ -229,27 +224,21 @@ CSpaceContainer * CSpaceContainer::CreateSpaceContainer(int size, int lv){
 
 void CSpaceContainer::ClearAllObjects(){
 	for (int i = 0; i < m_nSpace; ++i) {//모든 공간의
-		POSITION ContainerPos = m_ppSpace[i]->GetmlpObject().GetStartPosition();
-		CAtlMap<tag, CAtlArray<CGameObject*>*>::CPair*		pOutPair = NULL;
-		while (ContainerPos != NULL)
-		{
-			pOutPair = m_ppSpace[i]->GetmlpObject().GetNext(ContainerPos);
-			size_t iVecSize = pOutPair->m_value->GetCount();
-			for (size_t i = 0; i < iVecSize; ++i)
-			{
-				(*pOutPair->m_value)[i]->End();
-				delete (*pOutPair->m_value)[i];
+		for (auto v : m_ppSpace[i]->GetmlpObject()) {//모든 map의
+			for (auto pObject : v.second) {//모든 vector
+				pObject->End();
+				delete pObject;
 			}
+			v.second.clear();
 		}
-		//for (auto v : m_ppSpace[i]->GetmlpObject()) {//모든 map의
-		//	for (auto pObject : v.second) {//모든 vector
-		//		pObject->End();
-		//		delete pObject;
-		//	}
-		//	v.second.clear();
-		//}
-		m_ppSpace[i]->GetmlpObject().RemoveAll();
+		m_ppSpace[i]->GetmlpObject().clear();
+
+		for (auto lpObject : m_ppSpace[i]->GetmlpCollisionObject()) {
+			lpObject.second.clear();
+		}
+		m_ppSpace[i]->GetmlpCollisionObject().clear();
 	}
+
 	DEBUGER->ClearDebuger();
 }
 

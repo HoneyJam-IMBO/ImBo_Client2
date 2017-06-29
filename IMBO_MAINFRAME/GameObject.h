@@ -112,7 +112,7 @@ public:
 	virtual void PickingProc();
 
 	//Collision
-	virtual void PhisicsLogic(CAtlMap<utag, CAtlArray<CGameObject*>*>* pUtagObjectAtlMap, float fDeltaTime) {};
+	virtual void PhisicsLogic(map<utag, list<CGameObject*>>& mlpObject, float fDeltaTime) {};
 
 	//world
 	XMFLOAT4X4 m_xmf4x4World;

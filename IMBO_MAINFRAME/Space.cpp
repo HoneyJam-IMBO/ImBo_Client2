@@ -13,16 +13,19 @@ void CSpace::Begin(CSpaceContainer * pSpaceContainer, UINT size, int lv, XMVECTO
 	m_size = size;
 	m_pSpaceContainer = pSpaceContainer;
 
-	for (int i = 0; i < TAG_END; ++i)
-	{
-		CAtlArray<CGameObject*>* pObjectArray = new CAtlArray<CGameObject*>;
-		m_mlpObject[tag(i)] = pObjectArray;
-	}
-	for (int i = 0; i < UTAG_END; ++i)
-	{
-		CAtlArray<CGameObject*>* pObjectArray = new CAtlArray<CGameObject*>;
-		m_mlpCollisionObject[utag(i)] = pObjectArray;
-	}
+	m_mlpObject.clear();
+	m_mlpCollisionObject.clear();
+
+	//for (int i = 0; i < TAG_END; ++i)
+	//{
+	//	CAtlArray<CGameObject*>* pObjectArray = new CAtlArray<CGameObject*>;
+	//	m_mlpObject[tag(i)] = pObjectArray;
+	//}
+	//for (int i = 0; i < UTAG_END; ++i)
+	//{
+	//	CAtlArray<CGameObject*>* pObjectArray = new CAtlArray<CGameObject*>;
+	//	m_mlpCollisionObject[utag(i)] = pObjectArray;
+	//}
 	//m_mlpObject
 
 	
@@ -82,27 +85,15 @@ void CSpace::Begin(CSpaceContainer * pSpaceContainer, UINT size, int lv, XMVECTO
 
 bool CSpace::End() {
 
-	POSITION ContainerPos = m_mlpObject.GetStartPosition();
-	CAtlMap<tag, CAtlArray<CGameObject*>*>::CPair*		pOutPair = NULL;
-	//CAtlArray<CGameObject*>::CPair*	pInPair = NULL;
-	while (ContainerPos != NULL)
-	{
-		pOutPair = m_mlpObject.GetNext(ContainerPos);
-		size_t lpSize = pOutPair->m_value->GetCount();
-		for (size_t i = 0; i < lpSize; ++i)
-		{
-			(*pOutPair->m_value)[i]->End();
-			delete (*pOutPair->m_value)[i];
+	for (auto vpObject : m_mlpObject) {
+		for (auto pObject : vpObject.second) {
+			pObject->End();
+			delete pObject;
 		}
 	}
+	m_mlpObject.clear();
+	m_mlpCollisionObject.clear();
 
-	for (int i = 0; i < TAG_END; ++i)
-	{
-		delete m_mlpObject[tag(i)];
-	}
-	for (int j = 0; j < UTAG_END; ++j) {
-		delete m_mlpCollisionObject[utag(j)];
-	}
 	//m_mlpObject.RemoveAll();
 	//m_mlpCollisionObject.RemoveAll();
 	//for (auto mlp : m_mlpObject) {
@@ -139,65 +130,26 @@ void CSpace::Animate(float fTimeElapsed) {
 	else {//leaf space만 animate
 		int nObject = 0;
 
-		CAtlArray<CGameObject*>* lpDynObj;
-		CAtlArray<CGameObject*>* lpTagObj;
-
-		CAtlArray<CGameObject*>* lpUpdateDynObj;
-		CAtlArray<CGameObject*>* lpUpdateTagObj;
-
-		
-		CGameObject* pObj{ nullptr };
-		utag ut{ utag::UTAG_DEFAULT };
-		m_mlpObject.Lookup(tag::TAG_DYNAMIC_OBJECT, lpDynObj);
-		size_t iDynObjSize = lpDynObj->GetCount();
-		for (size_t i = 0; i < iDynObjSize; ++i)
+		list<CGameObject*>::iterator iter = m_mlpObject[tag::TAG_DYNAMIC_OBJECT].begin();
+		list<CGameObject*>::iterator iter_end = m_mlpObject[tag::TAG_DYNAMIC_OBJECT].end();
+		for (; iter != iter_end; )
 		{
-			(*lpDynObj)[i]->Animate(fTimeElapsed);
-			int current_index = m_pSpaceContainer->SearchSpace((*lpDynObj)[i]->GetPosition());
-			if ((*lpDynObj)[i]->GetSpaceIndex() != current_index)//이전 공간 index와 현재 index가 다르다면
+			(*iter)->Animate(fTimeElapsed);
+			int current_index = m_pSpaceContainer->SearchSpace((*iter)->GetPosition());
+			if ((*iter)->GetSpaceIndex() != current_index)//이전 공간 index와 현재 index가 다르다면
 			{
- 				m_pSpaceContainer->AddBlockObjectList((*lpDynObj)[i]);//block Object list에 등록
+				utag ut = (*iter)->GetUTag();
+				m_pSpaceContainer->AddBlockObjectList((*iter));//block Object list에 등록
+				m_mlpObject[tag::TAG_DYNAMIC_OBJECT].erase(iter++);
 
-				pObj = (*lpDynObj)[i];
-				ut = pObj->GetUTag();
-				
-				lpDynObj->RemoveAt(i);
-				iDynObjSize = lpDynObj->GetCount();
-				//m_mlpCollisionObject.GetValueAt()
-				//m_mlpObject[tag::TAG_DYNAMIC_OBJECT].erase(iter++);
-
-				m_mlpCollisionObject.Lookup(ut, lpUpdateDynObj);
-				size_t iSize = lpUpdateDynObj->GetCount();
-  				for (size_t j = 0; j < iSize; ++j){
-					if ((*lpUpdateDynObj)[j] == pObj) {
-						lpUpdateDynObj->RemoveAt(j);
-						iSize = lpUpdateDynObj->GetCount();
-						break;
-					}
-				}
+				m_mlpCollisionObject[ut].remove_if([&iter](CGameObject* pO) {
+					return (*iter) == pO;
+				});
 			}
-
-			;
-			/*else
-				++i;*/
+			else
+				++iter;
 			nObject++;
 		}
-
-		//list<CGameObject*>::iterator iter = m_mlpObject[tag::TAG_DYNAMIC_OBJECT].begin();
-		//list<CGameObject*>::iterator iter_end = m_mlpObject[tag::TAG_DYNAMIC_OBJECT].end();
-		//for (; iter != iter_end; )
-		//{
-		//	(*iter)->Animate(fTimeElapsed);
-		//	int current_index = m_pSpaceContainer->SearchSpace((*iter)->GetPosition());
-		//	if ((*iter)->GetSpaceIndex() != current_index)//이전 공간 index와 현재 index가 다르다면
-		//	{
-		//		m_pSpaceContainer->AddBlockObjectList((*iter));//block Object list에 등록
-		//		m_mlpObject[tag::TAG_DYNAMIC_OBJECT].erase(iter++);
-		//	}
-		//	else
-		//		++iter;
-		//	nObject++;
-		//}
 
 		if (INPUTMGR->GetDebugMode())
 			DEBUGER->AddText(20.0f, 800.0f, static_cast<float>(m_index * 15.f), YT_Color(255, 255, 255), L"space %d object_num : %d", m_index, nObject);
@@ -206,45 +158,21 @@ void CSpace::Animate(float fTimeElapsed) {
 }
 
 void CSpace::PhisicsUpdate(float fTimeElapsed){
-	CAtlArray<CGameObject*>* lpPlayer;
-	m_mlpCollisionObject.Lookup(utag::UTAG_PLAYER, lpPlayer);
-	size_t iSize = lpPlayer->GetCount();
-
-	int nCollition{ 0 };
-	for (size_t i = 0; i < iSize; ++i)
-	{
-		(*lpPlayer)[i]->PhisicsLogic(&m_mlpCollisionObject, fTimeElapsed);
+	for (auto pPlayer : m_mlpCollisionObject[UTAG_PLAYER]) {
+		pPlayer->PhisicsLogic(m_mlpCollisionObject, fTimeElapsed);
 	}
-
-
-	CAtlArray<CGameObject*>* lpBoss;
-	m_mlpCollisionObject.Lookup(utag::UTAG_BOSS1, lpBoss);
-	iSize = lpBoss->GetCount();
-	for (size_t i = 0; i < iSize; ++i)
-	{
-		(*lpBoss)[i]->PhisicsLogic(&m_mlpCollisionObject, fTimeElapsed);
-		//(*lpBoss)[i]->SetUTag(UTAG_BOSS1);
-
-		//CAtlArray<CGameObject*>* lpCollision;
-		//m_mlpCollisionObject.Lookup(utag::UTAG_PLAYER, lpCollision);
-		//iSize = lpCollision->GetCount();
-		//for (size_t j = 0; j < iSize; ++j) {
-		//	if ((*lpCollision)[j]->IsCollision((*lpBoss)[i])) {
-		//		DEBUGER->AddText(10, 650, nCollition++ * 10, YT_Color(), L"collition %s %s", (*lpBoss)[i]->GetName(), (*lpCollision)[j]->GetName());
-		//	}
-		//}
+	for (auto pBoss : m_mlpCollisionObject[UTAG_BOSS1]) {
+		pBoss->PhisicsLogic(m_mlpCollisionObject, fTimeElapsed);
 	}
 
 }
 
-void CSpace::OptimizePrepare(CAtlMap<tag, CAtlArray<CGameObject*>*>::CPair* pairGObj, UINT renderFlag, shared_ptr<CCamera> pCamera)
+void CSpace::OptimizePrepare(UINT renderFlag, shared_ptr<CCamera> pCamera)
 {
-	size_t lpSize = pairGObj->m_value->GetCount();
-	for (size_t i = 0; i < lpSize; ++i)
-	{
-		if ((*pairGObj->m_value)[i]->IsVisible(pCamera))
-		{
-			(*pairGObj->m_value)[i]->RegistToContainer();
+	tag rt = (tag)renderFlag;
+	for (auto pObject : m_mlpObject[rt]) {
+		if(pObject->IsVisible(pCamera)) {
+			pObject->RegistToContainer();
 		}
 	}
 }
@@ -258,65 +186,18 @@ void CSpace::PrepareRender(shared_ptr<CCamera> pCamera, UINT renderFlag) {
 			if (INPUTMGR->GetDebugMode())
 				this->RegistToDebuger();
 
-			POSITION ContainerPos = m_mlpObject.GetStartPosition();
-			CAtlMap<tag, CAtlArray<CGameObject*>*>::CPair*		pOutPair = NULL;
-			while (ContainerPos != NULL)
-			{
-				pOutPair = m_mlpObject.GetNext(ContainerPos);
-				if(pOutPair->m_key == TAG_TERRAIN && (renderFlag & TAG_TERRAIN))
-					OptimizePrepare(pOutPair, renderFlag, pCamera);
-				else if (pOutPair->m_key == TAG_STATIC_OBJECT && (renderFlag & TAG_STATIC_OBJECT))
-					OptimizePrepare(pOutPair, renderFlag, pCamera);
-				else if (pOutPair->m_key == TAG_DYNAMIC_OBJECT && (renderFlag & TAG_DYNAMIC_OBJECT))
-					OptimizePrepare(pOutPair, renderFlag, pCamera);
-				else if (pOutPair->m_key == TAG_LIGHT && (renderFlag & TAG_LIGHT))
-					OptimizePrepare(pOutPair, renderFlag, pCamera);
-				else if (pOutPair->m_key == TAG_REFLECTION && (renderFlag & TAG_REFLECTION))
-					OptimizePrepare(pOutPair, renderFlag, pCamera);
+			for (auto vpObject : m_mlpObject) {
+				if (vpObject.first == TAG_TERRAIN && (renderFlag & TAG_TERRAIN))
+					OptimizePrepare(TAG_TERRAIN, pCamera);
+				else if (vpObject.first == TAG_STATIC_OBJECT && (renderFlag & TAG_STATIC_OBJECT))
+					OptimizePrepare(TAG_STATIC_OBJECT, pCamera);
+				else if (vpObject.first == TAG_DYNAMIC_OBJECT && (renderFlag & TAG_DYNAMIC_OBJECT))
+					OptimizePrepare(TAG_DYNAMIC_OBJECT, pCamera);
+				else if (vpObject.first == TAG_LIGHT && (renderFlag & TAG_LIGHT))
+					OptimizePrepare(TAG_LIGHT, pCamera);
+				else if (vpObject.first == TAG_REFLECTION && (renderFlag & TAG_REFLECTION))
+					OptimizePrepare(TAG_REFLECTION, pCamera);
 			}
-
-			//for (auto mlp : m_mlpObject) {		//모든 객체에 대해서
-			//	for (auto pObject : mlp.second) {
-
-			//		//	pObject->RegistToContainer();
-			//		if (renderFlag & RTAG_TERRAIN) {
-			//			if (pObject->GetTag() == TAG_TERRAIN)
-			//			{
-			//				if (pObject->IsVisible(pCamera))
-			//				{
-			//					pObject->RegistToContainer();
-			//				}
-			//			}
-			//		}
-			//		if (renderFlag & RTAG_STATIC_OBJECT) {
-			//			if (pObject->GetTag() == TAG_STATIC_OBJECT)
-			//			{
-			//				if (pObject->IsVisible(pCamera))
-			//				{
-			//					pObject->RegistToContainer();
-			//				}
-			//			}
-			//		}
-			//		if (renderFlag & RTAG_DYNAMIC_OBJECT) {
-			//			if (pObject->GetTag() == TAG_DYNAMIC_OBJECT)
-			//			{
-			//				if (pObject->IsVisible(pCamera))
-			//				{
-			//					pObject->RegistToContainer();
-			//				}
-			//			}
-			//		}
-			//		if (renderFlag & RTAG_LIGHT) {
-			//			if (pObject->GetTag() == TAG_LIGHT)
-			//			{
-			//				if (pObject->IsVisible(pCamera))
-			//				{
-			//					pObject->RegistToContainer();
-			//				}
-			//			}
-			//		}
-			//	}
-
 			//}//end for
 		}//end if
 		else {//leaf가 아니라면
@@ -338,32 +219,8 @@ void CSpace::SetObejcts(int n, CGameObject** ppObjects) {
 		//객체에 자신 번호 등록
 		ppObjects[i]->SetSpaceIndex(m_index);
 
-		//bool bHaveList = m_mlpObject.Lookup(ppObjects[i]->GetTag());
-		//if (false == bHaveList)
-		//{
-		//	CAtlArray<CGameObject*> aryTemp;
-		//	aryTemp.Add(ppObjects[i]);
-		//	m_mlpObject.SetAt(ppObjects[i]->GetTag(), &aryTemp);
-		//	//m_mapObjlist.insert(map<const TCHAR*, list<CGameObject*>>::value_type(pObjectTag, NewObjectList));
-		//	//m_mlpObject[ppObjects[i]->GetTag()]->SetCount(1);
-		//}
-		//else
-			m_mlpObject[ppObjects[i]->GetTag()]->Add(ppObjects[i]);
-		/*CAtlArray<CGameObject*>* lpDynObj;
-		bool bHaveList = m_mlpObject.Lookup(ppObjects[i]->GetTag(), lpDynObj);
-		if (true == bHaveList)
-		{
-			lpDynObj->Add(ppObjects[i]);
-		}
-		else
-		{
-			CAtlArray<CGameObject*> lpCreateDynObj;
-			lpCreateDynObj.Add(ppObjects[i]);
-			m_mlpObject[ppObjects[i]->GetTag()] = lpCreateDynObj;
-		}
-*/
-		//m_mlpObject.Lookup(ppObjects[i]->GetTag(), lpDynObj);
-		//m_mlpObject[ppObjects[i]->GetTag()].emplace_back(ppObjects[i]);
+		m_mlpObject[ppObjects[i]->GetTag()].push_back(ppObjects[i]);
+		m_mlpCollisionObject[ppObjects[i]->GetUTag()].push_back(ppObjects[i]);
 	}
 }
 
@@ -372,88 +229,21 @@ void CSpace::AddObject(CGameObject* pObject) {
 	//객체에 자신 번호 등록
 	pObject->SetSpaceIndex(m_index);
 
-
-	//bool bHaveList = m_mlpObject.Lookup(pObject->GetTag());
-	//if (false == bHaveList)
-	//{
-	//	CAtlArray<CGameObject*> aryTemp;
-	//	aryTemp.Add(pObject);
-	//	m_mlpObject.SetAt(pObject->GetTag(), &aryTemp);
-	//	//m_mapObjlist.insert(map<const TCHAR*, list<CGameObject*>>::value_type(pObjectTag, NewObjectList));
-	//	//m_mlpObject[ppObjects[i]->GetTag()]->SetCount(1);
-	//}
-	//else
-	m_mlpCollisionObject[pObject->GetUTag()]->Add(pObject);
-	m_mlpObject[pObject->GetTag()]->Add(pObject);
-	//bool bHaveList = m_mlpObject.Lookup(pObject->GetTag());
-	//if (false == bHaveList)
-	//{
-	//	m_mlpObject[pObject->GetTag()]->SetCount(1);
-	//}
-	//m_mlpObject[pObject->GetTag()]->Add(pObject);
-	//m_mlpObject[pObject->GetTag()].emplace_back(pObject);
+	m_mlpCollisionObject[pObject->GetUTag()].push_back(pObject);
+	m_mlpObject[pObject->GetTag()].push_back(pObject);
 }
 void CSpace::RemoveObject(CGameObject* pObject) {
 	if (!pObject) return;
 	//if (0 == m_lpObjects.size()) return;
 
-
-	size_t iVecSize = m_mlpObject[pObject->GetTag()]->GetCount();
-	for (size_t i = 0; i < iVecSize; ++i)
-	{
-		if ((*m_mlpObject[pObject->GetTag()])[i] == pObject)
-		{
-			m_mlpObject[pObject->GetTag()]->RemoveAt(i);
-			return;
-		}
-	}
-
-	iVecSize = m_mlpCollisionObject[pObject->GetUTag()]->GetCount();
-	for (size_t i = 0; i < iVecSize; ++i)
-	{
-		if ((*m_mlpCollisionObject[pObject->GetUTag()])[i] == pObject)
-		{
-			m_mlpCollisionObject[pObject->GetUTag()]->RemoveAt(i);
-			return;
-		}
-	}
-	/*m_mlpObject[pObject->GetTag()].remove_if([&pObject](CGameObject* pO) {
+	m_mlpObject[pObject->GetTag()].remove_if([&pObject](CGameObject* pO) {
 		return pObject == pO;
-	});*/
+	});
 
 }
 
 void CSpace::RemoveObject(string name) {
-	POSITION ContainerPos = m_mlpObject.GetStartPosition();
-	CAtlMap<tag, CAtlArray<CGameObject*>*>::CPair*		pOutPair = NULL;
-	while (ContainerPos != NULL)
-	{
-		pOutPair = m_mlpObject.GetNext(ContainerPos);
-		size_t iVecSize = pOutPair->m_value->GetCount();
-		for (size_t i = 0; i < iVecSize; ++i)
-		{
-			if ((*pOutPair->m_value)[i]->GetName() == name)
-			{
-				m_mlpObject[(*pOutPair->m_value)[i]->GetTag()]->RemoveAt(i);
-			}
-		}
-	}
-
-	ContainerPos = m_mlpCollisionObject.GetStartPosition();
-	CAtlMap<utag, CAtlArray<CGameObject*>*>::CPair*		pOutPair2 = NULL;
-	while (ContainerPos != NULL)
-	{
-		pOutPair2 = m_mlpCollisionObject.GetNext(ContainerPos);
-		size_t iVecSize = pOutPair2->m_value->GetCount();
-		for (size_t i = 0; i < iVecSize; ++i)
-		{
-			if ((*pOutPair2->m_value)[i]->GetName() == name)
-			{
-				m_mlpCollisionObject[(*pOutPair2->m_value)[i]->GetUTag()]->RemoveAt(i);
-			}
-		}
-	}
-	/*for (auto data : m_mlpObject) {
+	for (auto data : m_mlpObject) {
 		for (auto pObject : data.second) {
 			if (pObject->GetName() == name) {
 				m_mlpObject[pObject->GetTag()].remove_if([&pObject](CGameObject* pO) {
@@ -461,7 +251,7 @@ void CSpace::RemoveObject(string name) {
 				});
 			}
 		}
-	}*/
+	}
 }
 
 CGameObject * CSpace::PickObject(XMVECTOR xmvWorldCameraStartPos, XMVECTOR xmvRayDir, float& distance) {
@@ -471,32 +261,16 @@ CGameObject * CSpace::PickObject(XMVECTOR xmvWorldCameraStartPos, XMVECTOR xmvRa
 	CGameObject* pObj = nullptr;
 	//자신의 모든 객체에 대해서 검사
 
-	POSITION ContainerPos = m_mlpObject.GetStartPosition();
-	CAtlMap<tag, CAtlArray<CGameObject*>*>::CPair*		pOutPair = NULL;
-	while (ContainerPos != NULL)
-	{
-		pOutPair = m_mlpObject.GetNext(ContainerPos);
-		size_t iVecSize = pOutPair->m_value->GetCount();
-		for (size_t i = 0; i < iVecSize; ++i)
-		{
-			if ((*pOutPair->m_value)[i]->CheckPickObject(xmvWorldCameraStartPos, xmvRayDir, fHitDistance)) {
-				if (fNearHitDistance > fHitDistance) {
-					distance = fHitDistance;//더 가까우
-					pObj = (*pOutPair->m_value)[i];
+	for (auto Objects : m_mlpObject) {
+		for (auto pObject : Objects.second) {
+			if (pObject->CheckPickObject(xmvWorldCameraStartPos, xmvRayDir, fHitDistance)) {//ray와 충돌했다면
+				if (fNearHitDistance > fHitDistance) {//이전의 가장 가까운 녀석과 비교
+					distance = fHitDistance;//더 가까우면 가장 가까운 객체 변경
+					pObj = pObject;
 				}
 			}
 		}
 	}
-	//for (auto Objects : m_mlpObject) {
-	//	for (auto pObject : Objects.second) {
-	//		if (pObject->CheckPickObject(xmvWorldCameraStartPos, xmvRayDir, fHitDistance)) {//ray와 충돌했다면
-	//			if (fNearHitDistance > fHitDistance) {//이전의 가장 가까운 녀석과 비교
-	//				distance = fHitDistance;//더 가까우면 가장 가까운 객체 변경
-	//				pObj = pObject;
-	//			}
-	//		}
-	//	}
-	//}
 	return pObj;//해당 객체 return
 }
 

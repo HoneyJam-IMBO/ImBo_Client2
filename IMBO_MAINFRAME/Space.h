@@ -25,8 +25,8 @@ public:
 
 	//해당 space안의 lay 충돌 검사된 객체 중 가장 가장 가까운 객체
 	CGameObject* PickObject(XMVECTOR xmvWorldCameraStartPos, XMVECTOR xmvRayDir, float& distance);
-	CAtlMap<tag, CAtlArray<CGameObject*>*>& GetmlpObject() { return m_mlpObject; }
-	CAtlMap<utag, CAtlArray<CGameObject*>*>& GetmlpCollisionObject() { return m_mlpCollisionObject; }
+	map<tag, list<CGameObject*>>& GetmlpObject() { return m_mlpObject; }
+	map<utag, list<CGameObject*>>& GetmlpCollisionObject() { return m_mlpCollisionObject; }
 private:
 	//자식 space 4개
 	CSpace** m_ppChildSpace{ nullptr };
@@ -37,14 +37,14 @@ private:
 
 	//객체들
 	//map<tag, list<CGameObject*>> m_mlpObject;
-	CAtlMap<tag, CAtlArray<CGameObject*>*> m_mlpObject;
-	CAtlMap<utag, CAtlArray<CGameObject*>*> m_mlpCollisionObject;
+	map<tag, list<CGameObject*>> m_mlpObject;
+	map<utag, list<CGameObject*>> m_mlpCollisionObject;
 
 	//space container
 	CSpaceContainer* m_pSpaceContainer{ nullptr };
 
 private:
-	void OptimizePrepare(CAtlMap<tag, CAtlArray<CGameObject*>*>::CPair* pairGObj, UINT renderFlag, shared_ptr<CCamera> pCamera);
+	void OptimizePrepare(UINT renderFlag, shared_ptr<CCamera> pCamera);
 public:
 	CSpace();
 	~CSpace();
