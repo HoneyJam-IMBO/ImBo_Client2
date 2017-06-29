@@ -123,7 +123,7 @@ void CEffectMgr::Update_PlayEffectList(float fTimeDelta)
 	{
 		(*Iter)->Update(fTimeDelta);
 		if ((*Iter)->m_bAlive == false) {
-			m_vecPlayEffect.erase(Iter);
+			Iter = m_vecPlayEffect.erase(Iter);
 		}
 		else
 			++Iter;

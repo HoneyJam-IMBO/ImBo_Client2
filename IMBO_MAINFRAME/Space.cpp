@@ -119,8 +119,7 @@ void CSpace::Animate(float fTimeElapsed) {
 		int nObject = 0;
 
 		list<CGameObject*>::iterator iter = m_mlpObject[tag::TAG_DYNAMIC_OBJECT].begin();
-		list<CGameObject*>::iterator iter_end = m_mlpObject[tag::TAG_DYNAMIC_OBJECT].end();
-		for (; iter != iter_end; )
+		for (; iter != m_mlpObject[tag::TAG_DYNAMIC_OBJECT].end(); )
 		{
 			(*iter)->Animate(fTimeElapsed);
 			int current_index = m_pSpaceContainer->SearchSpace((*iter)->GetPosition());
@@ -128,9 +127,13 @@ void CSpace::Animate(float fTimeElapsed) {
 			{
 				utag ut = (*iter)->GetUTag();
 				m_pSpaceContainer->AddBlockObjectList((*iter));//block Object list¿¡ µî·Ï
-				m_mlpObject[tag::TAG_DYNAMIC_OBJECT].erase(iter);
 
-				m_mlpCollisionObject[ut].erase(iter++);
+				m_mlpCollisionObject[ut].remove_if([&iter](CGameObject* pObject) {
+					return (pObject == (*iter));
+				});
+
+				iter = m_mlpObject[tag::TAG_DYNAMIC_OBJECT].erase(iter);
+
 			}
 			else
 				++iter;
