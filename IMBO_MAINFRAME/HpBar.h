@@ -13,7 +13,7 @@ public:
 	void	SetInfo(XMVECTOR xyPos, XMVECTOR xySize);
 
 private:
-	shared_ptr<CTexture>	m_pBarTexture;
+	 CTexture*	m_pBarTexture;
 
 private:
 	int		m_nID{ 0 };

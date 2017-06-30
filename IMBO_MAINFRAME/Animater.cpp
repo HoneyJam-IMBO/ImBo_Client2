@@ -31,7 +31,10 @@ bool CAnimater::End() {
 	delete m_pSkeletonData;
 	m_pSkeletonData = nullptr;
 
-	if(m_pAnimBuffer)m_pAnimBuffer->End();
+	if (m_pAnimBuffer) {
+		m_pAnimBuffer->End();
+		delete m_pAnimBuffer;
+	}
 	m_pAnimBuffer = nullptr;
 
 	return true;
@@ -147,16 +150,16 @@ UINT CAnimater::GetAnimaterJointCnt() {
 	return JointCnt;
 }
 
-shared_ptr<CAnimater> CAnimater::CreateAnimaterFromFBXFile(bool bHasAnimation) {
+ CAnimater* CAnimater::CreateAnimaterFromFBXFile(bool bHasAnimation) {
 	//if (bHasAnimation) {
-	//	shared_ptr<CAnimater> pAnimater = make_shared<CAnimater>();
+	//	 CAnimater* pAnimater = new CAnimater>();
 	//	pAnimater->SetMeshOffsetMtx(XMMatrixIdentity());
 
 	//	CBoundingBox* pMainBoundingBox = new CBoundingBox();
 	//	pMainBoundingBox->Begin(XMVectorSet(0.f, 0.f, 0.f, 0.f), XMVectorSet(5.f, 5.f, 5.f, 1.f));
 	//	pAnimater->SetpMainAABB(pMainBoundingBox);
 
-	//	shared_ptr<CBuffer> pAnimBuffer = CBuffer::CreateConstantBuffer(256, sizeof(XMMATRIX), 10, BIND_VS);
+	//	 CBuffer* pAnimBuffer = CBuffer::CreateConstantBuffer(256, sizeof(XMMATRIX), 10, BIND_VS);
 	//	pAnimater->SetpAnimBuffer(pAnimBuffer);
 
 	//	CSkeletonData* pSkeletonData = new CSkeletonData;
@@ -170,11 +173,11 @@ shared_ptr<CAnimater> CAnimater::CreateAnimaterFromFBXFile(bool bHasAnimation) {
 	return nullptr;
 }
 
-shared_ptr<CAnimater> CAnimater::CreateAnimaterFromGJMFile(bool bHasAnimation) {
+ CAnimater* CAnimater::CreateAnimaterFromGJMFile(bool bHasAnimation) {
 
 	if (bHasAnimation) {
 		//animation data가 있으면
-		shared_ptr<CAnimater> pAnimater = make_shared<CAnimater>();
+		 CAnimater* pAnimater = new CAnimater();
 		XMFLOAT4X4 xmf4x4MeshOffsetMtx = IMPORTER->ReadFloat4x4();
 		pAnimater->SetMeshOffsetMtx(xmf4x4MeshOffsetMtx);
 		
@@ -197,7 +200,7 @@ shared_ptr<CAnimater> CAnimater::CreateAnimaterFromGJMFile(bool bHasAnimation) {
 		pMainBoundingBox->Begin(XMLoadFloat3(&xmf3Position), XMLoadFloat4(&xmf4Scale));
 		pAnimater->SetpMainAABB(pMainBoundingBox);
 
-		shared_ptr<CBuffer> pAnimBuffer = CBuffer::CreateConstantBuffer(256, sizeof(XMMATRIX), 10, BIND_VS);
+		 CBuffer* pAnimBuffer = CBuffer::CreateConstantBuffer(256, sizeof(XMMATRIX), 10, BIND_VS);
 		pAnimater->SetpAnimBuffer(pAnimBuffer);
 
 		CSkeletonData* pSkeletonData = new CSkeletonData;
@@ -225,7 +228,7 @@ shared_ptr<CAnimater> CAnimater::CreateAnimaterFromGJMFile(bool bHasAnimation) {
 	}
 
 	return nullptr;
-	//return shared_ptr<CAnimater>();
+	//return  CAnimater>();
 }
 
 CAnimater::CAnimater() : DXObject("animater") {

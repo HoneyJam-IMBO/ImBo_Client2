@@ -192,7 +192,7 @@ bool CRenderContainerSeller::End(){
 	m_mTagRenderContainer.clear();
 	//render container delete
 
-//	ClearStempRenderContainer();
+	ClearStempRenderContainer();
 	return true;
 }
 
@@ -241,7 +241,7 @@ void CRenderContainerSeller::CreateStempRenderContainer(){
 		string name = vStempMesh.second[0]->GetName();
 		tag t = vStempMesh.second[0]->GetTag();
 		m_mStempRenderContainer[t][name] = new CRenderContainer;
-		shared_ptr<CAnimater> pAnimater = RESOURCEMGR->GetAnimater(name);
+		 CAnimater* pAnimater = RESOURCEMGR->GetAnimater(name);
 		//animation
 		if (pAnimater) {
 			m_mStempRenderContainer[t][name]->SetShader(RESOURCEMGR->GetRenderShader("AnimationObject"));
@@ -258,7 +258,7 @@ void CRenderContainerSeller::CreateStempRenderContainer(){
 		if (vStempMesh.second.size() == 1) {
 			//mesh가 1개라면 
 			//mseh의 resource를 rc로 옮기고 
-			size_t vecSize = vStempMesh.second[0]->GetvMeshTexture().GetCount();
+			size_t vecSize = vStempMesh.second[0]->GetvMeshTexture().size();
 			for (size_t i = 0; i < vecSize; ++i)
 			{
 				m_mStempRenderContainer[t][name]->AddTexture(vStempMesh.second[0]->GetvMeshTexture()[i]);
@@ -279,7 +279,7 @@ void CRenderContainerSeller::TestingRCAdd()
 	string object_name = "Arrow";
 	tag t = tag::TAG_DYNAMIC_OBJECT;
 	
-	vector<shared_ptr<CMesh>> pMesh = RESOURCEMGR->GetvStempMesh("Weed01");
+	vector< CMesh*> pMesh = RESOURCEMGR->GetvStempMesh("Weed01");
 	m_mTagRenderContainer[t][ (object_name.c_str())] = new CRenderContainer();
 	m_mTagRenderContainer[t][ (object_name.c_str())]->SetShader(RESOURCEMGR->GetRenderShader("DEFAULT"));
 	m_mTagRenderContainer[t][ (object_name.c_str())]->AddMesh(pMesh[0]);

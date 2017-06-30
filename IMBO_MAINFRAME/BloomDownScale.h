@@ -44,8 +44,8 @@ private:
 	ID3D11Buffer* m_pFirstPassBuffer{ nullptr };
 	ID3D11UnorderedAccessView* m_pFirstPassAvgLumUAV{ nullptr };
 	ID3D11ShaderResourceView* m_pFirstPassAvgLumSRV{ nullptr };
-	shared_ptr<CBuffer> m_pBloomStaticCB{ nullptr };
-	shared_ptr<CBuffer> m_pBloomDynamicCB{ nullptr };
+	 CBuffer* m_pBloomStaticCB{ nullptr };
+	 CBuffer* m_pBloomDynamicCB{ nullptr };
 	//ID3D11Buffer* m_pFirstPassCB{ nullptr };
 
 	//1

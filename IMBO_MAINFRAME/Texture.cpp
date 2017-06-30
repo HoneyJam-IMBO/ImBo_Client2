@@ -80,7 +80,7 @@ void CTexture::UpdateShaderState() {
 	if (m_pConstantBuffer) m_pConstantBuffer->UpdateShaderState();
 }
 
-void CTexture::SetConstantBuffer(shared_ptr<CBuffer> pConstantBuffer) {
+void CTexture::SetConstantBuffer( CBuffer* pConstantBuffer) {
 	if (!pConstantBuffer) return;
 	m_pConstantBuffer = pConstantBuffer;
 }
@@ -315,9 +315,9 @@ ID3D11ShaderResourceView * CTexture::CreateTexture2DArraySRV(ID3D11ShaderResourc
 	return(pd3dsrvTextureArray);
 }
 
-shared_ptr<CTexture> CTexture::CreateTexture(UINT nTextures, _TCHAR(*ppstrFilePaths)[128], UINT Slot, UINT BindFlag, shared_ptr<CBuffer> pConstantBuffer) {
+ CTexture* CTexture::CreateTexture(UINT nTextures, _TCHAR(*ppstrFilePaths)[128], UINT Slot, UINT BindFlag,  CBuffer* pConstantBuffer) {
 
-	shared_ptr<CTexture> pTexture = make_shared<CTexture>();
+	 CTexture* pTexture = new CTexture();
 	//constant buffer
 	pTexture->SetConstantBuffer(pConstantBuffer);
 	//texture
@@ -328,8 +328,8 @@ shared_ptr<CTexture> CTexture::CreateTexture(UINT nTextures, _TCHAR(*ppstrFilePa
 	return pTexture;
 }
 
-//shared_ptr<CTexture> CTexture::CreateTexture(UINT nTextures, WCHAR(*ppstrFilePaths)[128], shared_ptr<CSampler> pSampler, UINT Slot, UINT BindFlag, shared_ptr<CBuffer> pConstantBuffer){
-//   shared_ptr<CTexture> pTexture = make_shared<CTexture>();
+// CTexture* CTexture::CreateTexture(UINT nTextures, WCHAR(*ppstrFilePaths)[128],  CSampler* pSampler, UINT Slot, UINT BindFlag,  CBuffer* pConstantBuffer){
+//    CTexture* pTexture = new CTexture>();
 //   //sampler
 //   pTexture->SetSampler(pSampler);
 //   //constant buffer
@@ -342,8 +342,8 @@ shared_ptr<CTexture> CTexture::CreateTexture(UINT nTextures, _TCHAR(*ppstrFilePa
 //   return pTexture;
 //}
 
-shared_ptr<CTexture> CTexture::CreateTexture(UINT nTextures, ID3D11Texture2D ** ppd3dTextures, UINT Slot, UINT BindFlag, shared_ptr<CBuffer> pConstantBuffer) {
-	shared_ptr<CTexture> pTexture = make_shared<CTexture>();
+ CTexture* CTexture::CreateTexture(UINT nTextures, ID3D11Texture2D ** ppd3dTextures, UINT Slot, UINT BindFlag,  CBuffer* pConstantBuffer) {
+	 CTexture* pTexture = new CTexture();
 	//constant buffer
 	pTexture->SetConstantBuffer(pConstantBuffer);
 	//texture
@@ -354,8 +354,8 @@ shared_ptr<CTexture> CTexture::CreateTexture(UINT nTextures, ID3D11Texture2D ** 
 	return pTexture;
 }
 
-shared_ptr<CTexture> CTexture::CreateTexture(UINT nTextures, ID3D11ShaderResourceView ** ppd3dSRVs, UINT Slot, UINT BindFlag, shared_ptr<CBuffer> pConstantBuffer) {
-	shared_ptr<CTexture> pTexture = make_shared<CTexture>();
+ CTexture* CTexture::CreateTexture(UINT nTextures, ID3D11ShaderResourceView ** ppd3dSRVs, UINT Slot, UINT BindFlag,  CBuffer* pConstantBuffer) {
+	 CTexture* pTexture = new CTexture();
 	//constant buffer
 	pTexture->SetConstantBuffer(pConstantBuffer);
 	//texture
@@ -366,13 +366,13 @@ shared_ptr<CTexture> CTexture::CreateTexture(UINT nTextures, ID3D11ShaderResourc
 	return pTexture;
 }
 
-shared_ptr<CTexture> CTexture::CreateTexture(_TCHAR(pstrFilePath)[128], UINT Slot, UINT BindFlag, shared_ptr<CBuffer> pConstantBuffer) {
+ CTexture* CTexture::CreateTexture(_TCHAR(pstrFilePath)[128], UINT Slot, UINT BindFlag,  CBuffer* pConstantBuffer) {
 	wstring wpath{ pstrFilePath };
 	wstring extention{ PathFindExtension(wpath.c_str()) };
 
 	string path; path.assign(wpath.cbegin(), wpath.cend());
 
-	shared_ptr<CTexture> pTexture = make_shared<CTexture>();
+	 CTexture* pTexture = new CTexture();
 	pTexture->SetsPath(path);
 	//constant buffer
 	pTexture->SetConstantBuffer(pConstantBuffer);
@@ -397,13 +397,13 @@ shared_ptr<CTexture> CTexture::CreateTexture(_TCHAR(pstrFilePath)[128], UINT Slo
 	return pTexture;
 }
 
-shared_ptr<CTexture> CTexture::CreateTexture(wstring pstrFilePath, UINT Slot, UINT BindFlag, shared_ptr<CBuffer> pConstantBuffer) {
+ CTexture* CTexture::CreateTexture(wstring pstrFilePath, UINT Slot, UINT BindFlag,  CBuffer* pConstantBuffer) {
 	wstring wpath{ pstrFilePath };
 	wstring extention{ PathFindExtension(wpath.c_str()) };
 
 	string path; path.assign(wpath.cbegin(), wpath.cend());
 
-	shared_ptr<CTexture> pTexture = make_shared<CTexture>();
+	 CTexture* pTexture = new CTexture();
 	pTexture->SetsPath(path);
 	//constant buffer
 	pTexture->SetConstantBuffer(pConstantBuffer);
@@ -428,8 +428,8 @@ shared_ptr<CTexture> CTexture::CreateTexture(wstring pstrFilePath, UINT Slot, UI
 	return pTexture;
 }
 
-shared_ptr<CTexture> CTexture::CreateTexture(ID3D11ShaderResourceView * pShaderResourceView, UINT Slot, UINT BindFlag, shared_ptr<CBuffer> pConstantBuffer) {
-	shared_ptr<CTexture> pTexture = make_shared<CTexture>();
+ CTexture* CTexture::CreateTexture(ID3D11ShaderResourceView * pShaderResourceView, UINT Slot, UINT BindFlag,  CBuffer* pConstantBuffer) {
+	 CTexture* pTexture = new CTexture();
 	//constant buffer
 	pTexture->SetConstantBuffer(pConstantBuffer);
 	//texture

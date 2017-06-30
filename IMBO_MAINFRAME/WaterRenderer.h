@@ -30,20 +30,20 @@ public:
 
 	virtual void UpdateShaderState();
 	
-	ID3D11ShaderResourceView* RenderReflectionMap(shared_ptr<CCamera> pCamera, ID3D11DepthStencilView* pDepthStencilView, CObjectRenderer* objRenderer);
-	ID3D11ShaderResourceView* RenderRefractionMap(shared_ptr<CCamera> pCamera, ID3D11DepthStencilView* pDepthStencilView, CObjectRenderer* objRenderer);
-	void	RenderWater(shared_ptr<CCamera> pCamera, ID3D11ShaderResourceView* pDepthsrv);
+	ID3D11ShaderResourceView* RenderReflectionMap( CCamera* pCamera, ID3D11DepthStencilView* pDepthStencilView, CObjectRenderer* objRenderer);
+	ID3D11ShaderResourceView* RenderRefractionMap( CCamera* pCamera, ID3D11DepthStencilView* pDepthStencilView, CObjectRenderer* objRenderer);
+	void	RenderWater( CCamera* pCamera, ID3D11ShaderResourceView* pDepthsrv);
 	
 
 	void	ResizeBuffer();
 	void	ReleaseBuffer();
 
 private:
-	void	CalReflectionViewProj(shared_ptr<CCamera> pCamera);
+	void	CalReflectionViewProj( CCamera* pCamera);
 private:
-	shared_ptr<CBuffer>			m_pWaterVSBuffer;
-	shared_ptr<CBuffer>			m_pWaterPSBuffer;
-	shared_ptr<CBuffer>			m_pReflractionVSBuffer;
+	 CBuffer*			m_pWaterVSBuffer;
+	 CBuffer*			m_pWaterPSBuffer;
+	 CBuffer*			m_pReflractionVSBuffer;
 	CRenderShader*				m_pWaterShader{ nullptr };
 	CMesh*						m_pWaterMesh{ nullptr };
 

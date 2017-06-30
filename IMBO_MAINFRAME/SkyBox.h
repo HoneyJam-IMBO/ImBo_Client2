@@ -14,11 +14,11 @@ public:
 	virtual void Animate(float fTimeElapsed);
 
 	//skybox
-	void SetCamera(shared_ptr<CCamera> pCamera);
+	void SetCamera( CCamera* pCamera);
 
-	virtual bool IsVisible(shared_ptr<CCamera> pCamera) { return true; }
+	virtual bool IsVisible( CCamera* pCamera) { return true; }
 private:
-	shared_ptr<CCamera> m_pCamera;
+	 CCamera* m_pCamera;
 
 public:
 	CSkyBox();

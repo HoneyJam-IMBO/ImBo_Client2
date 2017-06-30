@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "AnimationInfo.h"
 #include "Animater.h"
-bool CAnimationInfo::Begin(shared_ptr<CAnimater> pAnimater) {
+bool CAnimationInfo::Begin( CAnimater* pAnimater) {
 	int nJoint{ 0 };
 
 	nJoint = m_pAnimater->GetSkeletonData()->GetJointDatas().size();
@@ -37,7 +37,10 @@ bool CAnimationInfo::End() {
 	delete m_pAnimationData;
 	m_pAnimationData = nullptr;
 
-	m_pAnimBuffer->End();
+	if (m_pAnimBuffer) {
+		m_pAnimBuffer->End();
+		delete m_pAnimBuffer;
+	}
 	m_pAnimBuffer = nullptr;
 
 	for (auto data : m_lActiveBoundingBox) {
@@ -126,11 +129,11 @@ void CAnimationInfo::Reset() {
 }
 
 
-CAnimationInfo* CAnimationInfo::CreateAnimationInfoFromFBXFile(shared_ptr<CAnimater>  pAnimater) {
+CAnimationInfo* CAnimationInfo::CreateAnimationInfoFromFBXFile( CAnimater*  pAnimater) {
 	return nullptr;
 }
 
-CAnimationInfo* CAnimationInfo::CreateAnimationInfoFromGJMFile(shared_ptr<CAnimater>  pAnimater) {
+CAnimationInfo* CAnimationInfo::CreateAnimationInfoFromGJMFile( CAnimater*  pAnimater) {
 	CAnimationInfo* pAnimationInfo = new CAnimationInfo();
 	pAnimationInfo->SetAnimationIndex(pAnimater->GetAnimationCnt());
 	pAnimationInfo->SetAnimater(pAnimater);

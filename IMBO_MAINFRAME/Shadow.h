@@ -22,7 +22,7 @@ public:
 
 	virtual void UpdateShaderState();
 
-	ID3D11ShaderResourceView* RenderShadowMap(shared_ptr<CCamera> pCamera = nullptr);
+	ID3D11ShaderResourceView* RenderShadowMap( CCamera* pCamera = nullptr);
 
 	void ResizeBuffer();
 	void ReleaseBuffer();
@@ -32,7 +32,7 @@ public:
 
 	void LoadShadow(wstring wsOutputPath, wstring wsSceneName);
 private:
-	shared_ptr<CTexture>	m_pShadowTexture{ nullptr };
+	 CTexture*	m_pShadowTexture{ nullptr };
 	ID3D11Texture2D			 *m_pd3dtxtShadow{ nullptr };
 	ID3D11ShaderResourceView *m_pd3dsrvShadow{ nullptr };
 	ID3D11DepthStencilView	 *m_pd3ddsvShadow{ nullptr };
@@ -43,16 +43,16 @@ private:
 
 	ID3D11RasterizerState* m_pd3dRSShader{ nullptr };
 	//shadow buffer
-	shared_ptr<CBuffer> m_pShadowBuf{ nullptr };
-	shared_ptr<CBuffer> m_pStaticShadowBuf{ nullptr };
+	 CBuffer* m_pShadowBuf{ nullptr };
+	 CBuffer* m_pStaticShadowBuf{ nullptr };
 
 	stShadowInfo* m_pShadowInfo{ nullptr };
 
 private:
 	XMFLOAT4X4			m_xmmtxShadowVP;
 	XMMATRIX			m_xmmtxStaticShadowVP;
-	shared_ptr<CBuffer>	m_pShadowVPBuffer;
-	shared_ptr<CCamera> m_pCamera{ nullptr };
+	 CBuffer*	m_pShadowVPBuffer;
+	 CCamera* m_pCamera{ nullptr };
 public:
 	CShadow();
 	~CShadow();

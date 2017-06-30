@@ -42,7 +42,7 @@ void CSSRF::UpdateShaderState() {
 
 }
 
-void CSSRF::Excute(shared_ptr<CCamera>pCamera, ID3D11RenderTargetView* prtvHDR, ID3D11DepthStencilView* pdsvReadOnlyDepthStencil, ID3D11ShaderResourceView* psrvHDR, ID3D11ShaderResourceView* psrvDepth, ID3D11ShaderResourceView* psrvNormal) {
+void CSSRF::Excute( CCamera* pCamera, ID3D11RenderTargetView* prtvHDR, ID3D11DepthStencilView* pdsvReadOnlyDepthStencil, ID3D11ShaderResourceView* psrvHDR, ID3D11ShaderResourceView* psrvDepth, ID3D11ShaderResourceView* psrvNormal) {
 	if (RCSELLER->GetTagRenderContainer()[tag::TAG_REFLECTION].size() == 0) return;
 
 	FLOAT clearColor[4] = { 0,0,0,0 };

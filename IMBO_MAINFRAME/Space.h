@@ -13,7 +13,7 @@ public:
 
 	virtual void Animate(float fTimeElapsed);
 	virtual void PhisicsUpdate(float fTimeElapsed);
-	virtual void PrepareRender(shared_ptr<CCamera> pCamera, UINT renderFlag);
+	virtual void PrepareRender( CCamera* pCamera, UINT renderFlag);
 	void SetObejcts(int n, CGameObject** ppObjects);
 	void AddObject(CGameObject* pObject);
 	void RemoveObject(CGameObject* pObject);
@@ -44,7 +44,7 @@ private:
 	CSpaceContainer* m_pSpaceContainer{ nullptr };
 
 private:
-	void OptimizePrepare(UINT renderFlag, shared_ptr<CCamera> pCamera);
+	void OptimizePrepare(UINT renderFlag,  CCamera* pCamera);
 public:
 	CSpace();
 	~CSpace();

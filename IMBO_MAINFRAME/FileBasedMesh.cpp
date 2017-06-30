@@ -14,7 +14,7 @@ bool CFileBasedMesh::End() {
 
 	return CMesh::End();
 }
-shared_ptr<CFileBasedMesh> CFileBasedMesh::CreateMesh(wstring path, string name, UINT index, bool bHasAnimation){
+ CFileBasedMesh* CFileBasedMesh::CreateMesh(wstring path, string name, UINT index, bool bHasAnimation){
 	wstring extention{ PathFindExtension(path.c_str()) };
 	if (L".FBX" == extention || L".fbx" == extention) {
 		return CFileBasedMesh::CreateMeshFromFBXFile(name, index, bHasAnimation);
@@ -26,9 +26,9 @@ shared_ptr<CFileBasedMesh> CFileBasedMesh::CreateMesh(wstring path, string name,
 	//return nullptr;
 }
 
-shared_ptr<CFileBasedMesh> CFileBasedMesh::CreateMeshFromFBXFile(string name, UINT index, bool bHasAnimation){
-	//shared_ptr<CFileBasedMesh> pFileBasedMesh;
-	//pFileBasedMesh = make_shared<CFileBasedMesh>();
+ CFileBasedMesh* CFileBasedMesh::CreateMeshFromFBXFile(string name, UINT index, bool bHasAnimation){
+	// CFileBasedMesh* pFileBasedMesh;
+	//pFileBasedMesh = new CFileBasedMesh();
 	//pFileBasedMesh->SetName(name);
 	////set mesh name, index
 	//pFileBasedMesh->SetMeshIndex(index);
@@ -136,14 +136,14 @@ shared_ptr<CFileBasedMesh> CFileBasedMesh::CreateMeshFromFBXFile(string name, UI
 	return nullptr;
 }
 
-shared_ptr<CFileBasedMesh> CFileBasedMesh::CreateMeshFromGJMFile(string name, UINT index, bool bHasAnimation) {
+ CFileBasedMesh* CFileBasedMesh::CreateMeshFromGJMFile(string name, UINT index, bool bHasAnimation) {
 	/*
 	test
 	*/
 	//WCHAR* p = IMPORTER->ReadWCHAR(0);
 
-	shared_ptr<CFileBasedMesh> pFileBasedMesh;
-	pFileBasedMesh = make_shared<CFileBasedMesh>();
+	 CFileBasedMesh* pFileBasedMesh;
+	pFileBasedMesh = new CFileBasedMesh();
 	pFileBasedMesh->SetName(name);
 	//set mesh name, index
 	pFileBasedMesh->SetMeshIndex(index);
@@ -382,7 +382,7 @@ shared_ptr<CFileBasedMesh> CFileBasedMesh::CreateMeshFromGJMFile(string name, UI
 				CBoundingBox obb;
 				obb.Begin(XMLoadFloat3(&xmf3Pos), XMVectorSet(xmf3Scale.x, xmf3Scale.y, xmf3Scale.z, 1.0f), XMLoadFloat4(&xmf4Quaternion));
 				obb.SetActive(true);
-				pFileBasedMesh->GetvOBBObject().Add(obb);
+				pFileBasedMesh->GetvOBBObject().push_back(obb);
 			}//end obb for 
 		}
 	}

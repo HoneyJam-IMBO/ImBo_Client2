@@ -129,17 +129,17 @@ Pixel24 * CImporter::ReadBitmap24(const char * fileName){
 }
 
 Pixel32 * CImporter::ReadBitmap32(const WCHAR * fileName){
-	BITMAPFILEHEADER    bf;
-	BITMAPINFOHEADER    bi;
-
-	ifstream in;
-	in.open(fileName, ios_base::in | ios_base::binary);
-	in.read((char*)&bf, sizeof(BITMAPFILEHEADER));
-	in.read((char*)&bi, sizeof(BITMAPINFOHEADER));
-	char* pData = new char[bi.biSizeImage];
-	Pixel32* pPixel = new Pixel32[bi.biWidth*bi.biHeight];
-	in.read((char*)pPixel, bi.biSizeImage);
-	in.close();
-
+	//BITMAPFILEHEADER    bf;
+	//BITMAPINFOHEADER    bi;
+	//
+	//ifstream in;
+	//in.open(fileName, ios_base::in | ios_base::binary);
+	//in.read((char*)&bf, sizeof(BITMAPFILEHEADER));
+	//in.read((char*)&bi, sizeof(BITMAPINFOHEADER));
+	//char* pData = new char[bi.biSizeImage];
+	//Pixel32* pPixel = new Pixel32[bi.biWidth*bi.biHeight];
+	//in.read((char*)pPixel, bi.biSizeImage);
+	//in.close();
+	//
 	return nullptr;
 }

@@ -111,7 +111,7 @@ void CRenderer::PreRender()
 	}
 }
 
-void CRenderer::NoPostProcessRender(shared_ptr<CCamera> pCamera)
+void CRenderer::NoPostProcessRender( CCamera* pCamera)
 {
 	bool bDebug = INPUTMGR->GetDebugMode();
 	pCamera->SetShaderState();
@@ -214,7 +214,7 @@ void CRenderer::NoPostProcessRender(shared_ptr<CCamera> pCamera)
 }
 
 
-void CRenderer::Render(shared_ptr<CCamera> pCamera) {
+void CRenderer::Render( CCamera* pCamera) {
 	bool bDebug = INPUTMGR->GetDebugMode();
 
 	pCamera->SetShaderState();
@@ -385,7 +385,7 @@ void CRenderer::Render(shared_ptr<CCamera> pCamera) {
 void CRenderer::Update(float fTimeElapsed) {
 	m_pBloomDownScale->SetAdaptation(fTimeElapsed);
 }
-void CRenderer::PostProcessing(shared_ptr<CCamera> pCamera) {
+void CRenderer::PostProcessing( CCamera* pCamera) {
 
 
 	m_pBloomDownScale->Excute();
@@ -538,7 +538,7 @@ bool CRenderer::CreateRenderTargetView() {
 		ID3D11ShaderResourceView *pd3dSRV = { m_pd3dsrvDepthStencil };
 		UINT Slot = { 0 };
 		UINT BindFlag = { BIND_PS | BIND_CS };
-		shared_ptr<CTexture> pTexture = CTexture::CreateTexture(pd3dSRV, Slot, BindFlag);
+		 CTexture* pTexture = CTexture::CreateTexture(pd3dSRV, Slot, BindFlag);
 		m_vObjectLayerResultTexture.push_back(pTexture);
 
 		pd3dSRV = { m_pd3dsrvColorSpecInt };
@@ -590,7 +590,15 @@ bool CRenderer::CreateRenderTargetView() {
 
 void CRenderer::ReleaseForwardRenderTargets() {
 	//texture end
+	for (auto pTexture : m_vObjectLayerResultTexture) {
+		//pTexture->End();
+		delete pTexture;
+	}
 	m_vObjectLayerResultTexture.clear();
+	for (auto pTexture : m_vLightLayerResultTexture) {
+		//pTexture->End();
+		delete pTexture;
+	}
 	m_vLightLayerResultTexture.clear();
 
 	if (m_pd3dtxtColorSpecInt) m_pd3dtxtColorSpecInt->Release();//0

@@ -103,8 +103,11 @@ bool CDebuger::End() {
 	while (false == m_qDebugTextureData.empty()) {
 		m_qDebugTextureData.pop();
 	}
-	
-
+	if (m_pDebugTextureObj) {
+		m_pDebugTextureObj->End();
+		delete m_pDebugTextureObj;
+	}
+	m_pDebugTextureObj = nullptr;
 	return true;
 }
 void CDebuger::RegistCoordinateSys(FXMMATRIX mtx) {
@@ -147,7 +150,7 @@ void CDebuger::RegistToDebugRenderContainer(CGameObject * pObject){
 
 }
 
-void CDebuger::DebugRender(shared_ptr<CCamera> pCamera){
+void CDebuger::DebugRender( CCamera* pCamera){
 	if (false == INPUTMGR->GetDebugMode()) return;
 
 	RenderAABB(pCamera);
@@ -163,18 +166,18 @@ void CDebuger::DebugRender(shared_ptr<CCamera> pCamera){
 	//ClearDebuger();
 }
 
-void CDebuger::RenderAABB(shared_ptr<CCamera> pCamera){
+void CDebuger::RenderAABB( CCamera* pCamera){
 	if (false == INPUTMGR->GetDebugMode()) return;
 	//render aabb
 
 	m_mDebugRenderContainer["aabb"]->Render(pCamera);
 }
-void CDebuger::RenderCoordinateSys(shared_ptr<CCamera> pCamera) {
+void CDebuger::RenderCoordinateSys( CCamera* pCamera) {
 	if (false == INPUTMGR->GetDebugMode()) return;
 	//render coordinatesystem
 	m_mDebugRenderContainer["coordinatesys"]->Render(pCamera);
 }
-void CDebuger::RenderLightVolume(shared_ptr<CCamera> pCamera){
+void CDebuger::RenderLightVolume( CCamera* pCamera){
 
 	//이전 상태 저장
 	//m_pd3dDeviceContext->OMGetDepthStencilState(&m_pPreDepthStencilState, &m_PreStencilRef);

@@ -100,7 +100,7 @@ bool CSCHeroSel::End()
 	//	delete m_pObject;
 	//	m_pObject = nullptr;
 	//}
-	return true;
+	return CScene::End();
 }
 
 void CSCHeroSel::Animate(float fTimeElapsed)

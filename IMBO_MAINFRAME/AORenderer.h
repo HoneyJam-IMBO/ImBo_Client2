@@ -23,7 +23,7 @@ public:
 
 	virtual void UpdateShaderState();
 
-	ID3D11ShaderResourceView* Excute(shared_ptr<CCamera> pCamera);
+	ID3D11ShaderResourceView* Excute( CCamera* pCamera);
 	void ResizeBuffer();
 	void ReleaseAmbientOcculutionViews();
 private:
@@ -49,8 +49,8 @@ private:
 	ID3D11UnorderedAccessView	*m_pd3duavAmbientOcculution{ nullptr };
 
 	//CStaticBuffer				*m_pAmbientOcculutionConstantBuffer{ nullptr };
-	shared_ptr<CBuffer>			m_pAOStaticCB{ nullptr };
-	shared_ptr<CTexture>		m_pAmbientOcculutionTexture;
+	 CBuffer*			m_pAOStaticCB{ nullptr };
+	 CTexture*		m_pAmbientOcculutionTexture;
 	//--------------------------ao----------------------------
 
 public:

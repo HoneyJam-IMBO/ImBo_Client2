@@ -12,7 +12,7 @@ public:
 
 	virtual void UpdateShaderState();
 
-	ID3D11ShaderResourceView* Excute(shared_ptr<CCamera> pCamera);
+	ID3D11ShaderResourceView* Excute( CCamera* pCamera);
 	void ResizeBuffer();
 	void ReleaseBuffer();
 

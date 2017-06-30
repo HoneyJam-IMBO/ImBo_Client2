@@ -33,7 +33,7 @@ public:
 	virtual bool End();
 
 	//instance buffer controll
-	virtual void SetBufferInfo(void** ppMappedResources, int& nInstance, shared_ptr<CCamera> pCamera);
+	virtual void SetBufferInfo(void** ppMappedResources, int& nInstance,  CCamera* pCamera);
 
 	//light info setter
 	void SetSpotLightData(SPOT_LIGHT data) { m_SpotData = data; }

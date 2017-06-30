@@ -70,8 +70,8 @@ bool CTerrainMesh::CreateIndexBuffer() {
 
 	return true;
 }
-shared_ptr<CTerrainMesh> CTerrainMesh::CreateTerrainMesh(float one_space_size){
-	shared_ptr<CTerrainMesh> pTerrainMesh = make_shared<CTerrainMesh>();
+ CTerrainMesh* CTerrainMesh::CreateTerrainMesh(float one_space_size){
+	 CTerrainMesh* pTerrainMesh = new CTerrainMesh();
 	pTerrainMesh->SetOneSpaceSize(one_space_size);
 	pTerrainMesh->Begin();
 	return pTerrainMesh;

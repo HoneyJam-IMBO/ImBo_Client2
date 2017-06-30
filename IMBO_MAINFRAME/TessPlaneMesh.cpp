@@ -43,8 +43,8 @@ bool CTessPlaneMesh::CreateIndexBuffer() {
 
 	return true;
 }
-shared_ptr<CTessPlaneMesh> CTessPlaneMesh::CreateTessPlaneMesh() {
-	shared_ptr<CTessPlaneMesh> pMesh = make_shared<CTessPlaneMesh>();
+ CTessPlaneMesh* CTessPlaneMesh::CreateTessPlaneMesh() {
+	 CTessPlaneMesh* pMesh = new CTessPlaneMesh();
 	pMesh->Begin();
 	return pMesh;
 }

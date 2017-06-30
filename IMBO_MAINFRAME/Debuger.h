@@ -28,11 +28,11 @@ public:
 	void RegistAABB(BoundingBox& aabb, utag ut = UTAG_DEFAULT);
 	void RegistOBB(BoundingOrientedBox& obb, utag ut = UTAG_DEFAULT);
 
-	void DebugRender(shared_ptr<CCamera> pCamera);
+	void DebugRender( CCamera* pCamera);
 	
-	void RenderAABB(shared_ptr<CCamera> pCamera);
-	void RenderCoordinateSys(shared_ptr<CCamera> pCamera);
-	void RenderLightVolume(shared_ptr<CCamera> pCamera);
+	void RenderAABB( CCamera* pCamera);
+	void RenderCoordinateSys( CCamera* pCamera);
+	void RenderLightVolume( CCamera* pCamera);
 	void ClearDebuger();
 
 	//utill func
@@ -90,7 +90,7 @@ private:
 //debug texture
 	CDebugTexture* m_pDebugTextureObj{ nullptr };
 
-	shared_ptr<CTexture> m_pDebugTexture{ nullptr };
+	 CTexture* m_pDebugTexture{ nullptr };
 
 	queue<CDebugTextureData>					m_qDebugTextureData;
 	queue<CDebugTextureData>					m_qDebugDepthTextureData;

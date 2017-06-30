@@ -32,7 +32,7 @@ private:
 	ID3D11UnorderedAccessView*m_pd3duavTempBlur{ nullptr };
 
 	CComputeShader* m_pHorBlurComputeShader{ nullptr };
-	shared_ptr<CBuffer> m_pResBuffer{ nullptr };
+	 CBuffer* m_pResBuffer{ nullptr };
 
 	//3
 	ID3D11Texture2D			 *m_pd3dtxtBloom{ nullptr };

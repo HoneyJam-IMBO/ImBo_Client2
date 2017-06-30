@@ -35,8 +35,8 @@ public:
 	UINT GetSlot() { return m_Slot; }
 	UINT GetBindFlag() { return m_BindFlag; }
 
-	static shared_ptr<CBuffer> CreateConstantBuffer(UINT nObject, UINT BufferStride, UINT Slot = 0, UINT BindFlag = BIND_VS, UINT Offset = 0);
-	static shared_ptr<CBuffer> CreateInstancingBuffer(UINT nObject, UINT BufferStride, UINT Offset = 0);
+	static  CBuffer* CreateConstantBuffer(UINT nObject, UINT BufferStride, UINT Slot = 0, UINT BindFlag = BIND_VS, UINT Offset = 0);
+	static  CBuffer* CreateInstancingBuffer(UINT nObject, UINT BufferStride, UINT Offset = 0);
 private:
 	static ID3D11Buffer* CreateConstantBuffer(UINT nByteWidth);
 	static ID3D11Buffer* CreateInstancingBuffer(UINT nByteWidth);
@@ -70,7 +70,7 @@ if (m_ppBuffers) {
 //이전 버퍼들 release
 
 //새로운 버퍼 배열 제작
-new_ppBuffers = new shared_ptr<CBuffer>[m_nBuffers];
+new_ppBuffers = new  CBuffer>[m_nBuffers];
 //이전 값 복사
 int i = 0;
 for (i; i < m_nBuffers; ++i) {

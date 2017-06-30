@@ -21,11 +21,11 @@ public:
 	//--------------------------------------input------------------------------------
 	void ProcessInput(float fTimeElapsed);
 	LRESULT CALLBACK OnProcessingWindowMessage(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam);
-	shared_ptr<CCamera> GetCamera() { return m_pCamera; }
+	 CCamera* GetCamera() { return m_pCamera; }
 	
 private:
 	_TCHAR				m_pszBuffer[50];
-	shared_ptr<CCamera> m_pCamera{ nullptr };
+	 CCamera* m_pCamera{ nullptr };
 
 	float m_fFrameTime{ 0.f };
 	

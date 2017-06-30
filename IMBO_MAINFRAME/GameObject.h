@@ -20,7 +20,7 @@ struct VS_VB_INSTANCE {
 };
 class CMesh;
 struct StructLoadTextureFile {
-	shared_ptr<CMesh> m_pMesh;
+	 CMesh* m_pMesh;
 	string m_sName;
 };
 
@@ -87,7 +87,7 @@ public:
 	//----------------------------component------------------------
 
 	//instance buffer controll
-	virtual void SetBufferInfo(void** ppMappedResources, int& nInstance, shared_ptr<CCamera> pCamera);
+	virtual void SetBufferInfo(void** ppMappedResources, int& nInstance,  CCamera* pCamera);
 	
 	//render container controll
 	virtual void RegistToContainer();
@@ -105,7 +105,7 @@ public:
 	void SetTerrainContainer(CTerrainContainer* pTerrainContainer) { m_pTerrainContainer = pTerrainContainer; };
 
 	//aabb
-	virtual bool IsVisible(shared_ptr<CCamera> pCamera);//계층구조의 녀석들은 다시 만들어줄 필요가 있음
+	virtual bool IsVisible( CCamera* pCamera);//계층구조의 녀석들은 다시 만들어줄 필요가 있음
 	void GetMainBoundingBox(BoundingBox& out);
 	//ray picking 
 	virtual bool CheckPickObject(XMVECTOR xmvWorldCameraStartPos, XMVECTOR xmvRayDir, float& distance);
@@ -127,7 +127,7 @@ public:
 		m_indexSelectMesh = (int)index; 
 	}
 
-	shared_ptr<CAnimater> GetAnimater() { return m_pAnimater; }
+	 CAnimater* GetAnimater() { return m_pAnimater; }
 	vector<BoundingOrientedBox>& GetObjectActiveOBBs() { return m_vObjectActiveOBBs; }
 
 	virtual void LoadInfo();
@@ -159,7 +159,7 @@ protected:
 	//space
 	int m_spaceIndex{ 0 };
 	//animater
-	shared_ptr<CAnimater> m_pAnimater{ nullptr };
+	 CAnimater* m_pAnimater{ nullptr };
 	vector<BoundingOrientedBox> m_vObjectActiveOBBs;
 protected:
 	bool		m_bIdle{ false };

@@ -59,7 +59,7 @@ void CSpaceContainer::PhisicsUpdate(float fTimeElapsed){
 	}
 }
 
-void CSpaceContainer::PrepareRenderOneSpace(shared_ptr<CCamera> pCamera, UINT renderFlag, int render_space){
+void CSpaceContainer::PrepareRenderOneSpace( CCamera* pCamera, UINT renderFlag, int render_space){
 	//if (render_space < 0) {
 	//	PrepareRender(pCamera, renderFlag);
 	//}else{
@@ -69,7 +69,7 @@ void CSpaceContainer::PrepareRenderOneSpace(shared_ptr<CCamera> pCamera, UINT re
 	//}
 }
 
-void CSpaceContainer::PrepareRender(shared_ptr<CCamera> pCamera, UINT renderFlag){
+void CSpaceContainer::PrepareRender( CCamera* pCamera, UINT renderFlag){
 	DEBUGER->start_Timemeasurement();
 	m_pStartSpace->PrepareRender(pCamera, renderFlag);
 	DEBUGER->end_Timemeasurement(L"prepare_render");

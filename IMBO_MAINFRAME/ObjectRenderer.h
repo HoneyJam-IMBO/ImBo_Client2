@@ -13,8 +13,8 @@ public:
 
 	virtual void UpdateShaderState();
 
-	void Excute(shared_ptr<CCamera> pCamera);
-	void ExcuteShadowRender(shared_ptr<CCamera> pCamera);
+	void Excute( CCamera* pCamera);
+	void ExcuteShadowRender( CCamera* pCamera);
 	void RenderSkyBox();
 	void ClearSkyBox();
 

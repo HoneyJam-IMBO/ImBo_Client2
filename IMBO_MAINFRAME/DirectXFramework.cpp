@@ -123,7 +123,7 @@ void CDirectXFramework::Make_Camera()
 {
 	
 	//camera default
-	m_pCamera = make_shared<CFreeCamera>();
+	m_pCamera = new CFreeCamera();
 	m_pCamera->Begin();
 	m_pCamera->GenerateProjectionMatrix(60.0f * XM_PI / 180.0f		// FOV Y 값 : 클 수록 멀리까지 볼 수 있다.
 		, float(GLOBALVALUEMGR->GetrcClient().right) / float(GLOBALVALUEMGR->GetrcClient().bottom)// 종횡비
@@ -134,7 +134,7 @@ void CDirectXFramework::Make_Camera()
 	XMVECTOR up = { 0.0f, 1.0f, 0.0f, 0.0f };
 	m_pCamera->SetLookAt(eye, at, up);
 	m_pCamera->SetViewport(0, 0, GLOBALVALUEMGR->GetrcClient().right, GLOBALVALUEMGR->GetrcClient().bottom, 0.0f, 1.0f);
-	CAMMGR->SetCamera(CAM_FREE, m_pCamera.get());
+	CAMMGR->SetCamera(CAM_FREE, m_pCamera);
 
 
 	CCamera* pCamera = new CFreeCamera;

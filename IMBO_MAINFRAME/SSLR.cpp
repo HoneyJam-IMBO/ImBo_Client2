@@ -36,6 +36,8 @@ bool CSSLR::End(){
 	m_pMakeOcclussionComputeShader->End();
 	delete m_pMakeOcclussionComputeShader;
 
+	m_pLayTraceRenderContainer = nullptr;
+	m_pConmbineRenderContainer = nullptr;
 	return true;
 }
 
@@ -50,7 +52,7 @@ void CSSLR::CleanShaderState(){
 void CSSLR::UpdateShaderState(){
 }
 
-void CSSLR::Excute(shared_ptr<CCamera>pCamera, ID3D11RenderTargetView* pLightAccumRTV, ID3D11ShaderResourceView* pMiniDepthSRV){
+void CSSLR::Excute( CCamera*pCamera, ID3D11RenderTargetView* pLightAccumRTV, ID3D11ShaderResourceView* pMiniDepthSRV){
 	if (INPUTMGR->KeyDown(VK_F4_)) {
 		m_bSSLROnOff = (m_bSSLROnOff + 1) % 2;
 		//DEBUGER->AddTexture(XMFLOAT2(0, 0), XMFLOAT2(GLOBALVALUEMGR->GetrcClient().right, GLOBALVALUEMGR->GetrcClient().bottom), pAmbientOcclution);
@@ -153,7 +155,7 @@ void CSSLR::PrepareOcclusion(ID3D11ShaderResourceView * pMiniDepthSRV){
 	//DEBUGER->AddTexture(XMFLOAT2(100, 250), XMFLOAT2(250, 400), m_pOcclusionSRV);
 }
 
-void CSSLR::RayTrace(shared_ptr<CCamera>pCamera, const XMFLOAT2 & vSunPosSS, const XMFLOAT3 & vSunColor, float fInitDecay, float fDistDecay, float fMaxDeltaLen){
+void CSSLR::RayTrace( CCamera*pCamera, const XMFLOAT2 & vSunPosSS, const XMFLOAT3 & vSunColor, float fInitDecay, float fDistDecay, float fMaxDeltaLen){
 	
 	float ClearColor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
 	GLOBALVALUEMGR->GetDeviceContext()->ClearRenderTargetView(m_pLightRaysRTV, ClearColor);
@@ -187,7 +189,7 @@ void CSSLR::RayTrace(shared_ptr<CCamera>pCamera, const XMFLOAT2 & vSunPosSS, con
 	DEBUGER->AddTexture(XMFLOAT2(600, 500), XMFLOAT2(700, 600), m_pLightRaysSRV);
 }
 
-void CSSLR::Combine(shared_ptr<CCamera>pCamera, ID3D11RenderTargetView * pLightAccumRTV){
+void CSSLR::Combine( CCamera* pCamera, ID3D11RenderTargetView * pLightAccumRTV){
 	ID3D11BlendState* pPrevBlendState;
 	FLOAT prevBlendFactor[4];
 	UINT prevSampleMask;
@@ -276,7 +278,12 @@ void CSSLR::ReleaseBuffer() {
 	if(m_pLightRaysSRV)m_pLightRaysSRV->Release();
 	m_pLightRaysSRV = nullptr;
 	
-	//if(m_pOcclussionTexture) m_pOcclussionTexture->End();
+	if (m_pOcclussionTexture) {
+		m_pOcclussionTexture->End();
+		delete m_pOcclussionTexture;
+	}
+	m_pOcclussionTexture = nullptr;
+
 }
 
 

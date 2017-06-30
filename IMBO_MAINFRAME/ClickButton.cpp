@@ -33,7 +33,7 @@ void CClickButton::SetInfo(XMVECTOR xyPos, XMVECTOR xySize, TCHAR * pTexName)
 	memcpy(m_szTexture, pTexName, sizeof(TCHAR) * 64);
 	m_pTexture = RESOURCEMGR->GetTexture(TCHARToString(m_szTexture));
 	m_pUIRenderCont = RENDERER->GetUIRenderer();
-	m_pMesh = RESOURCEMGR->GetMesh("UI").get();
+	m_pMesh = RESOURCEMGR->GetMesh("UI");
 	m_pCBuffer = CBuffer::CreateConstantBuffer(1, sizeof(tUImatVP), 11, BIND_VS, NULL);	//직교뷰*투영변환행렬 / 알파
 
 	XMStoreFloat2(&m_f2XYPos, xyPos);
@@ -69,8 +69,12 @@ void CClickButton::Render()
 	m_pCBuffer->CleanShaderState();
 }
 
-void CClickButton::Release()
-{
+void CClickButton::Release(){
+	if (m_pCBuffer) {
+		m_pCBuffer->End();
+		delete m_pCBuffer;
+	}
+	m_pCBuffer = nullptr;
 }
 
 void CClickButton::SetParameter()

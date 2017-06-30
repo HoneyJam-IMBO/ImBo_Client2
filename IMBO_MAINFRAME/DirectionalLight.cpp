@@ -16,7 +16,7 @@ bool CDirectionalLight::End() {
 	return CLight::End();
 }
 //instance buffer controll base
-void CDirectionalLight::SetBufferInfo(void** ppMappedResources, int& nInstance, shared_ptr<CCamera> pCamera) {
+void CDirectionalLight::SetBufferInfo(void** ppMappedResources, int& nInstance,  CCamera* pCamera) {
 	
 	//Çüº¯È¯
 	DIRECTIONAL_AMBIENT_LIGHT *pnInstances = (DIRECTIONAL_AMBIENT_LIGHT *)ppMappedResources[0];
@@ -56,7 +56,7 @@ XMFLOAT3 CDirectionalLight::GetColor()
 	return xmf3Color;
 }
 
-bool CDirectionalLight::IsVisible(shared_ptr<CCamera> pCamera){
+bool CDirectionalLight::IsVisible( CCamera* pCamera){
 	//m_BoundingBox = m_OriBoundingBox;
 	//m_BoundingBox.Transform(m_BoundingBox, GetWorldMtx());
 

@@ -14,8 +14,8 @@ public:
 
 	virtual void UpdateShaderState();
 
-	//void Excute(shared_ptr<CCamera> pCamera, shared_ptr<CCamera> pLightCam = nullptr, ID3D11ShaderResourceView* pShadowSRV = nullptr);
-	void Excute(shared_ptr<CCamera> pCamera, CShadow* m_pShadow = nullptr);
+	//void Excute( CCamera* pCamera,  CCamera* pLightCam = nullptr, ID3D11ShaderResourceView* pShadowSRV = nullptr);
+	void Excute( CCamera* pCamera, CShadow* m_pShadow = nullptr);
 private:
 	//rendercontainer map!
 	mapRC m_mRenderContainer;

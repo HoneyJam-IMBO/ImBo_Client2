@@ -44,7 +44,7 @@ void CAORenderer::UpdateShaderState() {
 
 }
 
-ID3D11ShaderResourceView* CAORenderer::Excute(shared_ptr<CCamera> pCamera) {
+ID3D11ShaderResourceView* CAORenderer::Excute( CCamera* pCamera) {
 	//m_bSSAOOnOff = false;
 		m_pAOStaticCB->SetShaderState();
 		//ambient occulution °úÁ¤

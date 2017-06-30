@@ -4,11 +4,11 @@
 vector<CNaviObject*> CNaviObjectManager::m_vNaviObject;
 
 vector<CNaviVertex*> CNaviObjectManager::m_vpNaviVertex;
-shared_ptr<CBuffer> CNaviObjectManager::m_pGSNaviMeshVertexBuffer;
-shared_ptr<CBuffer> CNaviObjectManager::m_pNaviMeshInstancingBuffer;
+ CBuffer* CNaviObjectManager::m_pGSNaviMeshVertexBuffer;
+ CBuffer* CNaviObjectManager::m_pNaviMeshInstancingBuffer;
 
-shared_ptr<CMesh> CNaviObjectManager::m_pNaviMesh;
-shared_ptr<CRenderShader> CNaviObjectManager::m_pNaviObjectShader;
+ CMesh* CNaviObjectManager::m_pNaviMesh;
+ CRenderShader* CNaviObjectManager::m_pNaviObjectShader;
 
 //int CNaviObjectManager::m_ControlVertexs[3];//index 뿐
 CNaviVertex* CNaviObjectManager::m_ControlVertexs[3];//index 뿐
@@ -25,7 +25,7 @@ bool CNaviObjectManager::Begin(){
 
 	//허수아비 mesh = boundingbox meshh
 	m_pNaviMesh = RESOURCEMGR->GetMesh("NaviMesh", 0);
-	m_pNaviMesh->AddInstancingBuffer(m_pNaviMeshInstancingBuffer.get());
+	m_pNaviMesh->AddInstancingBuffer(m_pNaviMeshInstancingBuffer);
 
 	m_pNaviObjectShader = RESOURCEMGR->CreateRenderShader("NaviObject", L"NaviObject",
 		IE_INSUINT_C_A,

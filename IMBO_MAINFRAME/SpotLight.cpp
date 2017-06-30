@@ -32,7 +32,7 @@ bool CSpotLight::End() {
 }
 
 //instance buffer controll base
-void CSpotLight::SetBufferInfo(void** ppMappedResources, int& nInstance, shared_ptr<CCamera> pCamera) {
+void CSpotLight::SetBufferInfo(void** ppMappedResources, int& nInstance,  CCamera* pCamera) {
 
 	//Çüº¯È¯
 	SPOT_LIGHT_DS_CB *pDS_InstanceData = (SPOT_LIGHT_DS_CB*)ppMappedResources[0];

@@ -43,8 +43,10 @@ bool CBloomDownScale::Begin() {
 
 bool CBloomDownScale::End() {
 	//if (m_pFirstPassCB) m_pFirstPassCB->Release();
+	
 	m_pBloomStaticCB = nullptr;
 	m_pBloomDynamicCB = nullptr;
+
 	if (m_pFirstPassBuffer) m_pFirstPassBuffer->Release();
 	m_pFirstPassBuffer = nullptr;
 	if (m_pFirstPassAvgLumSRV) m_pFirstPassAvgLumSRV->Release();

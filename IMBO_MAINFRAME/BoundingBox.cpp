@@ -8,7 +8,7 @@ bool CBoundingBox::Begin(XMVECTOR Position, XMVECTOR Extend, XMVECTOR Quaternion
 	return true;
 }
 
-void CBoundingBox::SetDebugBufferInfo(void ** ppMappedResources, int & nInstance, shared_ptr<CCamera> pCamera) {
+void CBoundingBox::SetDebugBufferInfo(void ** ppMappedResources, int & nInstance,  CCamera* pCamera) {
 	//형변환
 	VS_VB_BOUNDINGBOX_INSTANCE* pnInstances = (VS_VB_BOUNDINGBOX_INSTANCE*)ppMappedResources[0];
 
@@ -20,7 +20,7 @@ void CBoundingBox::SetDebugBufferInfo(void ** ppMappedResources, int & nInstance
 	//CGameObject::Begin();
 }
 
-void CBoundingBox::SetBufferInfo(void ** ppMappedResources, int & nInstance, shared_ptr<CCamera> pCamera) {
+void CBoundingBox::SetBufferInfo(void ** ppMappedResources, int & nInstance,  CCamera* pCamera) {
 	//형변환
 	VS_VB_BOUNDINGBOX_INSTANCE* pnInstances = (VS_VB_BOUNDINGBOX_INSTANCE*)ppMappedResources[0];
 

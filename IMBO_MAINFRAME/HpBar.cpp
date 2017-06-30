@@ -29,7 +29,7 @@ CHpBar * CHpBar::Create(XMVECTOR xyPos, XMVECTOR xySize)
 void CHpBar::SetInfo(XMVECTOR xyPos, XMVECTOR xySize)
 {
 	m_pUIRenderCont = RENDERER->GetUIRenderer();
-	m_pMesh = RESOURCEMGR->GetMesh("UI").get();
+	m_pMesh = RESOURCEMGR->GetMesh("UI");
 	m_pCBuffer = CBuffer::CreateConstantBuffer(1, sizeof(tUImatVP), 11, BIND_VS, NULL);	//직교뷰*투영변환행렬 / 알파
 
 	XMStoreFloat2(&m_f2XYPos, xyPos);
@@ -86,8 +86,12 @@ void CHpBar::Render()
 	m_pCBuffer->CleanShaderState();
 }
 
-void CHpBar::Release()
-{
+void CHpBar::Release(){
+	if (m_pCBuffer) {
+		m_pCBuffer->End();
+		delete m_pCBuffer;
+	}
+	m_pCBuffer = nullptr;
 }
 
 void CHpBar::SetParameter()

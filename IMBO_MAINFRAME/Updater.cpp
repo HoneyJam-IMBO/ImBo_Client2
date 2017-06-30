@@ -5,7 +5,8 @@
 bool CUpdater::Begin() {
 
 	//SetCamera(pCamera);
-	m_pCamera = shared_ptr<CCamera>(CAMMGR->GetCamera(CAM_FREE));
+	//m_pCamera =  CCamera* (CAMMGR->GetCamera(CAM_FREE));
+	m_pCamera = CAMMGR->GetCamera(CAM_FREE);
 	//m_pCamera = CAMMGR->GetCamera(CAM_FREE);
 	SetSpaceContainer(CSpaceContainer::CreateSpaceContainer(512, 0));
 	SetTerrainContainer(CTerrainContainer::CreateTerrainContainer(L"Temp", 256, 256, 0.5, UPDATER->GetSpaceContainer(), false));

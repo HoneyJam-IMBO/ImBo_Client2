@@ -228,8 +228,8 @@ bool CGameObject::IsCollision(CGameObject * pOther){
 	}
 }
 bool CGameObject::IsCollisionMeshToMesh(CGameObject * pOther){
-	CMesh* pMesh1 = GetRenderContainer()->GetMesh(0).get();
-	CMesh * pMesh2 = pOther->GetRenderContainer()->GetMesh(0).get();
+	CMesh* pMesh1 = GetRenderContainer()->GetMesh(0);
+	CMesh * pMesh2 = pOther->GetRenderContainer()->GetMesh(0);
 
 	BoundingBox Myaabb = pMesh1->GetAABB();
 	BoundingBox Otheraabb = pMesh2->GetAABB();
@@ -245,15 +245,15 @@ bool CGameObject::IsCollisionMeshToMesh(CGameObject * pOther){
 
 		if (MynObb > 0 && OthernObb > 0) {
 			val = false;
-			size_t nMyObb = pMesh1->GetvOBBObject().GetCount();
-			size_t nOtherObb = pMesh2->GetvOBBObject().GetCount();
+			size_t nMyObb = pMesh1->GetvOBBObject().size();
+			size_t nOtherObb = pMesh2->GetvOBBObject().size();
 			for (size_t i = 0; i < nMyObb; ++i) {
 				for (size_t j = 0; j < nOtherObb; ++j) {
-					BoundingOrientedBox Myobb = pMesh1->GetvOBBObject().GetAt(i).GetOBB();
+					BoundingOrientedBox Myobb = pMesh1->GetvOBBObject()[i].GetOBB();
 					Myobb.Transform(Myobb, GetWorldMtx());
 					DEBUGER->RegistOBB(Myobb, GetUTag());
 
-					BoundingOrientedBox Otherobb = pMesh2->GetvOBBObject().GetAt(j).GetOBB();
+					BoundingOrientedBox Otherobb = pMesh2->GetvOBBObject()[j].GetOBB();
 					Otherobb.Transform(Otherobb, pOther->GetWorldMtx());
 					DEBUGER->RegistOBB(Otherobb, pOther->GetUTag());
 
@@ -267,11 +267,11 @@ bool CGameObject::IsCollisionMeshToMesh(CGameObject * pOther){
 		else if (MynObb > 0) {
 			val = false;
 			//int nCollisio{ 0 };
-			size_t nMyObb = pMesh1->GetvOBBObject().GetCount();
+			size_t nMyObb = pMesh1->GetvOBBObject().size();
 			
 			for (size_t i = 0; i < nMyObb; ++i) {
 
-				BoundingOrientedBox Myobb = pMesh1->GetvOBBObject().GetAt(i).GetOBB();
+				BoundingOrientedBox Myobb = pMesh1->GetvOBBObject()[i].GetOBB();
 				Myobb.Transform(Myobb, GetWorldMtx());
 				DEBUGER->RegistOBB(Myobb, GetUTag());
 				if (Otheraabb.Intersects(Myobb)) return true;
@@ -283,10 +283,10 @@ bool CGameObject::IsCollisionMeshToMesh(CGameObject * pOther){
 		else if (OthernObb > 0) {
 			val = false;
 			//int nCollisio{ 0 };
-			size_t nOtherObb = pMesh2->GetvOBBObject().GetCount();
+			size_t nOtherObb = pMesh2->GetvOBBObject().size();
 			for (size_t j = 0; j < nOtherObb; ++j) {
 
-				BoundingOrientedBox Otherobb = pMesh2->GetvOBBObject().GetAt(j).GetOBB();
+				BoundingOrientedBox Otherobb = pMesh2->GetvOBBObject()[j].GetOBB();
 				Otherobb.Transform(Otherobb, pOther->GetWorldMtx());
 				DEBUGER->RegistOBB(Otherobb, pOther->GetUTag());
 				if (Myaabb.Intersects(Otherobb)) return true;
@@ -301,7 +301,7 @@ bool CGameObject::IsCollisionMeshToMesh(CGameObject * pOther){
 }
 bool CGameObject::IsCollisionAnimToAnim(CGameObject * pOther){
 	//animation - animation
-	CAnimater* pOtherAnimater = pOther->GetAnimater().get();
+	CAnimater* pOtherAnimater = pOther->GetAnimater();
 	BoundingBox Myaabb = m_pAnimater->GetMainAABB()->GetAABB();
 	BoundingBox Otheraabb = pOtherAnimater->GetMainAABB()->GetAABB();
 
@@ -382,7 +382,7 @@ bool CGameObject::IsCollisionAnimToAnim(CGameObject * pOther){
 }
 bool CGameObject::IsCollisionAnimToMesh(CGameObject * pOther){
 
-	CMesh* pOtherMesh = pOther->GetRenderContainer()->GetMesh(0).get();
+	CMesh* pOtherMesh = pOther->GetRenderContainer()->GetMesh(0);
 	CAnimationInfo* pMyAnimationInfo = m_pAnimater->GetCurAnimationInfo();
 
 	BoundingBox Myaabb = m_pAnimater->GetMainAABB()->GetAABB();
@@ -402,7 +402,7 @@ bool CGameObject::IsCollisionAnimToMesh(CGameObject * pOther){
 
 			if (MynObb > 0 && OthernObb > 0) {//animater - mesh
 				val = false;
-				size_t nOtherObb = pOtherMesh->GetvOBBObject().GetCount();
+				size_t nOtherObb = pOtherMesh->GetvOBBObject().size();
 				for (auto pOBB : pMyAnimationInfo->GetvActiveOBBs()) {
 					for (size_t j = 0; j < nOtherObb; ++j) {
 						BoundingOrientedBox Myobb = pOBB->GetOBB();
@@ -411,7 +411,7 @@ bool CGameObject::IsCollisionAnimToMesh(CGameObject * pOther){
 						Myobb.Transform(Myobb, xmmtxFrame * xmmtxOffset * GetWorldMtx());
 						DEBUGER->RegistOBB(Myobb, UTAG_COLLISION);
 
-						BoundingOrientedBox Otherobb = pOtherMesh->GetvOBBObject().GetAt(j).GetOBB();
+						BoundingOrientedBox Otherobb = pOtherMesh->GetvOBBObject()[j].GetOBB();
 						Otherobb.Transform(Otherobb, pOther->GetWorldMtx());
 						DEBUGER->RegistOBB(Otherobb, UTAG_COLLISION);
 
@@ -455,7 +455,7 @@ bool CGameObject::IsCollisionAnimToMesh(CGameObject * pOther){
 		}
 		//mesh - animation
 		else if (pOther->GetAnimater()) {
-			CAnimater* pOtherAniamter = pOther->GetAnimater().get();
+			CAnimater* pOtherAniamter = pOther->GetAnimater();
 			int MynObb = GetRenderContainer()->GetMesh(0)->GetOBBCnt();
 			int OthernObb = pOtherAniamter->GetCurAnimationInfo()->GetvActiveOBBs().size();
 			//int nCollisio{ 0 };
@@ -608,7 +608,7 @@ void CGameObject::ClearComponents() {
 //-------------------------------componenet----------------------------
 
 //instance buffer controll base
-void CGameObject::SetBufferInfo(void** ppMappedResources, int& nInstance, shared_ptr<CCamera> pCamera) {
+void CGameObject::SetBufferInfo(void** ppMappedResources, int& nInstance,  CCamera* pCamera) {
 	//Çüº¯È¯
 	VS_VB_INSTANCE *pnInstances = (VS_VB_INSTANCE *)ppMappedResources[0];
 	
@@ -646,7 +646,7 @@ float CGameObject::GetTerrainHeight(){
 //	return 100.0f;
 }
 //flustum culling
-bool CGameObject::IsVisible(shared_ptr<CCamera> pCamera){
+bool CGameObject::IsVisible( CCamera* pCamera){
 	BoundingBox BoundingBox;
 	
 	m_bIsVisible = (m_bActive) ? true : false;

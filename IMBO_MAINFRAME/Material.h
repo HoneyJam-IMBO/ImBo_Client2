@@ -26,7 +26,7 @@ public:
 	void SetMaterialBuffer(ID3D11Buffer* pMaterialBuffer) { m_pMaterialBuffer = pMaterialBuffer; }
 	void SetMaterialInfo(MATERIAL_INFO infoMaterial) { m_infoMaterial = infoMaterial; }
 
-	static shared_ptr<CMaterial> CreateMaterial(XMFLOAT4 color, float specExp, float specIntensity);
+	static  CMaterial* CreateMaterial(XMFLOAT4 color, float specExp, float specIntensity);
 protected:
 	ID3D11Buffer* m_pMaterialBuffer{ nullptr };
 

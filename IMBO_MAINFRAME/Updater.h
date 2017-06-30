@@ -30,8 +30,8 @@ public:
 	void SetSkyBoxContainer(CSkyBoxContainer* pSkyBoxContainer) { m_pSkyBoxContainer = pSkyBoxContainer; }
 	CSkyBoxContainer* GetSkyBoxContainer() { return m_pSkyBoxContainer; }
 
-	//void SetCamera(shared_ptr<CCamera> pCamera) { m_pCamera = pCamera; }
-	//shared_ptr<CCamera> GetCamera() { return m_pCamera; }
+	//void SetCamera( CCamera* pCamera) { m_pCamera = pCamera; }
+	// CCamera> GetCamera() { return m_pCamera; }
 	void ChangeSceneContainers();
 
 	void LoadSpaceInfo();
@@ -48,9 +48,9 @@ public:
 	void SetDirectionalLight(CDirectionalLight* pDirectionalLight) { m_pDirectionalLight = pDirectionalLight; }
 	CDirectionalLight* GetDirectionalLight() { return m_pDirectionalLight; }
 
-	shared_ptr<CCamera> GetCamera() { return m_pCamera; }
+	 CCamera* GetCamera() { return m_pCamera; }
 private:
-	shared_ptr<CCamera> m_pCamera{ nullptr };
+	 CCamera* m_pCamera{ nullptr };
 
 	CSpaceContainer* m_pSpaceContainer{ nullptr };
 	CTerrainContainer* m_pTerrainContainer{ nullptr };

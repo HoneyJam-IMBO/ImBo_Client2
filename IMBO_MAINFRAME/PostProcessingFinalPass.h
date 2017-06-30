@@ -19,7 +19,7 @@ public:
 
 	virtual void UpdateShaderState();
 
-	void Excute(shared_ptr<CCamera> pCamera);
+	void Excute( CCamera* pCamera);
 	void ChangeStaticData();
 	void ResizeBuffer();
 	void ReleaseBuffer();
@@ -31,7 +31,7 @@ private:
 	float m_fBloomScale{2.0f};
 	//rendercontainer map!
 	mapRC m_mRenderContainer;
-	shared_ptr<CBuffer> m_pFinalPassCB{ nullptr };
+	 CBuffer* m_pFinalPassCB{ nullptr };
 public:
 	CPostProcessingFinalPass();
 	virtual ~CPostProcessingFinalPass();

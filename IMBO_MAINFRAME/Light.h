@@ -16,7 +16,7 @@ public:
 	virtual bool End() { return CGameObject::End(); };
 
 	//instance buffer controll
-	virtual void SetBufferInfo(void** ppMappedResource, int& nInstance, shared_ptr<CCamera> pCamera);
+	virtual void SetBufferInfo(void** ppMappedResource, int& nInstance,  CCamera* pCamera);
 	
 	//light info setter
 	virtual void SetLength(float len) = 0;

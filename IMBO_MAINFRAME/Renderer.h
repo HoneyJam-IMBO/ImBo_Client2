@@ -41,9 +41,9 @@ public:
 
 
 	void PreRender();
-	void NoPostProcessRender(shared_ptr<CCamera> pCamera);
-	void Render(shared_ptr<CCamera> pCamera);
-	void PostProcessing(shared_ptr<CCamera> pCamera);
+	void NoPostProcessRender( CCamera* pCamera);
+	void Render( CCamera* pCamera);
+	void PostProcessing( CCamera* pCamera);
 	void Update(float fTimeElapsed);
 
 	void SetForwardRenderTargets(ID3D11DepthStencilView* pDepthStencil);
@@ -68,7 +68,7 @@ public:
 
 	void LoadEffectInfo(wstring wsOutputPath, wstring wsSceneName);
 private:
-	shared_ptr<CBuffer> m_pCSGlobalBuffer{ nullptr };
+	 CBuffer* m_pCSGlobalBuffer{ nullptr };
 	CDirectXFramework* m_pFramework{ nullptr };
 	CRenderContainer* m_pTerrainRenderContainer{ nullptr };
 	CRenderContainer* m_pSkyBoxRenderContainer{ nullptr };
@@ -103,10 +103,10 @@ private:
 	ID3D11RenderTargetView	 *m_pd3drtvPostProcess{ nullptr };//2
 
 
-	//vector<shared_ptr<CTexture>> m_vObjectLayerResultTexture;
-	//vector<shared_ptr<CTexture>> m_vLightLayerResultTexture;
-	vector<shared_ptr<CTexture>> m_vObjectLayerResultTexture;
-	vector<shared_ptr<CTexture>> m_vLightLayerResultTexture;
+	//vector< CTexture>> m_vObjectLayerResultTexture;
+	//vector< CTexture>> m_vLightLayerResultTexture;
+	vector< CTexture*> m_vObjectLayerResultTexture;
+	vector< CTexture*> m_vLightLayerResultTexture;
 
 	//--------------------------light render target----------------
 	ID3D11Texture2D			 *m_pd3dtxtLight{ nullptr };

@@ -15,7 +15,7 @@ public:
 	//begin func
 	//---------------------------mesh----------------------------------
 
-	static shared_ptr<CTessPlaneMesh> CreateTessPlaneMesh();
+	static  CTessPlaneMesh* CreateTessPlaneMesh();
 private:
 	//----------------------vertex buffers---------------------------
 	ID3D11Buffer* m_pd3dPositionBuffer{ nullptr };

@@ -13,7 +13,7 @@ CUIRenderer::~CUIRenderer()
 
 HRESULT CUIRenderer::Initialize()
 {
-	m_pRenderShader = RESOURCEMGR->GetRenderShader("UI").get();		//UI Shader
+	m_pRenderShader = RESOURCEMGR->GetRenderShader("UI");		//UI Shader
 
 
 	D3D11_BLEND_DESC tBlend;

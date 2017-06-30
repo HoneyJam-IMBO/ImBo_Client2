@@ -41,7 +41,7 @@ protected:
 
 	//framework
 	CDirectXFramework* m_pFrameWork{ nullptr };
-	shared_ptr<CCamera> m_pCamera{ nullptr };
+	 CCamera* m_pCamera{ nullptr };
 	CGameObject*	m_pPickingObject{ nullptr };
 
 	SCENE_ID		m_eSceneID{ SCN_END };

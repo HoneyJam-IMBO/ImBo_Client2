@@ -25,7 +25,7 @@ public:
 	virtual bool End();
 
 	//instance buffer controll
-	virtual void SetBufferInfo(void** ppMappedResources, int& nInstance, shared_ptr<CCamera> pCamera);
+	virtual void SetBufferInfo(void** ppMappedResources, int& nInstance,  CCamera* pCamera);
 
 	//light info setter
 	virtual void SetLength(float len);
@@ -33,7 +33,7 @@ public:
 	virtual void SetColor(float r, float g, float b);//color
 	virtual XMFLOAT3 GetColor();
 
-	virtual bool IsVisible(shared_ptr<CCamera> pCamera);
+	virtual bool IsVisible( CCamera* pCamera);
 	void PickingProc();
 
 	virtual void LoadInfo();

@@ -64,11 +64,20 @@ bool CTerrainContainer::End() {
 	m_pHeightData = nullptr;
 	if (m_pNormalData) delete[] m_pNormalData;
 	m_pNormalData = nullptr;
-	if (m_pBaseTexture) m_pBaseTexture->End();
+	if (m_pBaseTexture) {
+		m_pBaseTexture->End();
+		delete m_pBaseTexture;
+	}
 	m_pBaseTexture = nullptr;
-	if (m_pHeightMapTexture) m_pHeightMapTexture->End();
+	if (m_pHeightMapTexture) {
+		m_pHeightMapTexture->End();
+		delete m_pHeightMapTexture;
+	}
 	m_pHeightMapTexture = nullptr;
-	if (m_pNormalTexture) m_pNormalTexture->End();
+	if (m_pNormalTexture) {
+		m_pNormalTexture->End();
+		delete m_pNormalTexture;
+	}
 	m_pNormalTexture = nullptr;
 	
 	if (m_pGlobalTerrainBuffer) m_pGlobalTerrainBuffer = nullptr;
@@ -189,7 +198,7 @@ float CTerrainContainer::GetHeight(XMFLOAT2 xmf2Pos, int index){
 	return(fHeight * m_xmf3Scale.y);
 }
 
-void CTerrainContainer::Update(shared_ptr<CCamera> pCamera) {
+void CTerrainContainer::Update( CCamera* pCamera) {
 	//Ãß°¡
 	XMStoreFloat3(&m_pTessFacterData->camera_pos, pCamera->GetPosition());
 
@@ -463,12 +472,12 @@ void CTerrainContainer::SetNormalData(Pixel24 * pNormalData){
 	m_pNormalData = nullptr;
 	m_pNormalData = pNormalData;
 }
-void CTerrainContainer::SetHeightMapTexture(shared_ptr<CTexture> pHeightMapTexture){
+void CTerrainContainer::SetHeightMapTexture( CTexture* pHeightMapTexture){
 	if (m_pHeightMapTexture) m_pHeightMapTexture->End();
 	m_pHeightMapTexture = nullptr;
 	m_pHeightMapTexture = pHeightMapTexture;
 }
-void CTerrainContainer::SetNormalMapTexture(shared_ptr<CTexture> pNormalMapTexture){
+void CTerrainContainer::SetNormalMapTexture( CTexture* pNormalMapTexture){
 	if (m_pNormalTexture) m_pNormalTexture->End();
 	m_pNormalTexture = nullptr;
 	m_pNormalTexture = pNormalMapTexture;

@@ -33,7 +33,7 @@ void CImageUI::SetInfo(XMVECTOR xyPos, XMVECTOR xySize, TCHAR * pTexName, float 
 	memcpy(m_szTexture, pTexName, sizeof(TCHAR) * 64);
 	m_pTexture = RESOURCEMGR->GetTexture(TCHARToString(m_szTexture));
 	m_pUIRenderCont = RENDERER->GetUIRenderer();
-	m_pMesh = RESOURCEMGR->GetMesh("UI").get();
+	m_pMesh = RESOURCEMGR->GetMesh("UI");
 	m_pCBuffer = CBuffer::CreateConstantBuffer(1, sizeof(tUImatVP), 11, BIND_VS, 0);	//직교뷰*투영변환행렬 / 알파
 	m_fRenderLayer = fRanderLayer;
 
@@ -78,6 +78,11 @@ void CImageUI::Render()
 
 void CImageUI::Release()
 {
+	if (m_pCBuffer) {
+		m_pCBuffer->End();
+		delete m_pCBuffer;
+	}
+	m_pCBuffer = nullptr;
 }
 
 void CImageUI::SetParameter()

@@ -37,7 +37,7 @@ public:
 
 	//instance buffer controll
 	//mapped data배열을 받는다. 가공은 함수 내에서 알아서
-	virtual void SetBufferInfo(void** ppMappedResource, int& nInstance, shared_ptr<CCamera> pCamera);
+	virtual void SetBufferInfo(void** ppMappedResource, int& nInstance,  CCamera* pCamera);
 
 	//light info setter
 	void SetCapsuleLightData(CAPSULE_LIGHT data) { m_CapsuleData = data; };

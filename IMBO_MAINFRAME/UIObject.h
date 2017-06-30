@@ -37,8 +37,8 @@ protected:
 	XMFLOAT4X4	m_f4x4Proj;
 
 	CMesh*					m_pMesh;
-	shared_ptr<CBuffer>		m_pCBuffer;
-	shared_ptr<CTexture>	m_pTexture;
+	 CBuffer*		m_pCBuffer;
+	 CTexture*	m_pTexture;
 
 	CUIRenderer*		m_pUIRenderCont{ nullptr };
 

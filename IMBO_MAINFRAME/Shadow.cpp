@@ -5,7 +5,7 @@
 bool CShadow::Begin() {
 	ReleaseBuffer();
 	//m_pShadowVPBuffer = CBuffer::CreateConstantBuffer(1, sizeof(XMFLOAT4X4), 0, BIND_VS | BIND_DS , NULL);
-	m_pCamera = make_shared<CFreeCamera>();
+	m_pCamera = new CFreeCamera();
 	//------------------------------------------카메라 제작--------------------------------------
 	m_pCamera->Begin();
 	m_pCamera->GenerateProjectionMatrix(60.0f * XM_PI / 180.0f
@@ -36,13 +36,10 @@ bool CShadow::End()
 {
 	if (m_pCamera) {
 		m_pCamera->End();
+		delete m_pCamera;
 	}
-	if (m_pShadowBuf) {
-		m_pShadowBuf->End();
-	}
-	if (m_pStaticShadowBuf)
-		m_pStaticShadowBuf->End();
-
+	m_pShadowBuf = nullptr;
+	m_pStaticShadowBuf = nullptr;
 	delete m_pShadowInfo;
 	return true;
 }
@@ -85,7 +82,7 @@ void CShadow::UpdateShaderState() {
 
 }
 
-ID3D11ShaderResourceView * CShadow::RenderShadowMap(shared_ptr<CCamera> pCamera) {
+ID3D11ShaderResourceView * CShadow::RenderShadowMap( CCamera* pCamera) {
 	
 	bool bStartScene = SCENEMGR->GetSceneStart();
 	if (true == bStartScene)

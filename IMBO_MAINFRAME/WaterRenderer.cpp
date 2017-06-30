@@ -15,8 +15,8 @@ CWaterRenderer::~CWaterRenderer()
 bool CWaterRenderer::Begin()
 {
 	ResizeBuffer();
-	m_pWaterShader	= RESOURCEMGR->GetRenderShader("Water").get();
-	m_pWaterMesh	= RESOURCEMGR->GetMesh("Water").get();
+	m_pWaterShader	= RESOURCEMGR->GetRenderShader("Water");
+	m_pWaterMesh	= RESOURCEMGR->GetMesh("Water");
 
 
 	m_pWaterVSBuffer = CBuffer::CreateConstantBuffer(1, sizeof(tWvsBuffer), 0, BIND_VS | BIND_DS, NULL);
@@ -48,8 +48,8 @@ bool CWaterRenderer::End()
 {
 	ReleaseBuffer();
 
-	m_pWaterVSBuffer->End();	m_pWaterVSBuffer = nullptr;
-	m_pWaterPSBuffer->End();	m_pWaterPSBuffer = nullptr;
+	m_pWaterVSBuffer->End();	delete m_pWaterVSBuffer;  m_pWaterVSBuffer = nullptr;
+	m_pWaterPSBuffer->End();	delete m_pWaterPSBuffer;  m_pWaterPSBuffer = nullptr;
 	//m_pReflractionVSBuffer->End();	m_pReflractionVSBuffer = nullptr;
 
 	return true;
@@ -67,7 +67,7 @@ void CWaterRenderer::UpdateShaderState()
 {
 }
 
-ID3D11ShaderResourceView * CWaterRenderer::RenderReflectionMap(shared_ptr<CCamera> pCamera, ID3D11DepthStencilView* pDepthStencilView, CObjectRenderer* objRenderer)
+ID3D11ShaderResourceView * CWaterRenderer::RenderReflectionMap( CCamera* pCamera, ID3D11DepthStencilView* pDepthStencilView, CObjectRenderer* objRenderer)
 {
 	GLOBALVALUEMGR->GetDeviceContext()->ClearDepthStencilView(pDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	
@@ -83,7 +83,7 @@ ID3D11ShaderResourceView * CWaterRenderer::RenderReflectionMap(shared_ptr<CCamer
 	return m_pd3dsrvReflection;
 }
 
-ID3D11ShaderResourceView * CWaterRenderer::RenderRefractionMap(shared_ptr<CCamera> pCamera, ID3D11DepthStencilView * pDepthStencilView, CObjectRenderer * objRenderer)
+ID3D11ShaderResourceView * CWaterRenderer::RenderRefractionMap( CCamera* pCamera, ID3D11DepthStencilView * pDepthStencilView, CObjectRenderer * objRenderer)
 {
 
 
@@ -102,7 +102,7 @@ ID3D11ShaderResourceView * CWaterRenderer::RenderRefractionMap(shared_ptr<CCamer
 	return m_pd3dsrvReflection;
 }
 
-void CWaterRenderer::RenderWater(shared_ptr<CCamera> pCamera, ID3D11ShaderResourceView* pDepthsrv)
+void CWaterRenderer::RenderWater( CCamera* pCamera, ID3D11ShaderResourceView* pDepthsrv)
 {
 	ID3D11BlendState*	m_pPreBlendState;
 	GLOBALVALUEMGR->GetDeviceContext()->OMGetBlendState(&m_pPreBlendState, 0, nullptr);
@@ -169,7 +169,7 @@ void CWaterRenderer::ReleaseBuffer()
 	if (m_pd3dsrvRefraction) m_pd3dsrvRefraction->Release();
 }
 
-void CWaterRenderer::CalReflectionViewProj(shared_ptr<CCamera> pCamera)
+void CWaterRenderer::CalReflectionViewProj( CCamera* pCamera)
 {
 	pCamera->UpdateReflectionViewMtx();
 	tWvsBuffer* pData = (tWvsBuffer*)m_pWaterVSBuffer->Map();

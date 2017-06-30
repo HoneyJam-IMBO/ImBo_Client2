@@ -29,7 +29,7 @@ public:
 	CMyEffect*	m_pOriEffect{ nullptr };
 
 	EffectInfo	m_tEffectInfo;
-	shared_ptr<CBuffer>	m_pCBuffer;
+	 CBuffer*	m_pCBuffer;
 
 	CEffectRenderCont*			m_pEffectRenderCont;
 

@@ -114,14 +114,14 @@ public:
 protected:	//카메라 상수버퍼
 	D3D11_VIEWPORT m_d3dViewport;
 	
-	shared_ptr<CBuffer> m_pVGDSBuffer{ nullptr };
-	shared_ptr<CBuffer> m_pHSBuffer{ nullptr };
-	shared_ptr<CBuffer> m_pPSBuffer{ nullptr };
+	 CBuffer* m_pVGDSBuffer{ nullptr };
+	 CBuffer* m_pHSBuffer{ nullptr };
+	 CBuffer* m_pPSBuffer{ nullptr };
 
-	shared_ptr<CBuffer> m_pPS_UnpakingBuffer{ nullptr };
+	 CBuffer* m_pPS_UnpakingBuffer{ nullptr };
 
-	shared_ptr<CBuffer> m_pCS_StaticBuffer{ nullptr };
-	shared_ptr<CBuffer> m_pCS_DynamicBuffer{ nullptr };
+	 CBuffer* m_pCS_StaticBuffer{ nullptr };
+	 CBuffer* m_pCS_DynamicBuffer{ nullptr };
 
 	XMFLOAT4X4 m_xmf4x4View;
 	XMFLOAT4X4 m_xmf4x4ReflectionView;

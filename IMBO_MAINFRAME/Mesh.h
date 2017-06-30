@@ -41,11 +41,11 @@ public:
 
 	//aabb 
 	BoundingBox GetAABB() { return m_AABB.GetAABB(); }
-	UINT GetOBBCnt() { return static_cast<UINT>(m_vOBB.GetCount()); }
+	UINT GetOBBCnt() { return static_cast<UINT>(m_vOBB.size()); }
 	BoundingOrientedBox& GetOBB(UINT index = 0) { return m_vOBB[index].GetOBB(); }
 	CBoundingBox& GetAABBObject(){ return m_AABB; }
 	CBoundingBox& GetOBBObject(UINT index = 0) { return m_vOBB[index]; }
-	CAtlArray<CBoundingBox>& GetvOBBObject() { return m_vOBB; }
+	vector<CBoundingBox>& GetvOBBObject() { return m_vOBB; }
 
 	void CMesh::CalculateVertexNormal(XMVECTOR *pxmvNormals);
 	void CMesh::SetTriAngleListVertexNormal(XMVECTOR *pxmvNormals);
@@ -84,9 +84,9 @@ public:
 	//---------------------------------index buffer-------------------------
 
 	void ClearMeshResources();
-	void AddMeshTexture(shared_ptr<CTexture>);
-	void SetMeshTexture(UINT index, shared_ptr<CTexture>);
-	CAtlArray<shared_ptr<CTexture>>& GetvMeshTexture() { return m_vMeshTexture; }
+	void AddMeshTexture( CTexture* pTexture);
+	void SetMeshTexture(UINT index,  CTexture* pTexture);
+	vector< CTexture*>& GetvMeshTexture() { return m_vMeshTexture; }
 	//setter
 	
 	//mesh data 를 export하기위한 함수 
@@ -110,11 +110,11 @@ protected:
 	CBoundingBox m_AABB;
 	//obb
 	//vector<CBoundingBox> m_vOBB;
-	CAtlArray<CBoundingBox>	m_vOBB;
+	vector<CBoundingBox>	m_vOBB;
 
 	//mesh texture
-	//vector<shared_ptr<CTexture>> m_vMeshTexture;
-	CAtlArray<shared_ptr<CTexture>>	m_vMeshTexture;
+	//vector< CTexture>> m_vMeshTexture;
+	vector< CTexture*>	m_vMeshTexture;
 
 	//topology
 	D3D11_PRIMITIVE_TOPOLOGY m_d3dPrimitiveTopology{ D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST };

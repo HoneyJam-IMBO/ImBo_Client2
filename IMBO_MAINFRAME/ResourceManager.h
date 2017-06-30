@@ -48,18 +48,18 @@ public:
 public:
 	//create resource 
 	//texture array
-	shared_ptr<CTexture>	CreateTexture(string name, UINT nTextures, _TCHAR(*ppstrFilePaths)[128], UINT Slot = 0, UINT BindFlag = BIND_PS, shared_ptr<CBuffer> pConstantBuffer = nullptr);
-	shared_ptr<CTexture>	CreateTexture(string name, UINT nTextures, ID3D11Texture2D **ppd3dTextures, UINT Slot, UINT BindFlag, shared_ptr<CBuffer> pConstantBuffer);
+	 CTexture*	CreateTexture(string name, UINT nTextures, _TCHAR(*ppstrFilePaths)[128], UINT Slot = 0, UINT BindFlag = BIND_PS,  CBuffer* pConstantBuffer = nullptr);
+	 CTexture*	CreateTexture(string name, UINT nTextures, ID3D11Texture2D **ppd3dTextures, UINT Slot, UINT BindFlag,  CBuffer* pConstantBuffer);
 	//texture 1개
-	shared_ptr<CTexture>	CreateTexture(string name, _TCHAR(pstrFilePath)[128], UINT Slot = 0, UINT BindFlag = BIND_PS, shared_ptr<CBuffer> pConstantBuffer = nullptr);
+	 CTexture*	CreateTexture(string name, _TCHAR(pstrFilePath)[128], UINT Slot = 0, UINT BindFlag = BIND_PS,  CBuffer* pConstantBuffer = nullptr);
 	//완성된 srv set
-	shared_ptr<CTexture>	CreateTexture(string name, ID3D11ShaderResourceView* pShaderResourceView, UINT Slot = 0, UINT BindFlag = BIND_PS, shared_ptr<CBuffer> pConstantBuffer = nullptr);
-	shared_ptr<CSampler>	CreateSampler(string name, UINT Slot = 0, UINT BindFlags = BIND_PS, D3D11_TEXTURE_ADDRESS_MODE Mode = D3D11_TEXTURE_ADDRESS_WRAP, D3D11_FILTER Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR, D3D11_COMPARISON_FUNC ComparisionFunc = D3D11_COMPARISON_NEVER, float MinLOD = 0.f, float MaxLOD = 0.f, float BorderColor = 0);
-	shared_ptr<CRenderShader> CreateRenderShader(string name, LPCTSTR ShaderName, UINT InputElementFlag, UINT BindFlag = BIND_VS | BIND_PS);
-	shared_ptr<CBuffer>		CreateConstantBuffer(string name, UINT nObject, UINT BufferStride, UINT Slot = 0, UINT BindFlag = BIND_VS, UINT Offset = 0);
-	shared_ptr<CBuffer>		CreateInstancingBuffer(string name, UINT nObject, UINT BufferStride, UINT Offset = 0);
-	shared_ptr<CBuffer>		CreateGlobalBuffer(string name, UINT nObject, UINT BufferStride, UINT Slot = 0, UINT BindFlag = BIND_VS, UINT Offset = 0);
-	shared_ptr<CMaterial>	CreateMaterial(string name, XMFLOAT4 color, float specExp, float specIntensity);
+	 CTexture*	CreateTexture(string name, ID3D11ShaderResourceView* pShaderResourceView, UINT Slot = 0, UINT BindFlag = BIND_PS,  CBuffer* pConstantBuffer = nullptr);
+	 CSampler*	CreateSampler(string name, UINT Slot = 0, UINT BindFlags = BIND_PS, D3D11_TEXTURE_ADDRESS_MODE Mode = D3D11_TEXTURE_ADDRESS_WRAP, D3D11_FILTER Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR, D3D11_COMPARISON_FUNC ComparisionFunc = D3D11_COMPARISON_NEVER, float MinLOD = 0.f, float MaxLOD = 0.f, float BorderColor = 0);
+	 CRenderShader* CreateRenderShader(string name, LPCTSTR ShaderName, UINT InputElementFlag, UINT BindFlag = BIND_VS | BIND_PS);
+	 CBuffer*		CreateConstantBuffer(string name, UINT nObject, UINT BufferStride, UINT Slot = 0, UINT BindFlag = BIND_VS, UINT Offset = 0);
+	 CBuffer*		CreateInstancingBuffer(string name, UINT nObject, UINT BufferStride, UINT Offset = 0);
+	 CBuffer*		CreateGlobalBuffer(string name, UINT nObject, UINT BufferStride, UINT Slot = 0, UINT BindFlag = BIND_VS, UINT Offset = 0);
+	 CMaterial*	CreateMaterial(string name, XMFLOAT4 color, float specExp, float specIntensity);
 	
 public:
 	UINT CreateMultiMesh(string path, string name);
@@ -69,18 +69,18 @@ public:
 	void CreateAnimater(string path, string animaterName);
 
 	//get resource func
-	shared_ptr<CTexture>		GetTexture(string name) { return m_mTexture[ (name.c_str())]; }
-	shared_ptr<CSampler>		GetSampler(string name) { return m_mSampler[ (name.c_str())]; }
-	shared_ptr<CRenderShader>	GetRenderShader(string name) { return m_mRenderShader[ (name.c_str())]; }
-	vector<shared_ptr<CMesh>>	GetvMesh(string name) { return m_mvMesh[name]; }
-	shared_ptr<CMesh>			GetMesh(string name, int index = 0) { return m_mvMesh[name][index]; }
-	map<string, vector<shared_ptr<CMesh>>> GetAllStempMesh() { return m_mvStempMesh; }
-	vector<shared_ptr<CMesh>>	GetvStempMesh(string name) { return m_mvStempMesh[name]; }
-	shared_ptr<CMesh>			GetStempMesh(string name, int index) { return m_mvStempMesh[name][index]; }
-	shared_ptr<CBuffer>			GetBuffer(string name) { return m_mBuffer[ (name.c_str())]; }
-	shared_ptr<CBuffer>			GetGlobalBuffer(string name) { return m_mGlobalBuffer[ (name.c_str())]; }
-	shared_ptr<CMaterial>		GetMaterial(string name) { return m_mMaterial[ (name.c_str())]; }
-	shared_ptr<CAnimater>		GetAnimater(string name) { return m_mAnimater[ (name.c_str())]; }
+	 CTexture*		GetTexture(string name) { return m_mTexture[ (name.c_str())]; }
+	 CSampler*		GetSampler(string name) { return m_mSampler[ (name.c_str())]; }
+	 CRenderShader*	GetRenderShader(string name) { return m_mRenderShader[ (name.c_str())]; }
+	vector< CMesh*>	GetvMesh(string name) { return m_mvMesh[name]; }
+	 CMesh*			GetMesh(string name, int index = 0) { return m_mvMesh[name][index]; }
+	map<string, vector< CMesh*>> GetAllStempMesh() { return m_mvStempMesh; }
+	vector< CMesh*>	GetvStempMesh(string name) { return m_mvStempMesh[name]; }
+	 CMesh*			GetStempMesh(string name, int index) { return m_mvStempMesh[name][index]; }
+	 CBuffer*			GetBuffer(string name) { return m_mBuffer[ (name.c_str())]; }
+	 CBuffer*			GetGlobalBuffer(string name) { return m_mGlobalBuffer[ (name.c_str())]; }
+	 CMaterial*		GetMaterial(string name) { return m_mMaterial[ (name.c_str())]; }
+	 CAnimater*		GetAnimater(string name) { return m_mAnimater[ (name.c_str())]; }
 
 private:
 	//begin func
@@ -116,23 +116,23 @@ private:
 	void ReleaseAnimaters();
 
 private:
-	using pairTexture	= pair<string, shared_ptr<CTexture>>;
-	using pairShader	= pair<string, shared_ptr<CRenderShader>>;
-	using pairMesh		= pair<string, shared_ptr<CMesh>>;
-	using pairBuffer	= pair<string, shared_ptr<CBuffer>>;
-	using pairMaterial	= pair<string, shared_ptr<CMaterial>>;
-	using pairSampler	= pair<string, shared_ptr<CSampler>>;
-	using pairAnimater	= pair<string, shared_ptr<CAnimater>>;
+	using pairTexture	= pair<string,  CTexture*>;
+	using pairShader	= pair<string,  CRenderShader*>;
+	using pairMesh		= pair<string,  CMesh*>;
+	using pairBuffer	= pair<string,  CBuffer*>;
+	using pairMaterial	= pair<string,  CMaterial*>;
+	using pairSampler	= pair<string,  CSampler*>;
+	using pairAnimater	= pair<string,  CAnimater*>;
 
-	map<string, shared_ptr<CTexture>>		m_mTexture;
-	map<string, shared_ptr<CRenderShader>>	m_mRenderShader;
-	map<string, vector<shared_ptr<CMesh>>>	m_mvMesh;
-	map<string, vector<shared_ptr<CMesh>>>	m_mvStempMesh;
-	map<string, shared_ptr<CBuffer>>		m_mBuffer;
-	map<string, shared_ptr<CBuffer>>		m_mGlobalBuffer;
-	map<string, shared_ptr<CMaterial>>		m_mMaterial;
-	map<string, shared_ptr<CSampler>>		m_mSampler;
-	map<string, shared_ptr<CAnimater>>		m_mAnimater;
+	map<string,  CTexture*>		m_mTexture;
+	map<string,  CRenderShader*>	m_mRenderShader;
+	map<string, vector< CMesh*>>	m_mvMesh;
+	map<string, vector< CMesh*>>	m_mvStempMesh;
+	map<string,  CBuffer*>		m_mBuffer;
+	map<string,  CBuffer*>		m_mGlobalBuffer;
+	map<string,  CMaterial*>		m_mMaterial;
+	map<string,  CSampler*>		m_mSampler;
+	map<string,  CAnimater*>		m_mAnimater;
 	
 public:
 	CResourceManager();

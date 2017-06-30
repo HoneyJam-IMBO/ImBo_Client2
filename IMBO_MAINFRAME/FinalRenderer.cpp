@@ -14,8 +14,8 @@ CFinalRenderer::~CFinalRenderer()
 HRESULT CFinalRenderer::Initialize()
 {
 	ResizeBuffer();
-	m_pRenderShader = RESOURCEMGR->GetRenderShader("FinalPass").get();
-	m_pMesh = RESOURCEMGR->GetMesh("DirectionalLight").get();
+	m_pRenderShader = RESOURCEMGR->GetRenderShader("FinalPass");
+	m_pMesh = RESOURCEMGR->GetMesh("DirectionalLight");
 	return S_OK;
 }
 

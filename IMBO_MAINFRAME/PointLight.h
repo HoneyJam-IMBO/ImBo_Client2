@@ -24,7 +24,7 @@ public:
 
 
 	//instance buffer controll
-	virtual void SetBufferInfo(void** ppMappedResources, int& nInstance, shared_ptr<CCamera> pCamera);
+	virtual void SetBufferInfo(void** ppMappedResources, int& nInstance,  CCamera* pCamera);
 
 	//light info setter
 	void SetPointLightData(POINT_LIGHT& data) { m_PointData = data; }

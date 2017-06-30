@@ -28,12 +28,30 @@ bool CCamera::Begin() {
 	return true;
 }
 bool CCamera::End() {
-	if (m_pVGDSBuffer) m_pVGDSBuffer->End();
-	if (m_pHSBuffer)m_pHSBuffer->End();
-	if (m_pPSBuffer)m_pPSBuffer->End();
-	if (m_pPS_UnpakingBuffer)m_pPS_UnpakingBuffer->End();
-	if (m_pCS_StaticBuffer)m_pCS_StaticBuffer->End();
-	if (m_pCS_DynamicBuffer)m_pCS_DynamicBuffer->End();
+	if (m_pVGDSBuffer) {
+		m_pVGDSBuffer->End();
+		delete m_pVGDSBuffer;
+	}
+	if (m_pHSBuffer) {
+		m_pHSBuffer->End();
+		delete m_pHSBuffer;
+	}
+	if (m_pPSBuffer) {
+		m_pPSBuffer->End();
+		delete m_pPSBuffer;
+	}
+	if (m_pPS_UnpakingBuffer) {
+		m_pPS_UnpakingBuffer->End();
+		delete m_pPS_UnpakingBuffer;
+	}
+	if (m_pCS_StaticBuffer) {
+		m_pCS_StaticBuffer->End();
+		delete m_pCS_StaticBuffer;
+	}
+	if (m_pCS_DynamicBuffer) {
+		m_pCS_DynamicBuffer->End();
+		delete m_pCS_DynamicBuffer;
+	}
 
 	m_pVGDSBuffer = nullptr;
 	m_pHSBuffer = nullptr;

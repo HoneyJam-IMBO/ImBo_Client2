@@ -31,7 +31,7 @@ void CPostProcessingFinalPass::UpdateShaderState() {
 
 }
 
-void CPostProcessingFinalPass::Excute(shared_ptr<CCamera> pCamera) {
+void CPostProcessingFinalPass::Excute( CCamera* pCamera) {
 	//그것을 이용하여
 	//풀 스크린 드로우를 실행 한다.
 	//객체없는 랜더

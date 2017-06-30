@@ -335,8 +335,8 @@ void CRenderShader::SetShaderData(LPCTSTR vsName, D3D11_INPUT_ELEMENT_DESC* vsDe
 	if(psName) CreatePS(psName);
 }
 
-shared_ptr<CRenderShader> CRenderShader::CreateRenderShader(LPCTSTR ShaderName, UINT InputElementFlag, UINT BindFlag){
-	shared_ptr<CRenderShader> pRenderShader = make_shared<CRenderShader>();
+ CRenderShader* CRenderShader::CreateRenderShader(LPCTSTR ShaderName, UINT InputElementFlag, UINT BindFlag){
+	 CRenderShader* pRenderShader = new CRenderShader();
 	WCHAR shaderName[256];
 	if (BindFlag & BIND_VS) {
 		wsprintf(shaderName, L"VS%s.cso", ShaderName);
@@ -362,8 +362,8 @@ shared_ptr<CRenderShader> CRenderShader::CreateRenderShader(LPCTSTR ShaderName, 
 	return pRenderShader;
 }
 
-shared_ptr<CRenderShader> CRenderShader::CreateRenderShader(LPCTSTR * ShaderNames, UINT InputElementFlag, UINT BindFlag){
-	shared_ptr<CRenderShader> pRenderShader = make_shared<CRenderShader>();
+ CRenderShader* CRenderShader::CreateRenderShader(LPCTSTR * ShaderNames, UINT InputElementFlag, UINT BindFlag){
+	 CRenderShader* pRenderShader = new CRenderShader();
 	WCHAR shaderName[256];
 	UINT shaderIndex{ 0 };
 	if (BindFlag & BIND_VS) {

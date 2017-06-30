@@ -74,8 +74,8 @@ void CBuffer::Unmap() {
 	GLOBALVALUEMGR->GetDeviceContext()->Unmap(m_pd3dBuffer, 0);
 }
 
-shared_ptr<CBuffer> CBuffer::CreateConstantBuffer(UINT nObject, UINT BufferStride, UINT Slot, UINT BindFlag, UINT Offset){
-	shared_ptr<CBuffer> pBuffer = make_shared<CBuffer>();
+ CBuffer* CBuffer::CreateConstantBuffer(UINT nObject, UINT BufferStride, UINT Slot, UINT BindFlag, UINT Offset){
+	 CBuffer* pBuffer = new CBuffer();
 	pBuffer->SetnObject(nObject);
 	pBuffer->SetBufferStride(BufferStride);
 	pBuffer->SetSlot(Slot);
@@ -86,8 +86,8 @@ shared_ptr<CBuffer> CBuffer::CreateConstantBuffer(UINT nObject, UINT BufferStrid
 	return pBuffer;
 }
 
-shared_ptr<CBuffer> CBuffer::CreateInstancingBuffer(UINT nObject, UINT BufferStride, UINT Offset){
-	shared_ptr<CBuffer> pBuffer = make_shared<CBuffer>();
+ CBuffer* CBuffer::CreateInstancingBuffer(UINT nObject, UINT BufferStride, UINT Offset){
+	 CBuffer* pBuffer = new CBuffer();
 	pBuffer->SetnObject(nObject);
 	pBuffer->SetBufferStride(BufferStride);
 	pBuffer->SetOffset(Offset);

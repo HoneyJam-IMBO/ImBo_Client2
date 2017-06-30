@@ -31,8 +31,8 @@ public:
 	void CleanShaderState();
 	//----------------------------dxobject-----------------------------
 
-	static shared_ptr<CRenderShader> CreateRenderShader(LPCTSTR ShaderName, UINT InputElementFlag = 0, UINT BindFlag = BIND_VS | BIND_PS);
-	static shared_ptr<CRenderShader> CreateRenderShader(LPCTSTR* ShaderNames, UINT InputElementFlag = 0, UINT BindFlag = BIND_VS | BIND_PS);
+	static  CRenderShader* CreateRenderShader(LPCTSTR ShaderName, UINT InputElementFlag = 0, UINT BindFlag = BIND_VS | BIND_PS);
+	static  CRenderShader* CreateRenderShader(LPCTSTR* ShaderNames, UINT InputElementFlag = 0, UINT BindFlag = BIND_VS | BIND_PS);
 protected:
 	//-------------------------------shaders-----------------------------
 	ID3D11VertexShader* m_vertexShader{ nullptr };

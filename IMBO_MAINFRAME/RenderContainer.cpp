@@ -22,7 +22,7 @@ bool CRenderContainer::End() {
 //---------------------------dxobject---------------------------------
 
 //--------------------------container---------------------------------
-void CRenderContainer::UpdateShaderState(shared_ptr<CCamera> pCamera) {
+void CRenderContainer::UpdateShaderState( CCamera* pCamera) {
 
 	//----------------------------update instance buffer--------------------------
 	if (m_vpBuffer.empty()) return;
@@ -157,7 +157,7 @@ void CRenderContainer::CleanShaderState() {
 
 
 //--------------------------container 불변 함수---------------------------------
-void CRenderContainer::Render(shared_ptr<CCamera> pCamera) {
+void CRenderContainer::Render( CCamera* pCamera) {
 	if (m_lpObjects.empty()) return;
 
 	UpdateShaderState(pCamera);
@@ -168,7 +168,7 @@ void CRenderContainer::Render(shared_ptr<CCamera> pCamera) {
 	if (m_pAnimater)m_pAnimater->CleanShaderState();
 }
 
-void CRenderContainer::RenderWithOutObject(shared_ptr<CCamera> pCamera) {
+void CRenderContainer::RenderWithOutObject( CCamera* pCamera) {
 	//shader State Update/ Instancing Buffet Update
 	UpdateShaderState(pCamera);
 	SetShaderState();
@@ -193,35 +193,35 @@ void CRenderContainer::ClearAnimater() {
 	//animater를 지울일이 없음.. 사용하는거지 내가 관리할 녀석ㅇ ㅣ아니거든..
 }
 
-void CRenderContainer::AddMesh(shared_ptr<CMesh> pMesh) {
+void CRenderContainer::AddMesh( CMesh* pMesh) {
 	if (!pMesh) return;
 	m_vpMesh.push_back(pMesh);
 	//m_vpMesh.push_back(pMesh);
 }
-void CRenderContainer::SetMesh(shared_ptr<CMesh> pMesh) {
+void CRenderContainer::SetMesh( CMesh* pMesh) {
 	if (!pMesh) return;
 	m_vpMesh.push_back(pMesh);
 	//m_vpMesh.push_back(pMesh);
 }
-void CRenderContainer::SetShader(shared_ptr<CRenderShader> pShader) {
+void CRenderContainer::SetShader( CRenderShader* pShader) {
 	if (!pShader)return;
 
 	m_pShader = pShader;
 }
-void CRenderContainer::AddTexture(shared_ptr<CTexture> pTexture) {
+void CRenderContainer::AddTexture( CTexture* pTexture) {
 	if (!pTexture)return;
 	m_vpTexture.push_back(pTexture);
 	//m_vpTexture.emplace_back(pTexture);
 }
 
-void CRenderContainer::AddVolatileTexture(shared_ptr<CTexture> pTexture) {
+void CRenderContainer::AddVolatileTexture( CTexture* pTexture) {
 	if (!pTexture)return;
 	m_vpVolatileTexture.push_back(pTexture);
 	//m_vpVolatileTexture.emplace_back(pTexture);
 }
 
 //-----------------------------------------buffer-----------------------------------------
-void CRenderContainer::AddBuffer(shared_ptr<CBuffer> pBuffer) {
+void CRenderContainer::AddBuffer( CBuffer* pBuffer) {
 	if (!pBuffer) return;
 
 
@@ -233,12 +233,12 @@ void CRenderContainer::AddBuffer(shared_ptr<CBuffer> pBuffer) {
 	if (m_ppBufferData) delete[] m_ppBufferData;
 	m_ppBufferData = new void*[m_vpBuffer.size()];
 }
-void CRenderContainer::AddVolatileBuffer(shared_ptr<CBuffer> pBuffer) {
+void CRenderContainer::AddVolatileBuffer( CBuffer* pBuffer) {
 	if (!pBuffer) return;
 	m_vpVolatileBuffer.push_back(pBuffer);
 	//m_vpVolatileBuffer.emplace_back(pBuffer);
 }
-void CRenderContainer::AddInstanceBuffer(shared_ptr<CBuffer> pBuffer) {
+void CRenderContainer::AddInstanceBuffer( CBuffer* pBuffer) {
 	if (!pBuffer) return;
 
 	//void**를 초기화 하기 위해 필요한놈
@@ -257,7 +257,7 @@ void CRenderContainer::AddInstanceBuffer(shared_ptr<CBuffer> pBuffer) {
 	size_t vecSize = m_vpMesh.size();
 	for (size_t i = 0; i < vecSize; ++i)
 	{
-		m_vpMesh[i]->AddInstancingBuffer(pBuffer.get());
+		m_vpMesh[i]->AddInstancingBuffer(pBuffer);
 	}
 	//for (auto p : m_vpMesh) {
 	//	//p->AssembleToVertexBuffer(1, ppBuffers, ppStrides, ppOffset);
@@ -267,7 +267,7 @@ void CRenderContainer::AddInstanceBuffer(shared_ptr<CBuffer> pBuffer) {
 }
 //-----------------------------------------buffer-----------------------------------------
 
-void CRenderContainer::AddMaterial(shared_ptr<CMaterial> pMaterial) {
+void CRenderContainer::AddMaterial( CMaterial* pMaterial) {
 	if (!pMaterial)return;
 
 	m_nMaterial++;

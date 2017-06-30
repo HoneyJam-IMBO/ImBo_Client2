@@ -50,11 +50,11 @@ private:
 	static vector<CNaviObject*> m_vNaviObject;
 
 	static vector<CNaviVertex*> m_vpNaviVertex;
-	static shared_ptr<CBuffer> m_pGSNaviMeshVertexBuffer;
-	static shared_ptr<CBuffer> m_pNaviMeshInstancingBuffer;
+	static  CBuffer* m_pGSNaviMeshVertexBuffer;
+	static  CBuffer* m_pNaviMeshInstancingBuffer;
 
-	static shared_ptr<CMesh> m_pNaviMesh;
-	static shared_ptr<CRenderShader> m_pNaviObjectShader;
+	static  CMesh* m_pNaviMesh;
+	static  CRenderShader* m_pNaviObjectShader;
 public:
 	CNaviObjectManager();
 	~CNaviObjectManager();

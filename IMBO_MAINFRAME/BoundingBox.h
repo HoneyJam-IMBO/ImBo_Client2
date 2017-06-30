@@ -15,9 +15,9 @@ public:
 	virtual bool End() { return CGameObject::End(); };
 
 	//debug buffer controll
-	virtual void SetDebugBufferInfo(void** ppMappedResources, int& nInstance, shared_ptr<CCamera> pCamera);
+	virtual void SetDebugBufferInfo(void** ppMappedResources, int& nInstance,  CCamera* pCamera);
 	//buffer controll
-	virtual void SetBufferInfo(void** ppMappedResources, int& nInstance, shared_ptr<CCamera> pCamera);
+	virtual void SetBufferInfo(void** ppMappedResources, int& nInstance,  CCamera* pCamera);
 
 	void SetBoundingBoxInfo(BoundingBox& aabb, utag ut = UTAG_DEFAULT);
 	void SetBoundingBoxInfo(BoundingOrientedBox& obb, utag ut = UTAG_DEFAULT);
@@ -26,7 +26,7 @@ public:
 	BoundingBox GetAABB();
 	BoundingOrientedBox GetOBB();
 
-	virtual bool IsVisible(shared_ptr<CCamera> pCamera) { return true; };//계층구조의 녀석들은 다시 만들어줄 필요가 있음
+	virtual bool IsVisible( CCamera* pCamera) { return true; };//계층구조의 녀석들은 다시 만들어줄 필요가 있음
 
 	//test
 	float& GetMin() { return m_fMin; }

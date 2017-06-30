@@ -68,7 +68,7 @@ void CLightRenderer::UpdateShaderState() {
 
 }
 
-void CLightRenderer::Excute(shared_ptr<CCamera> pCamera, CShadow* m_pShadow){
+void CLightRenderer::Excute( CCamera* pCamera, CShadow* m_pShadow){
 	//--------------------------------deferred lighting--------------------------------
 	if (m_pShadow){
 		m_pShadow->SetShaderState();

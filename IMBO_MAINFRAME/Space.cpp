@@ -156,7 +156,7 @@ void CSpace::PhisicsUpdate(float fTimeElapsed){
 
 }
 
-void CSpace::OptimizePrepare(UINT renderFlag, shared_ptr<CCamera> pCamera)
+void CSpace::OptimizePrepare(UINT renderFlag,  CCamera* pCamera)
 {
 	tag rt = (tag)renderFlag;
 	for (auto pObject : m_mlpObject[rt]) {
@@ -165,7 +165,7 @@ void CSpace::OptimizePrepare(UINT renderFlag, shared_ptr<CCamera> pCamera)
 		}
 	}
 }
-void CSpace::PrepareRender(shared_ptr<CCamera> pCamera, UINT renderFlag) {
+void CSpace::PrepareRender( CCamera* pCamera, UINT renderFlag) {
 
 	if (IsVisible(pCamera))
 	{											//여기에	 space 프러스텀 컬링

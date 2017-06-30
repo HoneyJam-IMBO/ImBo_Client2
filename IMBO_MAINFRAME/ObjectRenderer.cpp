@@ -64,7 +64,7 @@ void CObjectRenderer::UpdateShaderState() {
 
 }
 
-void CObjectRenderer::Excute(shared_ptr<CCamera> pCamera) {
+void CObjectRenderer::Excute( CCamera* pCamera) {
 	//scene의 모든 Part의 rendercontainer안에 part list Render!
 	//RenderSkyBox();
 
@@ -86,7 +86,7 @@ void CObjectRenderer::Excute(shared_ptr<CCamera> pCamera) {
 
 	//CleanShaderState();
 }
-void CObjectRenderer::ExcuteShadowRender(shared_ptr<CCamera> pCamera)
+void CObjectRenderer::ExcuteShadowRender( CCamera* pCamera)
 {
 	m_pTerrainRenderContainer->Render(pCamera);
 	m_pTerrainRenderContainer->ClearObjectList();

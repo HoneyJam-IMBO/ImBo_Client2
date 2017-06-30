@@ -115,7 +115,7 @@ void CMyEffect::Render()
 	if (true == m_bEffectDie)		return;
 	
 
-	shared_ptr<CTexture> pTexture = RESOURCEMGR->GetTexture(TCHARToString(m_szTexture));
+	 CTexture* pTexture = RESOURCEMGR->GetTexture(TCHARToString(m_szTexture));
 	pTexture->SetTextureSlot(5);
 	//CResourceManager::GetInstance();
 
@@ -148,6 +148,12 @@ void CMyEffect::Release()
 		}
 	}
 	m_PointList.clear();
+
+	if (m_pCBuffer) {
+		m_pCBuffer->End();
+		delete m_pCBuffer;
+	}
+	m_pCBuffer = nullptr;
 }
 
 void CMyEffect::SetTexName(CString name)

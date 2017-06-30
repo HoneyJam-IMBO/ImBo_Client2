@@ -22,7 +22,7 @@ bool CCapsuleLight::End() {
 }
 
 //instance buffer controll base
-void CCapsuleLight::SetBufferInfo(void** ppMappedResources, int& nInstance, shared_ptr<CCamera> pCamera) {
+void CCapsuleLight::SetBufferInfo(void** ppMappedResources, int& nInstance,  CCamera* pCamera) {
 
 	//Çüº¯È¯
 	CAPSULE_LIGHT_DS_CB  *pDS_InstanceData = (CAPSULE_LIGHT_DS_CB*)ppMappedResources[0];

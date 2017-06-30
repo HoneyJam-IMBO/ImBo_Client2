@@ -2,7 +2,7 @@
 #include "SkyBoxContainer.h"
 #include "SpaceContainer.h"
 
-void CSkyBoxContainer::Begin(shared_ptr<CCamera> pCamera) {
+void CSkyBoxContainer::Begin( CCamera* pCamera) {
 	//skybox
 	m_pSkyBox = new CSkyBox();
 	m_pSkyBox->Begin();	
@@ -29,7 +29,7 @@ void CSkyBoxContainer::Update(float fTimeElapsed) {
 	}
 	//RENDERER->SetSkyBoxContainer(nullptr);
 }
-CSkyBoxContainer * CSkyBoxContainer::CreateSkyBoxContainer(LPCTSTR pSkyBoxName, UINT textureIndex, CSpaceContainer * pSpaceContainer, shared_ptr<CCamera> pCamera){
+CSkyBoxContainer * CSkyBoxContainer::CreateSkyBoxContainer(LPCTSTR pSkyBoxName, UINT textureIndex, CSpaceContainer * pSpaceContainer,  CCamera* pCamera){
 	CSkyBoxContainer* pSkyBoxContainer = new CSkyBoxContainer();
 	pSkyBoxContainer->SetSkyBoxName(pSkyBoxName);
 	pSkyBoxContainer->CreateSkyBoxTexture(textureIndex);
@@ -38,7 +38,10 @@ CSkyBoxContainer * CSkyBoxContainer::CreateSkyBoxContainer(LPCTSTR pSkyBoxName, 
 	return pSkyBoxContainer;
 }
 void CSkyBoxContainer::CreateSkyBoxTexture(UINT index){
-	if (m_ptxtSkyBox) m_ptxtSkyBox->End();
+	if (m_ptxtSkyBox) {
+		m_ptxtSkyBox->End();
+		delete m_ptxtSkyBox;
+	}
 	m_ptxtSkyBox = nullptr;
 
 	//skybox

@@ -15,7 +15,7 @@ public:
 	//begin func
 	//---------------------------mesh----------------------------------
 
-	static shared_ptr<CTerrainMesh> CreateTerrainMesh(float one_space_size);
+	static  CTerrainMesh* CreateTerrainMesh(float one_space_size);
 	void SetOneSpaceSize(float size) { m_fOneSpaceSize = size; }
 private:
 	float m_fOneSpaceSize{ 0 };

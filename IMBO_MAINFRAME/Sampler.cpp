@@ -61,9 +61,9 @@ void CSampler::CleanShaderState() {
 }
 
 
-shared_ptr<CSampler> CSampler::CreateSampler(UINT Slot, UINT BindFlags, D3D11_TEXTURE_ADDRESS_MODE Mode, D3D11_FILTER Filter, D3D11_COMPARISON_FUNC ComparisionFunc, float MinLOD, float MaxLOD, float BorderColor) {
-	shared_ptr<CSampler> pSampler;
-	pSampler = make_shared<CSampler>();
+ CSampler* CSampler::CreateSampler(UINT Slot, UINT BindFlags, D3D11_TEXTURE_ADDRESS_MODE Mode, D3D11_FILTER Filter, D3D11_COMPARISON_FUNC ComparisionFunc, float MinLOD, float MaxLOD, float BorderColor) {
+	 CSampler* pSampler;
+	pSampler = new CSampler();
 	D3D11_SAMPLER_DESC d3dSamplerDesc;
 	ZeroMemory(&d3dSamplerDesc, sizeof(D3D11_SAMPLER_DESC));
 	pSampler->SetSamplerSlot(Slot);

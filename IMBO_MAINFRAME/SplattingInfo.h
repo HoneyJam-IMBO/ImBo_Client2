@@ -21,9 +21,9 @@ public:
 	virtual void CleanShaderState();
 	virtual void UpdateShaderState();//blend info ÆíÁý
 
-	//void SetBlendInfoTexture(shared_ptr<CTexture> pTexture) { m_pBlendInfoTexture = pTexture; }
+	//void SetBlendInfoTexture( CTexture* pTexture) { m_pBlendInfoTexture = pTexture; }
 	//ID3D11ShaderResourceView* GetBlendInfoSRV() { return m_pBlendInfoTexture->GetShaderResourceView(); }
-	//void SetDetailTexture(shared_ptr<CTexture> pTexture) { m_pDetailTexture = pTexture; }
+	//void SetDetailTexture( CTexture* pTexture) { m_pDetailTexture = pTexture; }
 	//ID3D11ShaderResourceView* GetDetailSRV() { return m_pDetailTexture->GetShaderResourceView(); }
 	void SetBlendInfoTextuePath(const WCHAR* path) { m_pBlendInfoTexturePath = path; }
 	const WCHAR* GetBlendInfoTexturePath() { return m_pBlendInfoTexturePath.c_str(); }
@@ -42,8 +42,8 @@ public:
 private:
 	//vector<LoadFileStructSP> m_vLoadFileStruct;
 	vector<LoadFileStructSP> m_vLoadFileStruct;
-	//shared_ptr<CTexture> m_pBlendInfoTexture{ nullptr };
-	//shared_ptr<CTexture> m_pDetailTexture{ nullptr };
+	// CTexture> m_pBlendInfoTexture{ nullptr };
+	// CTexture> m_pDetailTexture{ nullptr };
 	wstring m_pBlendInfoTexturePath;
 	wstring m_pDetailTexturePath;
 

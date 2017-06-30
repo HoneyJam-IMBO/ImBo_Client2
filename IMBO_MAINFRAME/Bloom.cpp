@@ -27,7 +27,7 @@ void CBloom::UpdateShaderState() {
 
 }
 
-ID3D11ShaderResourceView* CBloom::Excute(shared_ptr<CCamera> pCamera) {
+ID3D11ShaderResourceView* CBloom::Excute( CCamera* pCamera) {
 	ID3D11UnorderedAccessView* pTempBloomUAVs[1] = { m_pd3duavTempBloom };
 	//1번에는 0번 tmp texture를
 	GLOBALVALUEMGR->GetDeviceContext()->CSSetUnorderedAccessViews(0, 1, pTempBloomUAVs, (UINT*)(&pTempBloomUAVs));

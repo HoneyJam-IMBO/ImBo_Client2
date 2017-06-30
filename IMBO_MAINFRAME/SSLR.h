@@ -31,7 +31,7 @@ public:
 
 	virtual void UpdateShaderState();
 
-	void Excute(shared_ptr<CCamera>pCamera, ID3D11RenderTargetView* pLightAccumRTV, ID3D11ShaderResourceView* pMiniDepthSRV);
+	void Excute( CCamera* pCamera, ID3D11RenderTargetView* pLightAccumRTV, ID3D11ShaderResourceView* pMiniDepthSRV);
 	void ResizeBuffer();
 	void ReleaseBuffer();
 
@@ -60,13 +60,13 @@ private:
 	void PrepareOcclusion(ID3D11ShaderResourceView* pMiniDepthSRV);
 
 	// Ray trace the occlusion map to generate the rays
-	void RayTrace(shared_ptr<CCamera>pCamera, const XMFLOAT2& vSunPosSS, const XMFLOAT3& vSunColor,
+	void RayTrace( CCamera* pCamera, const XMFLOAT2& vSunPosSS, const XMFLOAT3& vSunColor,
 		float fInitDecay = 0.2f,
 		float fDistDecay = 0.8f,
 		float fMaxDeltaLen = 0.005f);
 
 	// Combine the rays with the scene
-	void Combine(shared_ptr<CCamera>pCamera, ID3D11RenderTargetView* pLightAccumRTV);
+	void Combine( CCamera* pCamera, ID3D11RenderTargetView* pLightAccumRTV);
 
 	UINT m_nWidth{ 0 };
 	UINT m_nHeight{ 0 };
@@ -76,19 +76,19 @@ private:
 	ID3D11UnorderedAccessView* m_pOcclusionUAV{ nullptr };
 	ID3D11ShaderResourceView* m_pOcclusionSRV{ nullptr };
 	CComputeShader* m_pMakeOcclussionComputeShader{ nullptr };
-	shared_ptr<CTexture> m_pOcclussionTexture{ nullptr };
+	 CTexture* m_pOcclussionTexture{ nullptr };
 
 	CRenderContainer* m_pLayTraceRenderContainer{ nullptr };
 	ID3D11Texture2D* m_pLightRaysTex{ nullptr };
 	ID3D11RenderTargetView* m_pLightRaysRTV{ nullptr };
 	ID3D11ShaderResourceView* m_pLightRaysSRV{ nullptr };
-	shared_ptr<CTexture> m_pLightRaysTexture{ nullptr };
+	 CTexture* m_pLightRaysTexture{ nullptr };
 	
 	CRenderContainer* m_pConmbineRenderContainer{ nullptr };
 
 	// Shaders
-	shared_ptr<CBuffer> m_pSSLRStaticBuffer{ nullptr };
-	shared_ptr<CBuffer> m_pSSLRDynamicBuffer{ nullptr };
+	 CBuffer* m_pSSLRStaticBuffer{ nullptr };
+	 CBuffer* m_pSSLRDynamicBuffer{ nullptr };
 
 	// Additive blend state to add the light rays on top of the scene lights
 	ID3D11BlendState* m_pAdditiveBlendState{ nullptr };

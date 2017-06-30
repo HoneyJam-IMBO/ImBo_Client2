@@ -16,7 +16,7 @@ void CSkyBox::Animate(float fTimeElapsed) {
 	if (m_pCamera) SetPosition(m_pCamera->GetPosition());
 }
 
-void CSkyBox::SetCamera(shared_ptr<CCamera> pCamera){
+void CSkyBox::SetCamera( CCamera* pCamera){
 	m_pCamera = pCamera;
 }
 

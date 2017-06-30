@@ -44,7 +44,7 @@ bool CMesh::End() {
 	return true;
 }
 void CMesh::SetShaderState() {
-	size_t vecSize = m_vMeshTexture.GetCount();
+	size_t vecSize = m_vMeshTexture.size();
 	for (size_t i = 0; i < vecSize; ++i)
 	{
 		if (m_vMeshTexture[i])m_vMeshTexture[i]->SetShaderState();
@@ -63,7 +63,7 @@ void CMesh::SetShaderState() {
 }
 
 void CMesh::CleanShaderState(){
-	size_t vecSize = m_vMeshTexture.GetCount();
+	size_t vecSize = m_vMeshTexture.size();
 	for (size_t i = 0; i < vecSize; ++i)
 	{
 		if (m_vMeshTexture[i])m_vMeshTexture[i]->CleanShaderState();
@@ -180,12 +180,12 @@ void CMesh::CreateTBFromPoints(XMFLOAT3 * pPositions, XMFLOAT2 * pUVs, XMFLOAT3 
 	XMStoreFloat3(&outB, XMVector3Normalize(e0*z + e1*w));
 }
 void CMesh::ClearMeshResources(){
-	m_vMeshTexture.RemoveAll();
+	m_vMeshTexture.clear();
 }
-void CMesh::AddMeshTexture(shared_ptr<CTexture> pTexture){
-	m_vMeshTexture.Add(pTexture);
+void CMesh::AddMeshTexture( CTexture* pTexture){
+	m_vMeshTexture.push_back(pTexture);
 }
-void CMesh::SetMeshTexture(UINT index, shared_ptr<CTexture> pTexture){
+void CMesh::SetMeshTexture(UINT index,  CTexture* pTexture){
 	m_vMeshTexture[index] = pTexture;
 }
 void CMesh::AddInstancingBuffer(CBuffer * pBuffer){

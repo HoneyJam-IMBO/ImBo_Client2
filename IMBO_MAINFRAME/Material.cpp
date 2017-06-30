@@ -23,8 +23,8 @@ void CMaterial::UpdateShaderState() {
 	//m_pd3dDeviceContext->UpdateSubresource(m_pMaterialBuffer, 0, nullptr, &m_infoMaterial, 0, 0);
 }
 
-shared_ptr<CMaterial> CMaterial::CreateMaterial(XMFLOAT4 color, float specExp, float specIntensity){
-	shared_ptr<CMaterial> pMaterial = make_shared<CMaterial>();
+ CMaterial* CMaterial::CreateMaterial(XMFLOAT4 color, float specExp, float specIntensity){
+	 CMaterial* pMaterial = new CMaterial();
 	MATERIAL_INFO info;
 	info.diffuseColor = color;
 	info.specData.x = specExp;

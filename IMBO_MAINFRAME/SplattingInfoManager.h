@@ -41,10 +41,10 @@ private:
 	UINT m_nCurIndex{ 0 };
 	vector<CSplattingInfo*> m_vSplattinfInfo;
 
-	shared_ptr<CBuffer> m_pSplattingInfoBuffer{ nullptr };
+	 CBuffer* m_pSplattingInfoBuffer{ nullptr };
 
-	shared_ptr<CTexture> m_pDetailTextures{ nullptr };
-	shared_ptr<CTexture> m_pBlendInfoTextures{ nullptr };
+	 CTexture* m_pDetailTextures{ nullptr };
+	 CTexture* m_pBlendInfoTextures{ nullptr };
 public:
 	CSplattingInfoManager();
 	~CSplattingInfoManager();

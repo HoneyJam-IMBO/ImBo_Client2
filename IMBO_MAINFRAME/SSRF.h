@@ -27,7 +27,7 @@ public:
 
 	virtual void UpdateShaderState();
 
-	void Excute(shared_ptr<CCamera>pCamera, ID3D11RenderTargetView* prtvHDR, ID3D11DepthStencilView* pdsvReadOnlyDepthStencil, ID3D11ShaderResourceView* psrvHDR, ID3D11ShaderResourceView* psrvDepth, ID3D11ShaderResourceView* psrvNormal);
+	void Excute( CCamera* pCamera, ID3D11RenderTargetView* prtvHDR, ID3D11DepthStencilView* pdsvReadOnlyDepthStencil, ID3D11ShaderResourceView* psrvHDR, ID3D11ShaderResourceView* psrvDepth, ID3D11ShaderResourceView* psrvNormal);
 	void ResizeBuffer();
 	void ReleaseBuffer();
 
@@ -43,8 +43,8 @@ public:
 		float fViewAngleThreshold, float fPixelScale, float fNumStepScale);
 private:
 	void ChangeStaticData();
-	shared_ptr<CBuffer> m_pSSReflectionVSConstants{ nullptr };
-	shared_ptr<CBuffer> m_pSSReflectionPSConstants{ nullptr };
+	 CBuffer* m_pSSReflectionVSConstants{ nullptr };
+	 CBuffer* m_pSSReflectionPSConstants{ nullptr };
 	ID3D11BlendState* m_pd3dBlendState{ nullptr };
 
 	ID3D11ShaderResourceView* m_pd3dsrvRef{ nullptr };

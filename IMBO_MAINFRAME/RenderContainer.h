@@ -22,7 +22,7 @@ public:
 	virtual void SetShaderState();
 	virtual void CleanShaderState();
 
-	virtual void UpdateShaderState(shared_ptr<CCamera> pCamera);
+	virtual void UpdateShaderState( CCamera* pCamera);
 	//---------------------------dxobject---------------------------------
 
 	//--------------------------container---------------------------------
@@ -31,33 +31,33 @@ private:
 	virtual void RenderExcute();
 	void RenderExcuteWithOutObject();
 public:
-	void Render(shared_ptr<CCamera> pCamera);
-	void RenderWithOutObject(shared_ptr<CCamera> pCamera);
+	void Render( CCamera* pCamera);
+	void RenderWithOutObject( CCamera* pCamera);
 
-	shared_ptr<CMesh> GetMesh(UINT index = 0) { return m_vpMesh[index]; }
-	vector<shared_ptr<CMesh>>& GetvMesh() { return m_vpMesh; }
+	 CMesh* GetMesh(UINT index = 0) { return m_vpMesh[index]; }
+	vector< CMesh*>& GetvMesh() { return m_vpMesh; }
 	//set이 아니라이제 add다.
 	void ClearMesh();
 	void ClearBuffer();
 	void ClearAnimater();
-	void AddMesh(shared_ptr<CMesh> pMesh);
-	void SetMesh(shared_ptr<CMesh> pMesh);
-	void SetShader(shared_ptr<CRenderShader> pShader);
+	void AddMesh( CMesh* pMesh);
+	void SetMesh( CMesh* pMesh);
+	void SetShader( CRenderShader* pShader);
 	
-	//void AddMesh(shared_ptr<CMesh> pMesh);
-	//void AddShader(shared_ptr<CRenderShader> pShader);
-	void AddTexture(shared_ptr<CTexture> pTexture);
+	//void AddMesh( CMesh* pMesh);
+	//void AddShader( CRenderShader* pShader);
+	void AddTexture( CTexture* pTexture);
 	//휘발성 texture를 add
-	void AddVolatileTexture(shared_ptr<CTexture> pTexture);
-	void AddBuffer(shared_ptr<CBuffer> pBuffers);
+	void AddVolatileTexture( CTexture* pTexture);
+	void AddBuffer( CBuffer* pBuffers);
 	//휘발성 buf를 추가합
-	void AddVolatileBuffer(shared_ptr<CBuffer> pBuffers);
-	void AddInstanceBuffer(shared_ptr<CBuffer> pBuffers);
-	void AddMaterial(shared_ptr<CMaterial> pMaterial);
+	void AddVolatileBuffer( CBuffer* pBuffers);
+	void AddInstanceBuffer( CBuffer* pBuffers);
+	void AddMaterial( CMaterial* pMaterial);
 	
 	//animater!
-	void SetAnimater(shared_ptr<CAnimater> pAnimater) { m_pAnimater = pAnimater; }
-	shared_ptr<CAnimater> GetAnimater() { return m_pAnimater; }
+	void SetAnimater( CAnimater* pAnimater) { m_pAnimater = pAnimater; }
+	 CAnimater* GetAnimater() { return m_pAnimater; }
 	//animater!
 
 	void SetObejcts(int n, CGameObject** ppObjects);
@@ -67,7 +67,7 @@ public:
 	vector<CGameObject*>& GetObjectList() { return m_lpObjects; }
 
 	//material
-	vector<shared_ptr<CMaterial>>& GetMaterialList() { return m_vpMaterial; }
+	vector< CMaterial*>& GetMaterialList() { return m_vpMaterial; }
 	void ClearTextures() { m_vpTexture.clear(); }
 	//--------------------------container---------------------------------
 protected:
@@ -78,16 +78,16 @@ protected:
 	vector<CGameObject*>	m_lpObjects;
 	
 
-	vector<shared_ptr<CMesh>>	m_vpMesh;		//vector<shared_ptr<CMesh>>		m_vpMesh;
-	shared_ptr<CRenderShader>		m_pShader;
-	vector<shared_ptr<CTexture>>	m_vpTexture;	//vector<shared_ptr<CTexture>>	m_vpTexture;
+	vector< CMesh*>	m_vpMesh;		//vector< CMesh>>		m_vpMesh;
+	 CRenderShader*		m_pShader;
+	vector< CTexture*>	m_vpTexture;	//vector< CTexture>>	m_vpTexture;
 	//휘발성 texture 한번 랜더하면 사라진다. 
-	vector<shared_ptr<CTexture>>	m_vpVolatileTexture;	//vector<shared_ptr<CTexture>>	m_vpVolatileTexture;
-	vector<shared_ptr<CBuffer>>	m_vpVolatileBuffer;		//vector<shared_ptr<CBuffer>>	m_vpVolatileBuffer;
+	vector< CTexture*>	m_vpVolatileTexture;	//vector< CTexture>>	m_vpVolatileTexture;
+	vector< CBuffer*>	m_vpVolatileBuffer;		//vector< CBuffer>>	m_vpVolatileBuffer;
 
-	vector<shared_ptr<CBuffer>>	m_vpBuffer;			//vector<shared_ptr<CBuffer>>		m_vpBuffer;
-	vector<shared_ptr<CMaterial>>	m_vpMaterial;	//vector<shared_ptr<CMaterial>>	m_vpMaterial;
-	shared_ptr<CAnimater>			m_pAnimater{ nullptr };//animater
+	vector< CBuffer*>	m_vpBuffer;			//vector< CBuffer>>		m_vpBuffer;
+	vector< CMaterial*>	m_vpMaterial;	//vector< CMaterial>>	m_vpMaterial;
+	 CAnimater*			m_pAnimater{ nullptr };//animater
 
 	int m_nBuffer{ 0 };
 	int m_nMaterial{ 0 };

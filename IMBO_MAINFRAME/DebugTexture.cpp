@@ -8,7 +8,7 @@ bool CDebugTexture::Begin()
 	return true;
 }
 
-void CDebugTexture::SetBufferInfo(void ** ppMappedResources, int & nInstance, shared_ptr<CCamera> pCamera) {
+void CDebugTexture::SetBufferInfo(void ** ppMappedResources, int & nInstance,  CCamera* pCamera) {
 	//Çüº¯È¯
 	VS_VB_DEBUG_TEXTURE_INSTANCE* pnInstances = (VS_VB_DEBUG_TEXTURE_INSTANCE*)ppMappedResources[0];
 

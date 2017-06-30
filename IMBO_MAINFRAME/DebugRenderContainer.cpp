@@ -3,7 +3,7 @@
 
 
 //--------------------------container---------------------------------
-void CDebugRenderContainer::UpdateShaderState(shared_ptr<CCamera> pCamera) {
+void CDebugRenderContainer::UpdateShaderState( CCamera* pCamera) {
 	if (m_vpBuffer.empty()) return;
 
 	m_vpMesh[0]->UpdateShaderState();

@@ -31,14 +31,14 @@ public:
 	float GetHeight(XMVECTOR xmvPos, int index = -1);
 	float GetHeight(XMFLOAT2 xmf2Pos, int index = -1);
 
-	void Update(shared_ptr<CCamera> pCamera);
+	void Update( CCamera* pCamera);
 	CGameObject* PickObjects(XMVECTOR xmvWorldCameraStartPos, XMVECTOR xmvRayDir, float& distance);
 	void ReadyHeightMap();
 	void SetBufferInfo();
 	
 	void SetBaseTexture(wstring path);
 	void SetHeightMapTexture(wstring path);
-	CTexture* GetBaseTexture() { return m_pBaseTexture.get(); };
+	CTexture* GetBaseTexture() { return m_pBaseTexture; };
 
 	void CreateSplattingInfo();
 	CSplattingInfoManager* GetSplattingInfoManager() { return m_pSplattingInfoManager; }
@@ -70,8 +70,8 @@ public:
 	Pixel24* GetNormalData() { return m_pNormalData; }
 	void SetHeightData(float* pHeightData);
 	void SetNormalData(Pixel24* pNormalData);
-	void SetHeightMapTexture(shared_ptr<CTexture> pHeightMapTexture);
-	void SetNormalMapTexture(shared_ptr<CTexture> pNormalMapTexture);
+	void SetHeightMapTexture( CTexture* pHeightMapTexture);
+	void SetNormalMapTexture( CTexture* pNormalMapTexture);
 
 	void CreateResetTextures(LPCTSTR pTerrainName);
 	void CreateTerrainTextures(LPCTSTR pTerrainName);
@@ -98,7 +98,7 @@ public:
 
 private:
 	//추가
-	shared_ptr<CBuffer> m_pTessFacterBuffer{ nullptr };
+	 CBuffer* m_pTessFacterBuffer{ nullptr };
 	TERRAIN_TESS_FACTER* m_pTessFacterData{ nullptr };
 
 	bool m_bIsTool{ false };
@@ -107,7 +107,7 @@ private:
 	wstring m_wsOutputPath;
 	
 	TERRAIN_GLOBAL_VALUE* m_pGlobalTerrainData{ nullptr };
-	shared_ptr<CBuffer> m_pGlobalTerrainBuffer{ nullptr };
+	 CBuffer* m_pGlobalTerrainBuffer{ nullptr };
 
 	ID3D11RasterizerState* m_pd3dSpaceRSState{ nullptr };
 	ID3D11RasterizerState* m_pd3dTempRSState{ nullptr };
@@ -122,9 +122,9 @@ private:
 
 	float* m_pHeightData{ nullptr };
 	Pixel24* m_pNormalData{ nullptr };
-	shared_ptr<CTexture> m_pBaseTexture{ nullptr };
-	shared_ptr<CTexture> m_pHeightMapTexture{ nullptr };
-	shared_ptr<CTexture> m_pNormalTexture{ nullptr };
+	 CTexture* m_pBaseTexture{ nullptr };
+	 CTexture* m_pHeightMapTexture{ nullptr };
+	 CTexture* m_pNormalTexture{ nullptr };
 	//vector<CTerrain*> m_vpTerrain;//pick object를 위한 녀석
 	vector<CTerrain*> m_vpTerrain;//pick object를 위한 녀석
 	//안의 terrain들은 space에서 관리되고 사라지니까 end 및 delete할 필요가 없다.

@@ -32,8 +32,8 @@ CEffectRenderCont::~CEffectRenderCont()
 HRESULT CEffectRenderCont::Initialize()
 {
 	ResizeBuffer();
-	m_pRenderShader = RESOURCEMGR->GetRenderShader("Effect").get();
-	m_pDistRShader = RESOURCEMGR->GetRenderShader("Blend").get();
+	m_pRenderShader = RESOURCEMGR->GetRenderShader("Effect");
+	m_pDistRShader = RESOURCEMGR->GetRenderShader("Blend");
 
 	D3D11_RASTERIZER_DESC	descRasterizer;
 	ZeroMemory(&descRasterizer, sizeof(D3D11_RASTERIZER_DESC));
@@ -59,7 +59,7 @@ HRESULT CEffectRenderCont::Initialize()
 	//blend state
 	GLOBALVALUEMGR->GetDevice()->CreateBlendState(&descBlend, &m_pAlphaBlendState);
 
-	m_pMesh = RESOURCEMGR->GetMesh("DirectionalLight").get();
+	m_pMesh = RESOURCEMGR->GetMesh("DirectionalLight");
 
 	//GLOBALVALUEMGR->GetDevice()->CreateSamplerState(&d3dSamplerDesc, &pSampler);
 

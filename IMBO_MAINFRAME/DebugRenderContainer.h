@@ -6,7 +6,7 @@ class CDebugRenderContainer : public CRenderContainer{
 public:
 
 	//---------------------------dxobject---------------------------------
-	virtual void UpdateShaderState(shared_ptr<CCamera> pCamera);
+	virtual void UpdateShaderState( CCamera* pCamera);
 	//---------------------------dxobject---------------------------------
 
 	//--------------------------container---------------------------------
