@@ -13,6 +13,7 @@ bool CCameraMgr::End()
 	map<CAMTYPE, CCamera*>::iterator iter_end = m_mapCamera.end();
 	for (; iter != iter_end; ++iter)
 	{
+		iter->second->End();
 		delete iter->second;
 	}
 	m_mapCamera.clear();

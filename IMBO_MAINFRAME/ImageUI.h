@@ -9,9 +9,9 @@ public:
 
 
 public:
-	static CImageUI* Create(XMVECTOR xyPos, XMVECTOR xySize, TCHAR* pTexName, float fRanderLayer);
+	static CImageUI* Create(XMVECTOR xyPos, XMVECTOR xySize, string strTexName, float fRanderLayer);
 
-	void	SetInfo(XMVECTOR xyPos, XMVECTOR xySize, TCHAR* pTexName, float fRanderLayer);
+	void	SetInfo(XMVECTOR xyPos, XMVECTOR xySize, string strTexName, float fRanderLayer);
 
 public:
 	virtual HRESULT Initialize();

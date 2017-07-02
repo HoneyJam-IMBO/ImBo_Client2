@@ -8,8 +8,8 @@ public:
 	~CClickButton();
 
 public:
-	static CClickButton* Create(XMVECTOR xyPos, XMVECTOR xySize, TCHAR* pTexName);
-	void	SetInfo(XMVECTOR xyPos, XMVECTOR xySize, TCHAR* pTexName);
+	static CClickButton* Create(XMVECTOR xyPos, XMVECTOR xySize, string strTexName);
+	void	SetInfo(XMVECTOR xyPos, XMVECTOR xySize, string strTexName);
 
 private:
 	int		m_nID{ 0 };

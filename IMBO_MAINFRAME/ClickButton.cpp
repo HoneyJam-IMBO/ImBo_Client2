@@ -11,7 +11,7 @@ CClickButton::~CClickButton()
 {
 }
 
-CClickButton * CClickButton::Create(XMVECTOR xyPos, XMVECTOR xySize, TCHAR * pTexName)
+CClickButton * CClickButton::Create(XMVECTOR xyPos, XMVECTOR xySize, string strTexName)
 {
 	CClickButton*		pObject = new CClickButton();
 
@@ -23,15 +23,16 @@ CClickButton * CClickButton::Create(XMVECTOR xyPos, XMVECTOR xySize, TCHAR * pTe
 		pObject = nullptr;
 		return pObject;
 	}
-	pObject->SetInfo(xyPos, xySize, pTexName);
+	pObject->SetInfo(xyPos, xySize, strTexName);
 
 	return pObject;
 }
 
-void CClickButton::SetInfo(XMVECTOR xyPos, XMVECTOR xySize, TCHAR * pTexName)
+void CClickButton::SetInfo(XMVECTOR xyPos, XMVECTOR xySize, string strTexName)
 {
-	memcpy(m_szTexture, pTexName, sizeof(TCHAR) * 64);
-	m_pTexture = RESOURCEMGR->GetTexture(TCHARToString(m_szTexture));
+	StringToTCHAR(strTexName, m_szTexture);
+	//memcpy(m_szTexture, , sizeof(TCHAR) * 64);
+	m_pTexture = RESOURCEMGR->GetTexture(strTexName);
 	m_pUIRenderCont = RENDERER->GetUIRenderer();
 	m_pMesh = RESOURCEMGR->GetMesh("UI");
 	m_pCBuffer = CBuffer::CreateConstantBuffer(1, sizeof(tUImatVP), 11, BIND_VS, NULL);	//직교뷰*투영변환행렬 / 알파

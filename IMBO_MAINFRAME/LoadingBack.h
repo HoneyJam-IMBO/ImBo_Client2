@@ -8,9 +8,9 @@ public:
 	~CLoadingBack();
 
 public:
-	static CLoadingBack* Create(XMVECTOR xyPos, XMVECTOR xySize, TCHAR* pTexName);
+	static CLoadingBack* Create(XMVECTOR xyPos, XMVECTOR xySize, string strTexName);
 
-	void	SetInfo(XMVECTOR xyPos, XMVECTOR xySize, TCHAR* pTexName);
+	void	SetInfo(XMVECTOR xyPos, XMVECTOR xySize, string strTexName);
 
 public:
 	virtual HRESULT Initialize() ;

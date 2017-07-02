@@ -9,6 +9,19 @@ bool CEffectMgr::Begin()
 
 bool CEffectMgr::End()
 {
+	
+	for (auto vEffect : m_mapProto) {
+		for (auto pEffect : vEffect.second) {
+			pEffect->Release();
+			delete pEffect;
+		}
+	}
+	for (auto vEffect : m_mapEffectList) {
+		for (auto pEffect : vEffect.second) {
+			pEffect->Release();
+			delete pEffect;
+		}
+	}
 	return false;
 }
 

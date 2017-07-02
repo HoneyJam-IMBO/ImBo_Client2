@@ -27,20 +27,20 @@ bool CSCHeroSel::Begin()
 
 	string strName = "Back";
 	CUIObject* pUI;
-	pUI = CImageUI::Create(XMLoadFloat2(&XMFLOAT2(WINSIZEX * 0.5f, WINSIZEY * 0.5f)), XMLoadFloat2(&XMFLOAT2(WINSIZEX * 0.5f, WINSIZEY * 0.5f)), StringToTCHAR(strName), -1.f);
+	pUI = CImageUI::Create(XMLoadFloat2(&XMFLOAT2(WINSIZEX * 0.5f, WINSIZEY * 0.5f)), XMLoadFloat2(&XMFLOAT2(WINSIZEX * 0.5f, WINSIZEY * 0.5f)), strName, -1.f);
 	m_vecUI.push_back(pUI);
 
 	for (int i = 0; i < 6; ++i)
 	{
 		strName = "CButton_" + to_string(i);
 		pUI = CClickButton::Create(XMLoadFloat2(&XMFLOAT2(WINSIZEX * 0.5f - 400.f + i * 160.f, WINSIZEY * 0.75f)),
-			XMLoadFloat2(&XMFLOAT2(70.f, 100.f)), StringToTCHAR(strName));
+			XMLoadFloat2(&XMFLOAT2(70.f, 100.f)), strName);
 		((CClickButton*)pUI)->SetID(0);
 		m_vecButtonUI.push_back(pUI);
 	}
 	strName = "Button_Ready";
 	pUI = CClickButton::Create(XMLoadFloat2(&XMFLOAT2(WINSIZEX * 0.5f, WINSIZEY * 0.92f)),
-		XMLoadFloat2(&XMFLOAT2(105.f, 20.f)), StringToTCHAR(strName));
+		XMLoadFloat2(&XMFLOAT2(105.f, 20.f)), strName);
 	((CClickButton*)pUI)->SetID(1);
 	m_vecButtonUI.push_back(pUI);
 
@@ -48,12 +48,12 @@ bool CSCHeroSel::Begin()
 	{
 		strName = "Ready_0";
 		pUI = CImageUI::Create(XMLoadFloat2(&XMFLOAT2(WINSIZEX * 0.5f - 150.f + i * 100.f, WINSIZEY * 0.55f)),
-			XMLoadFloat2(&XMFLOAT2(20.f, 20.f)), StringToTCHAR(strName), 2.f);
+			XMLoadFloat2(&XMFLOAT2(20.f, 20.f)), strName, 2.f);
 		m_vecReadyUI.push_back(pUI);
 
 		strName = "Char_Select_N";
 		pUI = CImageUI::Create(XMLoadFloat2(&XMFLOAT2(WINSIZEX * 0.5f - 150.f + i * 100.f, WINSIZEY * 0.5f)),
-			XMLoadFloat2(&XMFLOAT2(20.f, 20.f)), StringToTCHAR(strName), 2.f);
+			XMLoadFloat2(&XMFLOAT2(20.f, 20.f)), strName, 2.f);
 		m_vecSelCharUI.push_back(pUI);
 	}
 
@@ -199,26 +199,26 @@ void CSCHeroSel::SetSelSceneInfo(int slot_id, int input_slot_id, bool is_ready, 
 	m_pHEROSEL_INFO[slot_id].CHARACTER = character;
 
 	if (m_pHEROSEL_INFO[slot_id].READY)
-		m_vecReadyUI[slot_id]->SetImageName(L"Ready_1");
+		m_vecReadyUI[slot_id]->SetImageName("Ready_1");
 	else
-		m_vecReadyUI[slot_id]->SetImageName(L"Ready_0");
+		m_vecReadyUI[slot_id]->SetImageName("Ready_0");
 
 
 	string strName;
 	if (input_slot_id == -1) {
 		strName = "Char_Select_N";
-		m_vecSelCharUI[slot_id]->SetImageName(StringToTCHAR(strName));
+		m_vecSelCharUI[slot_id]->SetImageName(strName);
 		return;
 	}
 	if (character == -1) {
 		strName = "Char_Select_D";
-		m_vecSelCharUI[slot_id]->SetImageName(StringToTCHAR(strName));
+		m_vecSelCharUI[slot_id]->SetImageName(strName);
 		return;
 	}
 
 	if (m_pHEROSEL_INFO[slot_id].CHARACTER >= 0) {
 		strName = "Char_Select_" + to_string(m_pHEROSEL_INFO[slot_id].CHARACTER);
-		m_vecSelCharUI[slot_id]->SetImageName(StringToTCHAR(strName));
+		m_vecSelCharUI[slot_id]->SetImageName(strName);
 	}
 	if (NETWORKMGR->GetSLOT_ID() == slot_id) {
 		switch (m_pHEROSEL_INFO[slot_id].CHARACTER)

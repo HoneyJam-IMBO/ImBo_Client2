@@ -38,6 +38,14 @@ bool CSSLR::End(){
 
 	m_pLayTraceRenderContainer = nullptr;
 	m_pConmbineRenderContainer = nullptr;
+	if (m_pOcclussionTexture) {
+		m_pOcclussionTexture->End();
+		delete m_pOcclussionTexture;
+	}
+	if (m_pLightRaysTexture) {
+		m_pLightRaysTexture->End();
+		delete m_pLightRaysTexture;
+	}
 	return true;
 }
 
@@ -268,7 +276,7 @@ void CSSLR::ReleaseBuffer() {
 	m_pOcclusionTex = nullptr;
 	if(m_pOcclusionUAV) m_pOcclusionUAV->Release();
 	m_pOcclusionUAV = nullptr;
-	if(m_pOcclusionSRV)m_pOcclusionSRV->Release();
+	//if(m_pOcclusionSRV)m_pOcclusionSRV->Release();
 	m_pOcclusionSRV = nullptr;
 	
 	if(m_pLightRaysTex)m_pLightRaysTex->Release();
@@ -283,6 +291,11 @@ void CSSLR::ReleaseBuffer() {
 		delete m_pOcclussionTexture;
 	}
 	m_pOcclussionTexture = nullptr;
+
+	if (m_pLightRaysTexture) {
+		m_pLightRaysTexture->End();
+		delete m_pLightRaysTexture;
+	}
 
 }
 

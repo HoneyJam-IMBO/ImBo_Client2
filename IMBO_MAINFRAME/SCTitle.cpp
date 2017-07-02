@@ -19,12 +19,12 @@ bool CSCTitle::Begin()
 
 	string strName = "Title";
 	//CUIObject* pUI;
-	m_pUI = CImageUI::Create(XMLoadFloat2(&XMFLOAT2(WINSIZEX * 0.5f, WINSIZEY * 0.5f)), XMLoadFloat2(&XMFLOAT2(WINSIZEX * 0.5f, WINSIZEY * 0.5f)), StringToTCHAR(strName), 1.f);
+	m_pUI = CImageUI::Create(XMLoadFloat2(&XMFLOAT2(WINSIZEX * 0.5f, WINSIZEY * 0.5f)), XMLoadFloat2(&XMFLOAT2(WINSIZEX * 0.5f, WINSIZEY * 0.5f)), strName, 1.f);
 	m_vecUI.push_back(m_pUI);
 
 	strName = "Press";
 	CUIObject* pUI;
-	pUI = CImageUI::Create(XMLoadFloat2(&XMFLOAT2(WINSIZEX * 0.5f, WINSIZEY * 0.91f)), XMLoadFloat2(&XMFLOAT2(150.f, 27.f)), StringToTCHAR(strName), 1.2f);
+	pUI = CImageUI::Create(XMLoadFloat2(&XMFLOAT2(WINSIZEX * 0.5f, WINSIZEY * 0.91f)), XMLoadFloat2(&XMFLOAT2(150.f, 27.f)), strName, 1.2f);
 	m_vecUI.push_back(pUI);
 
 	return true;

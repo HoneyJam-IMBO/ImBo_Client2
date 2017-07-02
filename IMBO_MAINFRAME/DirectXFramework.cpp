@@ -22,6 +22,25 @@ void CDirectXFramework::End() {
 	SCENEMGR->End();
 	NETWORKMGR->End();
 	RCSELLER->End();
+	RENDERER->End();
+	CAMMGR->End();
+
+GLOBALVALUEMGR			->ReleseInstance();
+TIMEMGR					->ReleseInstance();
+RESOURCEMGR				->ReleseInstance();
+RCSELLER				->ReleseInstance();
+DEBUGER					->ReleseInstance();
+INPUTMGR				->ReleseInstance();
+DIRECTORYFINDER			->ReleseInstance();
+IMPORTER				->ReleseInstance();
+RENDERER				->ReleseInstance();
+UPDATER					->ReleseInstance();
+SCENEMGR				->ReleseInstance();
+CAMMGR					->ReleseInstance();
+NETWORKMGR				->ReleseInstance();
+
+CEffectMgr::GetInstance()->End();
+CEffectMgr::GetInstance()->ReleseInstance();
 	CNaviObjectManager::End();
 }
 void CDirectXFramework::FrameAdvance()
@@ -109,6 +128,7 @@ void CDirectXFramework::InitSingleton(HINSTANCE hInstance, HWND hWnd)
 	UPDATER->Begin();
 	SCENEMGR->Begin(this);
 	NETWORKMGR->Begin();
+	
 	CNaviObjectManager::Begin();
 
 #ifdef NO_SERVER

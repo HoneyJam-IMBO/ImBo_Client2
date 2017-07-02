@@ -11,7 +11,7 @@ CImageUI::~CImageUI()
 {
 }
 
-CImageUI * CImageUI::Create(XMVECTOR xyPos, XMVECTOR xySize, TCHAR * pTexName, float fRanderLayer)
+CImageUI * CImageUI::Create(XMVECTOR xyPos, XMVECTOR xySize, string strTexName, float fRanderLayer)
 {
 	CImageUI*		pObject = new CImageUI();
 
@@ -23,15 +23,16 @@ CImageUI * CImageUI::Create(XMVECTOR xyPos, XMVECTOR xySize, TCHAR * pTexName, f
 		pObject = nullptr;
 		return pObject;
 	}
-	pObject->SetInfo(xyPos, xySize, pTexName, fRanderLayer);
+	pObject->SetInfo(xyPos, xySize, strTexName, fRanderLayer);
 
 	return pObject;
 }
 
-void CImageUI::SetInfo(XMVECTOR xyPos, XMVECTOR xySize, TCHAR * pTexName, float fRanderLayer)
+void CImageUI::SetInfo(XMVECTOR xyPos, XMVECTOR xySize, string strTexName, float fRanderLayer)
 {
-	memcpy(m_szTexture, pTexName, sizeof(TCHAR) * 64);
-	m_pTexture = RESOURCEMGR->GetTexture(TCHARToString(m_szTexture));
+	// memcpy(m_szTexture, pTexName, sizeof(TCHAR) * 64);
+	StringToTCHAR(strTexName, m_szTexture);
+	m_pTexture = RESOURCEMGR->GetTexture(strTexName);
 	m_pUIRenderCont = RENDERER->GetUIRenderer();
 	m_pMesh = RESOURCEMGR->GetMesh("UI");
 	m_pCBuffer = CBuffer::CreateConstantBuffer(1, sizeof(tUImatVP), 11, BIND_VS, 0);	//직교뷰*투영변환행렬 / 알파

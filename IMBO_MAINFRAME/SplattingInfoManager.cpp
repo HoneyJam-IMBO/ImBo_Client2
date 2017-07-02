@@ -77,6 +77,7 @@ void CSplattingInfoManager::RemoveSplattingInfoByIndex(UINT index){
 void CSplattingInfoManager::ClearSplattingInfo(){
 	for (auto pData : m_vSplattinfInfo) {
 		pData->CleanShaderState();
+		pData->End();
 		delete pData;
 	}
 	m_vSplattinfInfo.clear();

@@ -100,6 +100,9 @@ bool CTerrainContainer::End() {
 	if(m_pd3dTempRSState)m_pd3dTempRSState->Release();
 
 	//추가
+	if (m_pTessFacterData) {
+		delete m_pTessFacterData;
+	}
 	m_pTessFacterBuffer = nullptr;
 
 	return true;
@@ -228,7 +231,10 @@ CGameObject * CTerrainContainer::PickObjects(XMVECTOR xmvWorldCameraStartPos, XM
 }
 //터레인 추가분
 void CTerrainContainer::ReadyHeightMap() {
-	if (m_pHeightMapTexture)m_pHeightMapTexture->End();
+	if (m_pHeightMapTexture) {
+		m_pHeightMapTexture->End();
+		delete m_pHeightMapTexture;
+	}
 	m_pHeightMapTexture = nullptr;
 
 	//height map data init
@@ -275,7 +281,10 @@ void CTerrainContainer::SetBufferInfo(){
 
 
 void CTerrainContainer::SetBaseTexture(wstring path){
-	if (m_pBaseTexture)m_pBaseTexture->End();
+	if (m_pBaseTexture) {
+		m_pBaseTexture->End();
+		delete m_pBaseTexture;
+	}
 	m_pBaseTexture = nullptr;
 
 	m_pBaseTexture = CTexture::CreateTexture(path, 0);
@@ -284,7 +293,10 @@ void CTerrainContainer::SetBaseTexture(wstring path){
 void CTerrainContainer::SetHeightMapTexture(wstring path){
 	if (m_pHeightData) delete[]m_pHeightData;
 	m_pHeightData = nullptr;
-	if (m_pHeightMapTexture)m_pHeightMapTexture->End();
+	if (m_pHeightMapTexture) {
+		m_pHeightMapTexture->End();
+		delete m_pHeightMapTexture;
+	}
 	m_pHeightMapTexture = nullptr;
 
 
@@ -303,6 +315,7 @@ void CTerrainContainer::CreateNormalMap(){
 	//4. normal을 계산한다.
 	//끝
 	m_pNormalTexture->End();
+	delete m_pNormalTexture;
 	m_pNormalTexture = nullptr;
 
 	//calculate normal
@@ -473,12 +486,18 @@ void CTerrainContainer::SetNormalData(Pixel24 * pNormalData){
 	m_pNormalData = pNormalData;
 }
 void CTerrainContainer::SetHeightMapTexture( CTexture* pHeightMapTexture){
-	if (m_pHeightMapTexture) m_pHeightMapTexture->End();
+	if (m_pHeightMapTexture) {
+		m_pHeightMapTexture->End();
+		delete m_pHeightMapTexture;
+	}
 	m_pHeightMapTexture = nullptr;
 	m_pHeightMapTexture = pHeightMapTexture;
 }
 void CTerrainContainer::SetNormalMapTexture( CTexture* pNormalMapTexture){
-	if (m_pNormalTexture) m_pNormalTexture->End();
+	if (m_pNormalTexture) {
+		m_pNormalTexture->End();
+		delete m_pNormalTexture;
+	}
 	m_pNormalTexture = nullptr;
 	m_pNormalTexture = pNormalMapTexture;
 }

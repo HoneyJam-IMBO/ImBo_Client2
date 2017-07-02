@@ -99,6 +99,7 @@ bool CSpace::End() {
 			m_ppChildSpace[i] = nullptr;
 		}
 	}
+	delete m_ppChildSpace;
 	m_ppChildSpace = nullptr;
 
 

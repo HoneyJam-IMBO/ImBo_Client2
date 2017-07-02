@@ -2,6 +2,7 @@
 //
 
 #include "stdafx.h"
+#include "vld.h"
 #include "IMBO_MAINFRAME.h"
 
 CDirectXFramework framework;

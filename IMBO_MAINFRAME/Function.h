@@ -51,15 +51,16 @@ static std::string TCHARToString(const TCHAR* ptsz)
 	return s;
 }
 
-static TCHAR* StringToTCHAR(std::string& s)
+static void StringToTCHAR(std::string& s, TCHAR* r_val)
 {
 	std::string tstr;
 	const char* all = s.c_str();
 	size_t len = 1 + strlen(all);
-	wchar_t* t = new wchar_t[len];
-	if (NULL == t) throw std::bad_alloc();
-	mbstowcs(t, all, len);
-	return (TCHAR*)t;
+	//wchar_t t[256];
+	//wchar_t* t = new wchar_t[len]; //동적할당 하지 않음
+	//if (NULL == t) throw std::bad_alloc();
+	mbstowcs(r_val, all, len);
+	//return (TCHAR*)t;
 }
 
 class CTagFinder	//맵컨테이너에서 find_if로 원하는 태크의 맵을 찾을때 사용

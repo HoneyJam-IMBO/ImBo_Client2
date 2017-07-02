@@ -185,6 +185,7 @@ bool CRenderContainerSeller::End(){
 	//render container delete
 	for (auto pairTagRenderContainer : m_mTagRenderContainer) {
 		for (auto pairRenderContainer : pairTagRenderContainer.second) {
+			pairRenderContainer.second->End();
 			delete pairRenderContainer.second;
 		}
 		pairTagRenderContainer.second.clear();
@@ -227,6 +228,7 @@ void CRenderContainerSeller::ClearStempRenderContainer()
 {
 	for (auto pairTagRenderContainer : m_mStempRenderContainer) {
 		for (auto pairRenderContainer : pairTagRenderContainer.second) {
+			pairRenderContainer.second->End();
 			delete pairRenderContainer.second;
 		}
 		pairTagRenderContainer.second.clear();

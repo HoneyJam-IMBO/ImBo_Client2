@@ -36,11 +36,11 @@ bool CLoading::Begin()
 	string strName = rand() % 2 == 0 ? "Logo" : "Logo2";
 	RESOURCEMGR->CreateTexture("Loading", _T("../../Assets/Loading/LoadingText.png"), PS_TEXTURE, BIND_PS);
 
-	CUIObject* pUI = CLoadingBack::Create(XMLoadFloat2(&XMFLOAT2(WINSIZEX * 0.5f, WINSIZEY * 0.5f)), XMLoadFloat2(&XMFLOAT2(250.f, 250.f)), StringToTCHAR(strName));
+	CUIObject* pUI = CLoadingBack::Create(XMLoadFloat2(&XMFLOAT2(WINSIZEX * 0.5f, WINSIZEY * 0.5f)), XMLoadFloat2(&XMFLOAT2(250.f, 250.f)), strName);
 	m_vecUI.push_back(pUI);
 
 	strName = "Loading";
-	pUI = CImageUI::Create(XMLoadFloat2(&XMFLOAT2(WINSIZEX * 0.8f, WINSIZEY * 0.9f)), XMLoadFloat2(&XMFLOAT2(120.f, 30.f)), StringToTCHAR(strName), 1.f);
+	pUI = CImageUI::Create(XMLoadFloat2(&XMFLOAT2(WINSIZEX * 0.8f, WINSIZEY * 0.9f)), XMLoadFloat2(&XMFLOAT2(120.f, 30.f)), strName, 1.f);
 	m_vecUI.push_back(pUI);
 
 	m_hLoadThread = CreateThread(NULL, 0, FuncLoadResourceThread, this, 0, NULL);
@@ -53,6 +53,7 @@ bool CLoading::End()
 	size_t iVecSize = m_vecUI.size();
 	for (size_t i = 0; i < iVecSize; ++i)
 	{
+		m_vecUI[i]->Release();
 		delete m_vecUI[i];
 		m_vecUI[i] = nullptr;
 	}

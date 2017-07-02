@@ -80,9 +80,12 @@ bool CDebuger::End() {
 	for (int i = 0; i < BOUNDINGBOX_NUM; ++i) {
 		delete m_ppBoundingBox[i];
 	}
+	delete m_ppBoundingBox;
+
 	for (int j = 0; j < COORD_NUM; ++j) {
 		delete m_ppCoordinateSys[j];
 	}
+	delete m_ppCoordinateSys;
 
 	//rendercontainer end는 seller의 역할이다.
 	//font

@@ -40,7 +40,6 @@ bool CMesh::End() {
 	//----------------------index buffe rrelease------------------
 	if (m_pd3dIndexBuffer)			m_pd3dIndexBuffer->Release();
 	//----------------------index buffe rrelease------------------
-
 	return true;
 }
 void CMesh::SetShaderState() {

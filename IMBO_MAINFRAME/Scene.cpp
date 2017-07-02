@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Scene.h"
 #include "DirectXFramework.h"
+#include "UIObject.h"
 
 bool CScene::Begin(string path){
 
@@ -10,6 +11,7 @@ bool CScene::Begin(string path){
 //m_vecUI delete가 없어서 추가함 나중에 문제되면 지움 다른데서 delete중일 수 있으나 없었음
 bool CScene::End(){
 	for (size_t i = 0; i < m_vecUI.size(); ++i) {
+		m_vecUI[i]->Release();
 		delete m_vecUI[i];
 		m_vecUI[i] = nullptr;
 	}
@@ -20,6 +22,7 @@ bool CScene::End(){
 void CScene::Animate(float fTimeElapsed){
 
 }
+
 
 CScene* CScene::CreateScene(string name, CDirectXFramework* pFramework, SCENE_ID eID){
 	CScene* pScene = new CScene(eID);

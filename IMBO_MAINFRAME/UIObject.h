@@ -24,9 +24,10 @@ public:
 	XMVECTOR	GetUIPos() { return XMLoadFloat2(&m_f2XYPos); }
 	XMVECTOR	GetUISize() { return XMLoadFloat2(&m_f2XYSize); }
 	//void		SetImageName(TCHAR* pTexName){ memcpy(m_szTexture, pTexName, sizeof(TCHAR) * 64); }
-	void SetImageName(TCHAR* pTexName) {
-		memcpy(m_szTexture, pTexName, sizeof(TCHAR) * 64);
-		m_pTexture = RESOURCEMGR->GetTexture(TCHARToString(m_szTexture));
+	void SetImageName(string strTexName) {
+		StringToTCHAR(strTexName, m_szTexture);
+		//memcpy(m_szTexture, pTexName, sizeof(TCHAR) * 64);
+		m_pTexture = RESOURCEMGR->GetTexture(strTexName);
 	}
 
 protected:
