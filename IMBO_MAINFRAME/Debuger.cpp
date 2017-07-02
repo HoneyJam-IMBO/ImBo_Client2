@@ -156,6 +156,7 @@ void CDebuger::RegistToDebugRenderContainer(CGameObject * pObject){
 void CDebuger::DebugRender( CCamera* pCamera){
 	if (false == INPUTMGR->GetDebugMode()) return;
 
+	CNaviObjectManager::Render();
 	RenderAABB(pCamera);
 	RenderLightVolume(pCamera);
 	RenderCoordinateSys(pCamera);
