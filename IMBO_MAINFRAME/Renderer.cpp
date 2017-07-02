@@ -241,22 +241,22 @@ void CRenderer::Render( CCamera* pCamera) {
 
 	// object render
 	////=> pre-z pass
-	GLOBALVALUEMGR->GetDeviceContext()->OMSetDepthStencilState(m_pd3dDSSEarlyZWrite, 1);
-	ID3D11RenderTargetView* pRTV = nullptr;
-	SetRenderTargetViews(1, &pRTV, m_pd3ddsvDepthStencil);
-	m_pObjectRenderer->Excute(pCamera);
+	//GLOBALVALUEMGR->GetDeviceContext()->OMSetDepthStencilState(m_pd3dDSSEarlyZWrite, 1);
+	//ID3D11RenderTargetView* pRTV = nullptr;
+	//SetRenderTargetViews(1, &pRTV, m_pd3ddsvDepthStencil);
+	//m_pObjectRenderer->Excute(pCamera);
 
 	////=> render pass
 	if (true == bDebug) DEBUGER->start_Timemeasurement();
-	GLOBALVALUEMGR->GetDeviceContext()->OMSetDepthStencilState(m_pd3dDSSEarlyZRead, 1);
-	SetForwardRenderTargets(m_pd3ddsvReadOnlyDepthStencil);//gbuff가 될 rtv/ dsv set
+	//GLOBALVALUEMGR->GetDeviceContext()->OMSetDepthStencilState(m_pd3dDSSEarlyZRead, 1);
+	SetForwardRenderTargets(m_pd3ddsvDepthStencil);//gbuff가 될 rtv/ dsv set
 	m_pObjectRenderer->Excute(pCamera);
 	m_pObjectRenderer->CleanShaderState();
 
 	//naviobject render
 	if (true == bDebug) CNaviObjectManager::Render();
 	if (true == bDebug) DEBUGER->end_Timemeasurement(L"object_render");
-	GLOBALVALUEMGR->GetDeviceContext()->OMSetDepthStencilState(m_pd3dDSSEarlyZWrite, 1);
+	//GLOBALVALUEMGR->GetDeviceContext()->OMSetDepthStencilState(m_pd3dDSSEarlyZWrite, 1);
 
 	//m_pWaterRenderer->RenderWater(pCamera, m_pd3dsrvDepthStencil);
 

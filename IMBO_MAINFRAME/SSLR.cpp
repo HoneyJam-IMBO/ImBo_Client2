@@ -283,7 +283,7 @@ void CSSLR::ReleaseBuffer() {
 	m_pLightRaysTex = nullptr;
 	if(m_pLightRaysRTV)m_pLightRaysRTV->Release();
 	m_pLightRaysRTV = nullptr;
-	if(m_pLightRaysSRV)m_pLightRaysSRV->Release();
+	//if(m_pLightRaysSRV)m_pLightRaysSRV->Release();
 	m_pLightRaysSRV = nullptr;
 	
 	if (m_pOcclussionTexture) {

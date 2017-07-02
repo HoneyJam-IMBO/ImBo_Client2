@@ -1,5 +1,5 @@
 Texture2D<float> DepthTex : register(t0);
-RWTexture2D<float> OcclussionRW : register(u0);
+RWTexture2D<unorm float> OcclussionRW : register(u0);
 
 cbuffer stCSGlobalBufferData : register(b13) {
 	uint nWidth : packoffset(c0);

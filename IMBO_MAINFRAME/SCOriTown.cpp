@@ -93,7 +93,8 @@ bool CSCOriTown::Begin() {
 		}
 
 		//navi object
-		m_ppPawn[i]->SetNaviMeshIndex();
+		if(false == CNaviObjectManager::GetNaviVertices().empty())
+			m_ppPawn[i]->SetNaviMeshIndex();
 	}
 
 	
