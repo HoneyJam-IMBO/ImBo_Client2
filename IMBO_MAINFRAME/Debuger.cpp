@@ -191,9 +191,13 @@ void CDebuger::RenderLightVolume( CCamera* pCamera){
 	//m_pd3dDeviceContext->OMSetDepthStencilState(m_pLightDepthStencilState, 0);
 	GLOBALVALUEMGR->GetDeviceContext()->RSSetState(m_pLightRasterizerState);
 
-	for (auto RenderContainer : m_mDebugRenderContainer) {
-		RenderContainer.second->Render(pCamera);
-	}
+	m_mDebugRenderContainer["debugpointlight"]->Render(pCamera);
+	m_mDebugRenderContainer["debugcapsulelight"]->Render(pCamera);
+	m_mDebugRenderContainer["debugspotlight"]->Render(pCamera);
+
+	//for (auto RenderContainer : m_mDebugRenderContainer) {
+	//	RenderContainer.second->Render(pCamera);
+	//}
 	
 	//이전 상태로 되돌림
 	//m_pd3dDeviceContext->OMSetBlendState(m_pPreBlendState, m_pPreBlendFactor, m_PreSampleMask);
@@ -298,6 +302,10 @@ void CDebuger::RenderTexture(){
 		m_mDebugRenderContainer[csName]->Render(nullptr);
 		m_mDebugRenderContainer[csName]->ClearObjectList();
 		m_mDebugRenderContainer[csName]->ClearTextures();
+
+	//	m_pDebugTexture->End();
+		delete m_pDebugTexture;
+		m_pDebugTexture = nullptr;
 	}
 
 	//dpeh thexture
@@ -315,6 +323,10 @@ void CDebuger::RenderTexture(){
 		m_mDebugRenderContainer[csName]->Render(nullptr);
 		m_mDebugRenderContainer[csName]->ClearObjectList();
 		m_mDebugRenderContainer[csName]->ClearTextures();
+
+	//	m_pDebugTexture->End();
+		delete m_pDebugTexture;
+		m_pDebugTexture = nullptr;
 	}
 }
 int CDebuger::DebugMessageBox(std::string _title, std::string _message)
