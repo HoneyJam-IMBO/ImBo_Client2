@@ -535,14 +535,7 @@ void CTerrainContainer::CreateTerrainMesh(CSpaceContainer* pSpaceContainer){
 }
 
 void CTerrainContainer::ChangeSpaceData(){
-	//1. space안의 모든 terrain제거
-	//End();
-
-	//for (auto pTerrain : m_vpTerrain) {
-	//	m_pSpaceContainer->RemoveObject(pTerrain);
-	//}
-	m_vpTerrain.clear();
-	RENDERER->GetTerrainRenderContainer()->ClearObjectList();
+	
 	//2. mesh/ buffer새로 제작
 	//Begin();
 	SetTerrainScale(XMFLOAT3(static_cast<float>(m_pSpaceContainer->GetSize() / (m_nWidth)),
@@ -576,6 +569,18 @@ void CTerrainContainer::ChangeSpaceData(){
 	}
 	SetTessFacterSLP(space_lavel_pow);
 
+}
+void CTerrainContainer::DeleteAllTerrainObjects(){
+	//1. space안의 모든 terrain제거
+	//End();
+
+	for (auto pTerrain : m_vpTerrain) {
+		m_pSpaceContainer->RemoveObject(pTerrain);
+		pTerrain->End();
+		delete pTerrain;
+
+	}
+	m_vpTerrain.clear();
 }
 void CTerrainContainer::SetActive(bool b){
 	for (auto pTerrain : m_vpTerrain) {

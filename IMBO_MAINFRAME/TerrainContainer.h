@@ -78,6 +78,7 @@ public:
 	void CreateTerrainMesh(CSpaceContainer* pSpaceContainer);
 
 	void ChangeSpaceData();
+	void DeleteAllTerrainObjects();
 
 	void SetActive(bool b);
 	bool GetActive() { return m_bActive; }

@@ -57,6 +57,7 @@ void CUpdater::PhisicsUpdate(float fTimeElapsed){
 }
 
 void CUpdater::ChangeSceneContainers() {
+	if (m_pTerrainContainer) m_pTerrainContainer->DeleteAllTerrainObjects();
 	if (m_pSpaceContainer)m_pSpaceContainer->ChangeSpaceData();
 	if (m_pTerrainContainer) m_pTerrainContainer->ChangeSpaceData();
 
@@ -66,6 +67,7 @@ void CUpdater::ChangeSceneContainers() {
 
 void CUpdater::LoadSpaceInfo(){
 	//clear all objects
+	if (m_pTerrainContainer) m_pTerrainContainer->DeleteAllTerrainObjects();
 	m_pSpaceContainer->ClearAllObjects();
 
 	//space info

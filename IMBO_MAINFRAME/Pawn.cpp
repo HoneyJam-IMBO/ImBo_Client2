@@ -357,22 +357,22 @@ void CPawn::PhisicsLogic(CAtlMap<utag, CAtlArray<CGameObject*>*>* pUtagObjectAtl
 	CAtlArray<CGameObject*>* lpCollsion;
 	pUtagObjectAtlMap->Lookup(utag::UTAG_COLLISION, lpCollsion);
 	// move player to mapmesh
-	float fShift = XMVector4Length(m_xmvShift).m128_f32[0];
-	if (fShift > 0.f)
-	{
-
-		size_t iSize = lpCollsion->GetCount();
-		for (size_t i = 0; i < iSize; ++i)
-		{
-			if (false == (*lpCollsion)[i]->GetActive()) continue;
-			if (true == IsCollision((*lpCollsion)[i]))
-			{
-				XMStoreFloat3(&m_xmf3Position, XMLoadFloat3(&m_xmf3Position) + ((XMVector3Normalize(m_xmvShift) * -m_fSpeed) * fDeltaTime));
-				SetPosition(XMLoadFloat3(&m_xmf3Position));
-				break;
-			}
-		}
-	}
+	//float fShift = XMVector4Length(m_xmvShift).m128_f32[0];
+	//if (fShift > 0.f)
+	//{
+	//
+	//	size_t iSize = lpCollsion->GetCount();
+	//	for (size_t i = 0; i < iSize; ++i)
+	//	{
+	//		if (false == (*lpCollsion)[i]->GetActive()) continue;
+	//		if (true == IsCollision((*lpCollsion)[i]))
+	//		{
+	//			XMStoreFloat3(&m_xmf3Position, XMLoadFloat3(&m_xmf3Position) + ((XMVector3Normalize(m_xmvShift) * -m_fSpeed) * fDeltaTime));
+	//			SetPosition(XMLoadFloat3(&m_xmf3Position));
+	//			break;
+	//		}
+	//	}
+	//}
 	pUtagObjectAtlMap->Lookup(utag::UTAG_BOSS1, lpCollsion);
 	size_t iSize = lpCollsion->GetCount();
 	if (false == m_bDamaged) {
