@@ -274,6 +274,14 @@ VOID CSCOriTown::PROC_PT_FREQUENCY_MOVE_SC(DWORD dwProtocol, BYTE * Packet, DWOR
 	return VOID();
 }
 
+VOID CSCOriTown::PROC_PT_MOUSE_LEFT_ATTACK_SC(DWORD dwProtocol, BYTE * Packet, DWORD dwPacketLength) {
+	READ_PACKET(PT_MOUSE_LEFT_ATTACK_SC);
+
+	NETWORKMGR->GetServerPlayerInfos()[Data.SLOT_ID].ATTACK = Data.ATTACK;
+
+	return VOID();
+}
+
 void CSCOriTown::ReadMapData()
 {
 	IMPORTER->Begin("../../Assets/SceneResource/test/test.scn");

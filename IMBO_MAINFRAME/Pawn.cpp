@@ -16,7 +16,7 @@ void CPawn::Animate(float fTimeElapsed)
 
 	if (true == m_bSprit && false == m_bDamaged)
 		KeyInput(fTimeElapsed); //KeyInput(fTimeElapsed);
-	else{
+	else {
 		GetServerData(fTimeElapsed);
 	}
 	if (true == m_bSkill)
@@ -32,7 +32,7 @@ void CPawn::Animate(float fTimeElapsed)
 	}
 	if (m_pAnimater) m_pAnimater->Update(TIMEMGR->GetTimeElapsed());
 
-	
+
 	if (ANIM_JUMP_END == m_nAnimNum
 		|| ANIM_ATTACK == m_nAnimNum
 		|| ANIM_SKILL1_FIRE == m_nAnimNum
@@ -43,7 +43,7 @@ void CPawn::Animate(float fTimeElapsed)
 			m_pAnimater->SetCurAnimationIndex(m_nAnimNum);
 		}
 	}
-	CGameObject::Animate(fTimeElapsed);	
+	CGameObject::Animate(fTimeElapsed);
 
 
 	if (m_pWeapon)
@@ -132,6 +132,13 @@ void CPawn::KeyInput(float fDeltaTime)
 				break;
 			}
 		}
+#ifdef NO_SERVER
+
+#else
+		BYTE Packet[MAX_BUFFER_LENGTH] = { 0, };
+		bool bAttack = true;
+		NETWORKMGR->WritePacket(PT_MOUSE_LEFT_ATTACK_CS, Packet, WRITE_PT_MOUSE_LEFT_ATTACK_CS(Packet, bAttack));
+#endif
 	}
 	// 마우스 우클릭회전
 	if (true == INPUTMGR->MouseRightUp() && abs(m_pCamera->m_cxDelta + m_pCamera->m_cyDelta) > 1.f) {
@@ -153,6 +160,7 @@ void CPawn::KeyInput(float fDeltaTime)
 	if (INPUTMGR->OnlyKeyBoardDown(VK_S))		dwDirection |= DIR_BACKWARD;
 	if (INPUTMGR->OnlyKeyBoardDown(VK_A))		dwDirection |= DIR_LEFT;
 	if (INPUTMGR->OnlyKeyBoardDown(VK_D))		dwDirection |= DIR_RIGHT;
+	// 점프
 	if (INPUTMGR->KeyBoardDown(VK_SPACE_))		m_bJump = true;
 
 	if (true == INPUTMGR->MouseRightDown()) {
@@ -167,10 +175,8 @@ void CPawn::KeyInput(float fDeltaTime)
 		if (dwDirection & DIR_RIGHT)		m_xmvShift += GetRight();
 		if (dwDirection & DIR_LEFT)			m_xmvShift -= GetRight();
 
-		Move(XMVector3Normalize(m_xmvShift), m_fSpeed * fDeltaTime);
-
-		//XMStoreFloat3(&m_xmf3Position, XMLoadFloat3(&m_xmf3Position) + ((XMVector3Normalize(m_xmvShift) * m_fSpeed) * fDeltaTime));
-		//SetPosition(XMLoadFloat3(&m_xmf3Position));
+		XMStoreFloat3(&m_xmf3Position, XMLoadFloat3(&m_xmf3Position) + ((XMVector3Normalize(m_xmvShift) * m_fSpeed) * fDeltaTime));
+		SetPosition(XMLoadFloat3(&m_xmf3Position));
 
 		m_bIdle = false;
 	}
@@ -192,130 +198,83 @@ void CPawn::KeyInput(float fDeltaTime)
 	m_fTranslateTime += fDeltaTime;
 	if (m_fTranslateTime > 0.015) {
 		m_fTranslateTime = 0;
-		PushServerData(m_xmf3Position.x, m_xmf3Position.y, m_xmf3Position.z, m_fAngleY);
+		PushServerData(m_xmf3Position.x, m_xmf3Position.y, m_xmf3Position.z, m_fAngleY, dwDirection, m_bJump);
 	}
 
-	
+
 }
 
-void CPawn::PushServerData(float x, float y, float z, float fAngleY)
+void CPawn::PushServerData(float x, float y, float z, float fAngleY, DWORD dwDirection, bool bJump)
 {
 	BYTE Packet[MAX_BUFFER_LENGTH] = { 0, };
 
-	NETWORKMGR->WritePacket(PT_FREQUENCY_MOVE_CS, Packet, WRITE_PT_FREQUENCY_MOVE_CS(Packet, x,y,z, fAngleY));
+	NETWORKMGR->WritePacket(PT_FREQUENCY_MOVE_CS, Packet, WRITE_PT_FREQUENCY_MOVE_CS(Packet, x, y, z, fAngleY, dwDirection, bJump));
 }
 
-void CPawn::GetServerData(float fTimeElapsed){
+void CPawn::GetServerData(float fTimeElapsed) {
 #ifdef NO_SERVER
 	return;
 #endif
+
+	//////
 	PLAYR_FREQUENCY_DATA data = NETWORKMGR->GetPlayerFrequencyData(m_SLOT_ID);
 	float fPosX = data.fPosX;
 	float fPosY = data.fPosY;
 	float fPosZ = data.fPosZ;
 
-	SetPosition(XMVectorSet(fPosX, fPosY, fPosZ, 1.0f));
+
 	float fAngleY = data.fAngleY;
+	DWORD dwDirection = data.dwDirection;
 
-	//if (fAngleY == 0.f) fAngleY = m_fAngleY;
-	//else m_fAngleY = fAngleY;
-	//NETWORKMGR->GetServerPlayerInfos()[m_SLOT_ID].FREQUENCY_DATA.dwDirection = 0;
-	//NETWORKMGR->GetServerPlayerInfos()[m_SLOT_ID].FREQUENCY_DATA.fAngleY = m_fAngleY;
+	bool bAttack = NETWORKMGR->GetAttack(m_SLOT_ID);
+	//////
 
-	//if (m_bSkill == false && m_bJump == false && m_nAnimNum != ANIM_SKILL1_CHARGING && INPUTMGR->KeyDown(VK_1)) {
-	//	m_nAnimNum = ANIM_SKILL1_CHARGING;
-	//	m_pAnimater->SetCurAnimationIndex(m_nAnimNum);
-	//	m_bSkill = true;
-	//	CEffectMgr::GetInstance()->Play_Effect(L"elf_sk2-1", XMVectorSet(m_xmf3Position.x, m_xmf3Position.y, m_xmf3Position.z, 1.f),
-	//		XMVectorSet(0.f, XMConvertToDegrees(m_fAngleY), 0.f, 0.f), XMVectorSet(1.5f, 1.5f, 0.f, 1.f));
-	//}
-	//if (INPUTMGR->KeyDown(VK_2))
-	//{
-	//	CEffectMgr::GetInstance()->Play_Effect(L"elf_sk1", XMVectorSet(m_xmf3Position.x, m_xmf3Position.y + 2.f, m_xmf3Position.z, 1.f),
-	//		XMVectorSet(0.f, XMConvertToDegrees(m_fAngleY), 0.f, 0.f));
-	//}
-	//if (INPUTMGR->KeyDown(VK_3))
-	//{
-	//	CEffectMgr::GetInstance()->Play_Effect(L"elf_sk2", XMVectorSet(m_xmf3Position.x, m_xmf3Position.y + 2.f, m_xmf3Position.z, 1.f),
-	//		XMVectorSet(0.f, XMConvertToDegrees(m_fAngleY), 0.f, 0.f));
-	//}
-	//if (INPUTMGR->KeyDown(VK_4))
-	//{
-	//	CEffectMgr::GetInstance()->Play_Effect(L"elf_sk3", XMVectorSet(m_xmf3Position.x, m_xmf3Position.y + 2.f, m_xmf3Position.z, 1.f),
-	//		XMVectorSet(0.f, XMConvertToDegrees(m_fAngleY), 0.f, 0.f));
-	//}
-	//if (INPUTMGR->KeyDown(VK_5))
-	//{
-	//	CEffectMgr::GetInstance()->Play_Effect(L"elf_sk4", XMVectorSet(m_xmf3Position.x, m_xmf3Position.y + 2.f, m_xmf3Position.z, 1.f),
-	//		XMVectorSet(0.f, XMConvertToDegrees(m_fAngleY), 0.f, 0.f), XMVectorSet(5.f, 5.f, 5.f, 1.f));
-	//}
-	//if (INPUTMGR->KeyDown(VK_6))
-	//{
-	//	CEffectMgr::GetInstance()->Play_Effect(L"elf_sk3-1", XMVectorSet(m_xmf3Position.x, m_xmf3Position.y + 2.f, m_xmf3Position.z, 1.f),
-	//		XMVectorSet(0.f, XMConvertToDegrees(m_fAngleY), 0.f, 0.f));
-	//}
-	//if (INPUTMGR->KeyDown(VK_7))
-	//{
-	//	/*CEffectMgr::GetInstance()->Play_Effect(L"hum2_sk4", XMVectorSet(m_xmf3Position.x, m_xmf3Position.y + 2.f, m_xmf3Position.z, 1.f),
-	//	XMVectorSet(0.f, XMConvertToDegrees(m_fAngleY), 0.f, 0.f));*/
-	//	m_bDamaged = false;
-	//}
+	if (m_bJump == true && data.bJump == false) {
+		m_nAnimNum = ANIM_JUMP_END;
+		m_pAnimater->SetCurAnimationIndex(m_nAnimNum);
+	}
+	m_bJump = data.bJump;
 
-	////공격
-	//if (m_bSkill == false && m_bJump == false && INPUTMGR->MouseLeftDown() && m_nAnimNum != ANIM_ATTACK) {
-	//	CEffectMgr::GetInstance()->Play_Effect(L"Test2", XMVectorSet(m_xmf3Position.x, m_xmf3Position.y + 2.f, m_xmf3Position.z, 1.f),
-	//		XMVectorSet(0.f, XMConvertToDegrees(m_fAngleY), 0.f, 0.f));
-	//	m_nAnimNum = ANIM_ATTACK;
-	//	m_pAnimater->SetCurAnimationIndex(m_nAnimNum);
-	//
-	//	size_t iArraySize = m_mapSkill["Arrow"].size();
-	//	for (size_t i = 0; i < iArraySize; ++i) {
-	//		if (false == m_mapSkill["Arrow"][i]->GetActive()) {
-	//			m_mapSkill["Arrow"][i]->SetActive(true);
-	//			m_mapSkill["Arrow"][i]->SetPosition(XMVectorSet(m_xmf3Position.x, m_xmf3Position.y + 3.f, m_xmf3Position.z, 1.f));
-	//			m_mapSkill["Arrow"][i]->Rotate(m_xmatrixRotate);
-	//			break;
-	//		}
-	//	}
-	//}
-	// 마우스 우클릭회전
-
+	SetPosition(XMVectorSet(fPosX, fPosY, fPosZ, 1.0f));
 	SetRotation(XMMatrixRotationY(fAngleY));
 
-	//if (m_nAnimNum == ANIM_ATTACK
-	//	|| true == m_bSkill
-	//	|| m_nAnimNum == ANIM_SKILL1_FIRE) return;
+	// 공격
+	if (m_bSkill == false && m_bJump == false && bAttack == true && m_nAnimNum != ANIM_ATTACK) {
+		CEffectMgr::GetInstance()->Play_Effect(L"Test2", XMVectorSet(m_xmf3Position.x, m_xmf3Position.y + 2.f, m_xmf3Position.z, 1.f),
+			XMVectorSet(0.f, XMConvertToDegrees(m_fAngleY), 0.f, 0.f));
+		m_nAnimNum = ANIM_ATTACK;
+		m_pAnimater->SetCurAnimationIndex(m_nAnimNum);
 
-	//점프
-	//if (INPUTMGR->KeyBoardDown(VK_SPACE_))		m_bJump = true;
-
-	//if (true == INPUTMGR->MouseRightDown()) {
-	//	m_bIdle = true;
-	//}
-
-	//SetupAnimation(dwDirection);
-	//float fSpeed = 20.f;
-	//if (dwDirection) {
-	//	if (dwDirection & DIR_FORWARD)		m_xmvShift += GetLook();
-	//	if (dwDirection & DIR_BACKWARD)		m_xmvShift -= GetLook();
-	//	if (dwDirection & DIR_RIGHT)		m_xmvShift += GetRight();
-	//	if (dwDirection & DIR_LEFT)			m_xmvShift -= GetRight();
+		size_t iArraySize = m_mapSkill["Arrow"].size();
+		for (size_t i = 0; i < iArraySize; ++i) {
+			if (false == m_mapSkill["Arrow"][i]->GetActive()) {
+				m_mapSkill["Arrow"][i]->SetActive(true);
+				m_mapSkill["Arrow"][i]->SetPosition(XMVectorSet(m_xmf3Position.x, m_xmf3Position.y + 3.f, m_xmf3Position.z, 1.f));
+				m_mapSkill["Arrow"][i]->Rotate(m_xmatrixRotate);
+				break;
+			}
+		}
+	}
 	//
-	//	XMStoreFloat3(&m_xmf3Position, XMLoadFloat3(&m_xmf3Position) + ((XMVector3Normalize(m_xmvShift) * m_fSpeed) * fTimeElapsed));
-	//	SetPosition(XMLoadFloat3(&m_xmf3Position));
-	//
-	//	m_bIdle = false;
-	//}
-	//else {
-	//	if (false == m_bJump) {
-	//		if (ANIM_JUMP_END != m_nAnimNum) {
-	//			m_nAnimNum = ANIM_IDLE;
-	//			m_pAnimater->SetCurAnimationIndex(m_nAnimNum);
-	//		}
-	//	}
-	//}
-	////점프
-	//if (true == m_bJump)	Jumping(fTimeElapsed);
+
+	if (m_nAnimNum == ANIM_ATTACK
+		|| true == m_bSkill
+		|| m_nAnimNum == ANIM_SKILL1_FIRE) return;
+
+
+	SetupAnimation(dwDirection);
+	if (dwDirection) {
+		m_bIdle = false;
+	}
+	else {
+		if (false == m_bJump) {
+			if (ANIM_JUMP_END != m_nAnimNum) {
+				m_nAnimNum = ANIM_IDLE;
+				m_pAnimater->SetCurAnimationIndex(m_nAnimNum);
+			}
+		}
+	}
+
 }
 
 void CPawn::SetupAnimation(DWORD dwDirection)
@@ -340,7 +299,7 @@ void CPawn::SetupAnimation(DWORD dwDirection)
 		if (dwDirection & DIR_BACKWARD && dwDirection & DIR_RIGHT)
 			if (m_nAnimNum != ANIM_RUN_BR) m_nAnimNum = ANIM_RUN_BR;
 
-		if(0 != dwDirection)
+		if (0 != dwDirection)
 			m_pAnimater->SetCurAnimationIndex(m_nAnimNum);
 	}
 	else
@@ -353,7 +312,7 @@ void CPawn::SetupAnimation(DWORD dwDirection)
 				m_nAnimNum = ANIM_JUMP_START;
 				m_pAnimater->SetCurAnimationIndex(m_nAnimNum);
 			}
-				
+
 
 			if (m_nAnimNum == ANIM_JUMP_START
 				&& true == m_pAnimater->GetCurAnimationInfo()->GetLoopDone())
@@ -368,12 +327,12 @@ void CPawn::SetupAnimation(DWORD dwDirection)
 void CPawn::Jumping(float fDeltaTime)
 {
 	m_fJumpTime += fDeltaTime;
-	float fJumpValue = 1.3f * m_fJumpTime ;
+	float fJumpValue = 1.3f * m_fJumpTime;
 	float fJumpPower = 0.6f;
-	
+
 	m_xmf4x4World._42 += fJumpPower - fJumpValue;
 	m_xmf3Position.y += fJumpPower - fJumpValue;
-	
+
 	if (m_xmf4x4World._42 < GetTerrainHeight())
 	{
 		m_fJumpTime = 0.f;
@@ -387,19 +346,25 @@ void CPawn::Jumping(float fDeltaTime)
 	}
 }
 
-void CPawn::RegistToContainer(){
+void CPawn::RegistToContainer() {
 	CGameObject::RegistToContainer();
-	if(m_pWeapon) m_pWeapon->RegistToContainer();
+	if (m_pWeapon) m_pWeapon->RegistToContainer();
 }
 
-void CPawn::PhisicsLogic(map<utag, list<CGameObject*>>& mlpObject, float fDeltaTime)
+void CPawn::PhisicsLogic(CAtlMap<utag, CAtlArray<CGameObject*>*>* pUtagObjectAtlMap, float fDeltaTime)
 {
+	CAtlArray<CGameObject*>* lpCollsion;
+	pUtagObjectAtlMap->Lookup(utag::UTAG_COLLISION, lpCollsion);
+	// move player to mapmesh
 	float fShift = XMVector4Length(m_xmvShift).m128_f32[0];
 	if (fShift > 0.f)
 	{
-		for (auto pCollision : mlpObject[utag::UTAG_COLLISION]) {
-			if (false == pCollision->GetActive()) continue;
-			if (true == IsCollision(pCollision))
+
+		size_t iSize = lpCollsion->GetCount();
+		for (size_t i = 0; i < iSize; ++i)
+		{
+			if (false == (*lpCollsion)[i]->GetActive()) continue;
+			if (true == IsCollision((*lpCollsion)[i]))
 			{
 				XMStoreFloat3(&m_xmf3Position, XMLoadFloat3(&m_xmf3Position) + ((XMVector3Normalize(m_xmvShift) * -m_fSpeed) * fDeltaTime));
 				SetPosition(XMLoadFloat3(&m_xmf3Position));
@@ -407,9 +372,13 @@ void CPawn::PhisicsLogic(map<utag, list<CGameObject*>>& mlpObject, float fDeltaT
 			}
 		}
 	}
+	pUtagObjectAtlMap->Lookup(utag::UTAG_BOSS1, lpCollsion);
+	size_t iSize = lpCollsion->GetCount();
 	if (false == m_bDamaged) {
-		for (auto pBoss1 : mlpObject[utag::UTAG_BOSS1]) {
-			if (true == IsCollision(pBoss1))
+		for (size_t i = 0; i < iSize; ++i)
+		{
+			//if (false == (*lpCollsion)[i]->GetActive()) continue;
+			if (true == IsCollision((*lpCollsion)[i]))
 			{
 				m_bDamaged = true;
 				CEffectMgr::GetInstance()->Play_Effect(L"TestBlood", XMVectorSet(m_xmf3Position.x, m_xmf3Position.y + 2.f, m_xmf3Position.z, 1.f),
@@ -422,14 +391,13 @@ void CPawn::PhisicsLogic(map<utag, list<CGameObject*>>& mlpObject, float fDeltaT
 			}
 		}
 	}
-	
 }
 
 CPawn::CPawn(string name, tag t, bool bSprit, CGameObject* pWeapon, INT slot_id)
 	: CGameObject(name, t)
 	, m_bSprit(bSprit)
 	, m_pWeapon(pWeapon)
-	,m_SLOT_ID(slot_id)
+	, m_SLOT_ID(slot_id)
 {
 	m_fSpeed = 20.f;
 

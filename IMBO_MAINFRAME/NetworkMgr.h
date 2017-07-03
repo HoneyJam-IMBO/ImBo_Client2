@@ -246,11 +246,14 @@ struct PLAYR_FREQUENCY_DATA {
 	float fPosY{ 0.f };
 	float fPosZ{ 0.f };
 	float fAngleY{ 0.f };
+	DWORD dwDirection{ 0 };
+	bool bJump{ false };
 };
-struct ServerPlayerInfo { 
+struct ServerPlayerInfo {
 	INT CHARACTER{ 0 };
 	//std::queue<PLAYR_FREQUENCY_DATA> m_qFREQUENCY_DATA;
 	PLAYR_FREQUENCY_DATA FREQUENCY_DATA;
+	BOOL ATTACK{ false };
 	ServerPlayerInfo(INT c) : CHARACTER(c) {}
 };
 
@@ -346,6 +349,7 @@ public:
 
 	//network pawn input 
 	PLAYR_FREQUENCY_DATA GetPlayerFrequencyData(INT SLOT_ID);
+	BOOL GetAttack(INT SLOT_ID);
 private:
 	//hero sel scene¿¡¼­ 
 	vector<ServerPlayerInfo> m_vServerPlayerInfo;
