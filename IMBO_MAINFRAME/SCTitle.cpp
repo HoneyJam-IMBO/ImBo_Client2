@@ -32,7 +32,8 @@ bool CSCTitle::Begin()
 
 bool CSCTitle::End()
 {
-	return false;
+	
+	return CScene::End();;
 }
 
 void CSCTitle::Animate(float fTimeElapsed)

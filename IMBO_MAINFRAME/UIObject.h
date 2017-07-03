@@ -12,7 +12,7 @@ class CUIObject
 {
 public:
 	CUIObject();
-	~CUIObject();
+	virtual ~CUIObject();
 
 public:
 	virtual HRESULT Initialize() { return S_OK; };

@@ -9,6 +9,7 @@ CImageUI::CImageUI()
 
 CImageUI::~CImageUI()
 {
+	m_pUIRenderCont->ClearData();
 }
 
 CImageUI * CImageUI::Create(XMVECTOR xyPos, XMVECTOR xySize, string strTexName, float fRanderLayer)

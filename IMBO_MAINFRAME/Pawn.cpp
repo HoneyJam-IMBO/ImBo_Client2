@@ -175,8 +175,9 @@ void CPawn::KeyInput(float fDeltaTime)
 		if (dwDirection & DIR_RIGHT)		m_xmvShift += GetRight();
 		if (dwDirection & DIR_LEFT)			m_xmvShift -= GetRight();
 
-		XMStoreFloat3(&m_xmf3Position, XMLoadFloat3(&m_xmf3Position) + ((XMVector3Normalize(m_xmvShift) * m_fSpeed) * fDeltaTime));
-		SetPosition(XMLoadFloat3(&m_xmf3Position));
+		Move(XMVector3Normalize(m_xmvShift), m_fSpeed * fDeltaTime);
+		//XMStoreFloat3(&m_xmf3Position, XMLoadFloat3(&m_xmf3Position) + ((XMVector3Normalize(m_xmvShift) * m_fSpeed) * fDeltaTime));
+		//SetPosition(XMLoadFloat3(&m_xmf3Position));
 
 		m_bIdle = false;
 	}

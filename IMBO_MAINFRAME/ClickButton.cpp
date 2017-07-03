@@ -9,6 +9,7 @@ CClickButton::CClickButton()
 
 CClickButton::~CClickButton()
 {
+	m_pUIRenderCont->ClearData();
 }
 
 CClickButton * CClickButton::Create(XMVECTOR xyPos, XMVECTOR xySize, string strTexName)

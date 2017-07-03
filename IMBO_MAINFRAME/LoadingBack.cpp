@@ -6,6 +6,7 @@ CLoadingBack::CLoadingBack()
 }
 CLoadingBack::~CLoadingBack()
 {
+	m_pUIRenderCont->ClearData();
 }
 
 CLoadingBack * CLoadingBack::Create(XMVECTOR xyPos, XMVECTOR xySize, string strTexName)

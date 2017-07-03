@@ -75,12 +75,12 @@ bool CSCHeroSel::Begin()
 bool CSCHeroSel::End()
 {
 	RENDERER->GetUIRenderer()->ClearData();
-	size_t iVecSize = m_vecUI.size();
-	for (size_t i = 0; i < iVecSize; ++i)
-	{
-		delete m_vecUI[i];
-	}
-	iVecSize = m_vecButtonUI.size();
+	//size_t iVecSize = m_vecUI.size();
+	//for (size_t i = 0; i < iVecSize; ++i)
+	//{
+	//	delete m_vecUI[i];
+	//}
+	size_t iVecSize = m_vecButtonUI.size();
 	for (size_t i = 0; i < iVecSize; ++i)
 	{
 		delete m_vecButtonUI[i];

@@ -9,6 +9,7 @@ CHpBar::CHpBar()
 
 CHpBar::~CHpBar()
 {
+	m_pUIRenderCont->ClearData();
 }
 
 CHpBar * CHpBar::Create(XMVECTOR xyPos, XMVECTOR xySize)
