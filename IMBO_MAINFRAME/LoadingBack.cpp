@@ -6,6 +6,7 @@ CLoadingBack::CLoadingBack()
 }
 CLoadingBack::~CLoadingBack()
 {
+	//Release();
 	m_pUIRenderCont->ClearData();
 }
 

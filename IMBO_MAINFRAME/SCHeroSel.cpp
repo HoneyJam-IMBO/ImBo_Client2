@@ -75,12 +75,12 @@ bool CSCHeroSel::Begin()
 bool CSCHeroSel::End()
 {
 	RENDERER->GetUIRenderer()->ClearData();
-	//size_t iVecSize = m_vecUI.size();
-	//for (size_t i = 0; i < iVecSize; ++i)
-	//{
-	//	delete m_vecUI[i];
-	//}
-	size_t iVecSize = m_vecButtonUI.size();
+	size_t iVecSize = m_vecUI.size();
+	for (size_t i = 0; i < iVecSize; ++i)
+	{
+		delete m_vecUI[i];
+	}
+	iVecSize = m_vecButtonUI.size();
 	for (size_t i = 0; i < iVecSize; ++i)
 	{
 		delete m_vecButtonUI[i];
@@ -146,22 +146,22 @@ void CSCHeroSel::Animate(float fTimeElapsed)
 		
 		return;
 #endif
-		if (0 == NETWORKMGR->GetSLOT_ID()) {
+		/*if (0 == NETWORKMGR->GetSLOT_ID()) {
 			BYTE Packet[MAX_BUFFER_LENGTH] = { 0, };
 			INT id = NETWORKMGR->GetNETWORK_ID();
 			NETWORKMGR->WritePacket(PT_ROOM_CREATE_CS, Packet, WRITE_PT_ROOM_CREATE_CS(Packet, id));
-		}
+		}*/
 	}
 	if (INPUTMGR->KeyDown(VK_L))
 	{
 
-		BYTE Packet[MAX_BUFFER_LENGTH] = { 0, };
+		/*BYTE Packet[MAX_BUFFER_LENGTH] = { 0, };
 		INT id = NETWORKMGR->GetNETWORK_ID();
 		INT NETWORK_ID = NETWORKMGR->GetNETWORK_ID();
 		INT ROOM_ID = 0;
 		NETWORKMGR->SetROOM_ID(ROOM_ID);
 		NETWORKMGR->WritePacket(PT_ROOM_JOIN_CS, Packet, WRITE_PT_ROOM_JOIN_CS(Packet, NETWORK_ID, ROOM_ID));
-
+*/
 	}
 	if (INPUTMGR->KeyDown(VK_F5_))
 	{

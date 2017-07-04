@@ -254,6 +254,7 @@ void CRenderer::Render( CCamera* pCamera) {
 	m_pObjectRenderer->CleanShaderState();
 
 	//naviobject render
+	if (true == bDebug) CNaviObjectManager::Render();
 	if (true == bDebug) DEBUGER->end_Timemeasurement(L"object_render");
 	//GLOBALVALUEMGR->GetDeviceContext()->OMSetDepthStencilState(m_pd3dDSSEarlyZWrite, 1);
 
@@ -332,38 +333,38 @@ void CRenderer::Render( CCamera* pCamera) {
 
 	//DEBUG
 	if (true == bDebug) {
-		DEBUGER->AddDepthTexture(XMFLOAT2(500, 0), XMFLOAT2(750, 150), m_pd3dsrvDepthStencil);
-		//	DEBUGER->AddTexture(XMFLOAT2(100, 0), XMFLOAT2(350, 250), pRFL);
-		DEBUGER->AddTexture(XMFLOAT2(0, 0), XMFLOAT2(200, 200), m_vObjectLayerResultTexture[1]->GetShaderResourceView());
-		DEBUGER->AddTexture(XMFLOAT2(0, 200), XMFLOAT2(200, 400), m_vObjectLayerResultTexture[2]->GetShaderResourceView());
-		DEBUGER->AddTexture(XMFLOAT2(0, 400), XMFLOAT2(200, 600), m_vObjectLayerResultTexture[3]->GetShaderResourceView());
-		DEBUGER->AddTexture(XMFLOAT2(0, 600), XMFLOAT2(200, 800), m_vLightLayerResultTexture[0]->GetShaderResourceView());
+		//DEBUGER->AddDepthTexture(XMFLOAT2(500, 0), XMFLOAT2(750, 150), m_pd3dsrvDepthStencil);
+		////	DEBUGER->AddTexture(XMFLOAT2(100, 0), XMFLOAT2(350, 250), pRFL);
+		//DEBUGER->AddTexture(XMFLOAT2(0, 0), XMFLOAT2(200, 200), m_vObjectLayerResultTexture[1]->GetShaderResourceView());
+		//DEBUGER->AddTexture(XMFLOAT2(0, 200), XMFLOAT2(200, 400), m_vObjectLayerResultTexture[2]->GetShaderResourceView());
+		//DEBUGER->AddTexture(XMFLOAT2(0, 400), XMFLOAT2(200, 600), m_vObjectLayerResultTexture[3]->GetShaderResourceView());
+		//DEBUGER->AddTexture(XMFLOAT2(0, 600), XMFLOAT2(200, 800), m_vLightLayerResultTexture[0]->GetShaderResourceView());
 
-		DEBUGER->AddTexture(XMFLOAT2(200, 400), XMFLOAT2(400, 600), m_pd3dsrvPostProcess);
-		//if (INPUTMGR->KeyDown(VK_F2_)) {
-		//	//bSSAO = (bSSAO + 1) % 2; 
-		//	++m_iOption;
-		//} 
-		//
-		//switch (m_iOption)
-		//{
-		//case 0:
-		//	DEBUGER->AddTexture(XMFLOAT2(0, 0), XMFLOAT2(GLOBALVALUEMGR->GetrcClient().right, GLOBALVALUEMGR->GetrcClient().bottom), m_vObjectLayerResultTexture[1]->GetShaderResourceView());
-		//	break;
-		//case 1:
-		//	DEBUGER->AddTexture(XMFLOAT2(0, 0), XMFLOAT2(GLOBALVALUEMGR->GetrcClient().right, GLOBALVALUEMGR->GetrcClient().bottom), m_vLightLayerResultTexture[0]->GetShaderResourceView());
-		//	break;
-		//case 2:	break;
-		//case 3:
-		//	DEBUGER->AddTexture(XMFLOAT2(0, 0), XMFLOAT2(GLOBALVALUEMGR->GetrcClient().right, GLOBALVALUEMGR->GetrcClient().bottom), m_pd3dsrvPostProcess);
-		//	break;
-		//case 4:
-		//	DEBUGER->AddTexture(XMFLOAT2(0, 0), XMFLOAT2(GLOBALVALUEMGR->GetrcClient().right, GLOBALVALUEMGR->GetrcClient().bottom), m_pEffectRenderer->GetDistortionSRV());
-		//	break;
-		//case 5:
-		//	m_iOption = 0;
-		//	break;
-		//}
+		//DEBUGER->AddTexture(XMFLOAT2(200, 400), XMFLOAT2(400, 600), m_pd3dsrvPostProcess);
+		if (INPUTMGR->KeyDown(VK_F2_)) {
+			//bSSAO = (bSSAO + 1) % 2; 
+			++m_iOption;
+		} 
+
+		switch (m_iOption)
+		{
+		case 0:
+			DEBUGER->AddTexture(XMFLOAT2(0, 0), XMFLOAT2(GLOBALVALUEMGR->GetrcClient().right, GLOBALVALUEMGR->GetrcClient().bottom), m_vObjectLayerResultTexture[1]->GetShaderResourceView());
+			break;
+		case 1:
+			DEBUGER->AddTexture(XMFLOAT2(0, 0), XMFLOAT2(GLOBALVALUEMGR->GetrcClient().right, GLOBALVALUEMGR->GetrcClient().bottom), m_vLightLayerResultTexture[0]->GetShaderResourceView());
+			break;
+		case 2:	break;
+		case 3:
+			DEBUGER->AddTexture(XMFLOAT2(0, 0), XMFLOAT2(GLOBALVALUEMGR->GetrcClient().right, GLOBALVALUEMGR->GetrcClient().bottom), m_pd3dsrvPostProcess);
+			break;
+		case 4:
+			DEBUGER->AddTexture(XMFLOAT2(0, 0), XMFLOAT2(GLOBALVALUEMGR->GetrcClient().right, GLOBALVALUEMGR->GetrcClient().bottom), m_pEffectRenderer->GetDistortionSRV());
+			break;
+		case 5:
+			m_iOption = 0;
+			break;
+		}
 		//이건 꼭 여기서 해줘야함.
 		DEBUGER->RenderTexture();
 		DEBUGER->RenderText();

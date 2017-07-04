@@ -5,6 +5,7 @@
 #include "SCHeroSel.h"
 #include "SCOriTown.h"
 #include "SCTitle.h"
+#include "SCLobby.h"
 
 #include "LoadingBack.h"
 #include "ImageUI.h"
@@ -76,6 +77,7 @@ void CLoading::Animate(float fTimeElapsed)
 		CScene*	pScene = nullptr;
 		switch (m_eSceneID) {
 		case SCN_TITLE:			pScene = new CSCTitle(m_eSceneID, m_pFrameWork);			break;
+		case SCN_LOBBY:			pScene = new CSCLobby(m_eSceneID, m_pFrameWork);				break;
 		case SCN_HEROSEL:		pScene = new CSCHeroSel(m_eSceneID, m_pFrameWork);			break;
 		case SCN_ORITOWN:		pScene = new CSCOriTown(m_eSceneID, m_pFrameWork);			break;
 		}
@@ -146,6 +148,34 @@ void CLoading::LoadScene_TITLE()
 
 void CLoading::LoadScene_LOBBY()
 {
+	RESOURCEMGR->CreateTexture("Lobby_back", _T("../../Assets/Scene_Lobby/Lobby_back.jpg"), PS_TEXTURE, BIND_PS);
+	RESOURCEMGR->CreateTexture("Lobby_window", _T("../../Assets/Scene_Lobby/Lobby_window.png"), PS_TEXTURE, BIND_PS);
+
+
+	RESOURCEMGR->CreateTexture("Lobby_CreateButt", _T("../../Assets/Scene_Lobby/Lobby_CreateButt.png"), PS_TEXTURE, BIND_PS);
+	RESOURCEMGR->CreateTexture("Lobby_JoinButt", _T("../../Assets/Scene_Lobby/Lobby_JoinButt.png"), PS_TEXTURE, BIND_PS);
+	RESOURCEMGR->CreateTexture("Lobby_LeftButt", _T("../../Assets/Scene_Lobby/Lobby_LeftButt.png"), PS_TEXTURE, BIND_PS);
+	RESOURCEMGR->CreateTexture("Lobby_RightButt", _T("../../Assets/Scene_Lobby/Lobby_RightButt.png"), PS_TEXTURE, BIND_PS);
+	RESOURCEMGR->CreateTexture("Lobby_RoomFrame", _T("../../Assets/Scene_Lobby/Lobby_RoomFrame.png"), PS_TEXTURE, BIND_PS);
+	RESOURCEMGR->CreateTexture("Lobby_Deco1", _T("../../Assets/Scene_Lobby/Lobby_Deco1.png"), PS_TEXTURE, BIND_PS);
+	RESOURCEMGR->CreateTexture("Lobby_Menu", _T("../../Assets/Scene_Lobby/Lobby_Menu.png"), PS_TEXTURE, BIND_PS);
+	RESOURCEMGR->CreateTexture("Lobby_SelFrame", _T("../../Assets/Scene_Lobby/Lobby_SelFrame.png"), PS_TEXTURE, BIND_PS);
+
+	RESOURCEMGR->CreateTexture("Num_0", _T("../../Assets/Scene_Lobby/Num_0.png"), PS_TEXTURE, BIND_PS);
+	RESOURCEMGR->CreateTexture("Num_1", _T("../../Assets/Scene_Lobby/Num_1.png"), PS_TEXTURE, BIND_PS);
+	RESOURCEMGR->CreateTexture("Num_2", _T("../../Assets/Scene_Lobby/Num_2.png"), PS_TEXTURE, BIND_PS);
+	RESOURCEMGR->CreateTexture("Num_3", _T("../../Assets/Scene_Lobby/Num_3.png"), PS_TEXTURE, BIND_PS);
+	RESOURCEMGR->CreateTexture("Num_4", _T("../../Assets/Scene_Lobby/Num_4.png"), PS_TEXTURE, BIND_PS);
+	RESOURCEMGR->CreateTexture("Num_5", _T("../../Assets/Scene_Lobby/Num_5.png"), PS_TEXTURE, BIND_PS);
+	RESOURCEMGR->CreateTexture("Num_6", _T("../../Assets/Scene_Lobby/Num_6.png"), PS_TEXTURE, BIND_PS);
+	RESOURCEMGR->CreateTexture("Num_7", _T("../../Assets/Scene_Lobby/Num_7.png"), PS_TEXTURE, BIND_PS);
+	RESOURCEMGR->CreateTexture("Num_8", _T("../../Assets/Scene_Lobby/Num_8.png"), PS_TEXTURE, BIND_PS);
+	RESOURCEMGR->CreateTexture("Num_9", _T("../../Assets/Scene_Lobby/Num_9.png"), PS_TEXTURE, BIND_PS);
+	RESOURCEMGR->CreateTexture("Num_slash", _T("../../Assets/Scene_Lobby/Num_slash.png"), PS_TEXTURE, BIND_PS);
+
+	RESOURCEMGR->CreateTexture("Lobby_RoomGameFont", _T("../../Assets/Scene_Lobby/Lobby_RoomGameFont.png"), PS_TEXTURE, BIND_PS);
+	RESOURCEMGR->CreateTexture("Lobby_RoomEmptyFont", _T("../../Assets/Scene_Lobby/Lobby_RoomEmptyFont.png"), PS_TEXTURE, BIND_PS);
+	
 }
 void CLoading::LoadScene_HEROSEL()
 {
@@ -211,7 +241,7 @@ void CLoading::LoadScene_ORITOWN()
 
 	CEffectMgr::GetInstance()->Load_EffectData(L"../../Assets/EffectData/hum3_sk1.dat", L"hum3_sk1");
 
-	LoadScene("../../Assets/SceneResource/FirstTown/FirstTown.scn");
+	LoadScene("../../Assets/SceneResource/test/test.scn");
 
 	RESOURCEMGR->CreateTexture("Bar", _T("../../Assets/Game_UI/HpBar.png"), PS_TEXTURE, BIND_PS);
 	RESOURCEMGR->CreateTexture("Bar_Fill", _T("../../Assets/Game_UI/HpPoint.png"), PS_TEXTURE, BIND_PS);

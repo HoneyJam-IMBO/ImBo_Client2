@@ -9,6 +9,7 @@ CClickButton::CClickButton()
 
 CClickButton::~CClickButton()
 {
+	//Release();
 	m_pUIRenderCont->ClearData();
 }
 

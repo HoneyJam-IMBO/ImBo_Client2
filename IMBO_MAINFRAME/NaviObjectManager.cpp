@@ -20,7 +20,7 @@ bool CNaviObjectManager::Begin(){
 	m_vNaviObject.clear();
 	m_vpNaviVertex.clear();
 
-	m_pGSNaviMeshVertexBuffer = RESOURCEMGR->CreateConstantBuffer("GSNavyMeshVertexBuffer", 1000, sizeof(XMFLOAT4), 0, BIND_GS);
+	m_pGSNaviMeshVertexBuffer = RESOURCEMGR->CreateConstantBuffer("GSNavyMeshVertexBuffer", 1000, sizeof(XMFLOAT4), 1, BIND_GS);
 	m_pNaviMeshInstancingBuffer = RESOURCEMGR->CreateInstancingBuffer("NavyMeshInstancingBuffer", 1000, sizeof(NaviMeshIndexData));
 
 	//허수아비 mesh = boundingbox meshh
@@ -65,32 +65,34 @@ bool CNaviObjectManager::End(){
 
 void CNaviObjectManager::Render(){
 	{
-		//vertex buffer 의 정점들 bounding box로 render 및 GS용 버텍스 버퍼를 제작
-		XMFLOAT4* pData = (XMFLOAT4*)m_pGSNaviMeshVertexBuffer->Map();
-		int i = 0;
-
+		//vertex buffer 의 정점들 bounding box로 render
 		for (auto pVertex : m_vpNaviVertex) {
 			BoundingOrientedBox obb;
 			obb.Center = pVertex->GetPosition();
-
-			pData[i++] = XMFLOAT4(obb.Center.x, obb.Center.y, obb.Center.z, 1);
 			obb.Extents = XMFLOAT3(1.f, 1.f, 1.f);
 			DEBUGER->RegistOBB(obb, UTAG_COLLISION);
 		}
 
-		m_pGSNaviMeshVertexBuffer->Unmap();
-		m_pGSNaviMeshVertexBuffer->SetShaderState();
-
-
 		//navi mesh
+		{
+			XMFLOAT4* pData = (XMFLOAT4*)m_pGSNaviMeshVertexBuffer->Map();
+			int i = 0;
+			for (auto pVertex : m_vpNaviVertex) {
+				XMFLOAT3 vertex = pVertex->GetPosition();
+				pData[i++] = XMFLOAT4(vertex.x, vertex.y, vertex.z, 1);
+			}
+
+			m_pGSNaviMeshVertexBuffer->Unmap();
+			m_pGSNaviMeshVertexBuffer->SetShaderState();
+		}
 		{
 			NaviMeshIndexData* pData = (NaviMeshIndexData*)m_pNaviMeshInstancingBuffer->Map();
 			int index = 0;
 			for (auto pNaviObject : m_vNaviObject) {
 
-				pData->m_pIndices[index++] = pNaviObject->GetNaviVertices()[2]->GetIndex();
-				pData->m_pIndices[index++] = pNaviObject->GetNaviVertices()[1]->GetIndex();
 				pData->m_pIndices[index++] = pNaviObject->GetNaviVertices()[0]->GetIndex();
+				pData->m_pIndices[index++] = pNaviObject->GetNaviVertices()[1]->GetIndex();
+				pData->m_pIndices[index++] = pNaviObject->GetNaviVertices()[2]->GetIndex();
 			}
 			m_pNaviMeshInstancingBuffer->Unmap();
 			//m_pNaviMeshInstancingBuffer->SetShaderState();

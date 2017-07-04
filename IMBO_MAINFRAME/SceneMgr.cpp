@@ -27,7 +27,7 @@ void CSceneMgr::SetPresentScene(SCENE_ID eID, CScene * pScene)
 
 void CSceneMgr::ChangeScene(SCENE_ID eID)
 {
-	::Safe_EndDelete(m_pPresentScene);
+ 	::Safe_EndDelete(m_pPresentScene);
 	
 	m_pLoading = new CLoading(eID, m_pFrameWork);
 	m_pLoading->Begin();

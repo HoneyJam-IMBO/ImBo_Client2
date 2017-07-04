@@ -13,7 +13,6 @@ CSCTitle::~CSCTitle()
 
 bool CSCTitle::Begin()
 {
-
 	UPDATER->GetSkyBoxContainer()->SetActive(false);
 	UPDATER->GetTerrainContainer()->SetActive(false);
 
@@ -32,8 +31,8 @@ bool CSCTitle::Begin()
 
 bool CSCTitle::End()
 {
-	
-	return CScene::End();;
+	CScene::End();
+	return false;
 }
 
 void CSCTitle::Animate(float fTimeElapsed)
@@ -46,7 +45,7 @@ void CSCTitle::Animate(float fTimeElapsed)
 
 	if (INPUTMGR->KeyBoardDown(VK_SPACE_))
 	{
-		SCENEMGR->ChangeScene(SCN_HEROSEL);
+		SCENEMGR->ChangeScene(SCN_LOBBY);
 	}
 }
 

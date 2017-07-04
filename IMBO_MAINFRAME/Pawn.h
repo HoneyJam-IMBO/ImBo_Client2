@@ -10,7 +10,7 @@ public:
 
 private:
 	void	KeyInput(float fDeltaTime);
-	void	PushServerData(float x, float y, float z, float fAngleY, DWORD dwDirection, bool bJump);
+	void	PushServerData(float x, float y, float z, float fYAngle);
 	void	GetServerData(float fTimeElapsed);
 	void	SetupAnimation(DWORD dwDirection);
 	void	Jumping(float fDeltaTime);
@@ -48,7 +48,7 @@ public:
 	virtual void RegistToContainer();
 
 public:
-	virtual void PhisicsLogic(CAtlMap<utag, CAtlArray<CGameObject*>*>* pUtagObjectAtlMap, float fDeltaTime);
+	virtual void PhisicsLogic(map<utag, list<CGameObject*>>& mlpObject, float fDeltaTime);
 
 public:
 	CPawn(string name, tag t = tag::TAG_DEFAULT, bool bSprit = false, CGameObject* pWeapon = nullptr, INT slot_id = 0);

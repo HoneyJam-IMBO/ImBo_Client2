@@ -7,7 +7,7 @@ void clienterror()
 	exit(-1);
 }
 
-#define USE_LOCAL_IP
+//#define USE_LOCAL_IP
 
 bool CNetworkManager::Begin() {
 #ifdef NO_SERVER
@@ -174,7 +174,7 @@ void CNetworkManager::PTProc(CScene* pScene) {
 		case PT_CHANGE_STATE_PLAYER_SC:
 			PROC_PT_CHANGE_STATE_PLAYER_SC(pScene, dwProtocol, Packet, dwPacketLength);
 			break;
-
+		
 
 		default:
 			break;
@@ -308,7 +308,7 @@ void CNetworkManager::Update(float fTimeElapsed) {
 }
 
 
-void CNetworkManager::AddServerPlayerInfo(INT CHARACTER) {
+void CNetworkManager::AddServerPlayerInfo(INT CHARACTER){
 	ServerPlayerInfo Data = ServerPlayerInfo{ CHARACTER };
 	m_vServerPlayerInfo.push_back(Data);
 }
@@ -318,7 +318,7 @@ ServerPlayerInfo CNetworkManager::GetServerPlayerInfo(INT SLOT_ID)
 
 	return m_vServerPlayerInfo[SLOT_ID];
 }
-PLAYR_FREQUENCY_DATA CNetworkManager::GetPlayerFrequencyData(INT SLOT_ID) {
+PLAYR_FREQUENCY_DATA CNetworkManager::GetPlayerFrequencyData(INT SLOT_ID){
 	PLAYR_FREQUENCY_DATA FREQUENCY_DATA;
 	if (m_vServerPlayerInfo.size() < SLOT_ID) return FREQUENCY_DATA;
 	//if (m_vServerPlayerInfo[SLOT_ID].m_qFREQUENCY_DATA.empty()) return FREQUENCY_DATA;
@@ -328,14 +328,6 @@ PLAYR_FREQUENCY_DATA CNetworkManager::GetPlayerFrequencyData(INT SLOT_ID) {
 	//m_vServerPlayerInfo[SLOT_ID].m_qFREQUENCY_DATA.pop();
 	FREQUENCY_DATA = m_vServerPlayerInfo[SLOT_ID].FREQUENCY_DATA;
 	return FREQUENCY_DATA;
-}
-BOOL CNetworkManager::GetAttack(INT SLOT_ID) {
-	if (m_vServerPlayerInfo[SLOT_ID].ATTACK == true)
-	{
-		m_vServerPlayerInfo[SLOT_ID].ATTACK = false;
-		return true;
-	}
-	return false;
 }
 CNetworkManager::CNetworkManager() : CSingleTonBase<CNetworkManager>("networkmanagersingleton") {
 

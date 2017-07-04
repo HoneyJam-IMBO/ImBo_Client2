@@ -9,6 +9,7 @@ CHpBar::CHpBar()
 
 CHpBar::~CHpBar()
 {
+	//Release();
 	m_pUIRenderCont->ClearData();
 }
 

@@ -9,6 +9,7 @@ CImageUI::CImageUI()
 
 CImageUI::~CImageUI()
 {
+	//Release();
 	m_pUIRenderCont->ClearData();
 }
 
@@ -65,6 +66,8 @@ int CImageUI::Update(float fTimeElapsed)
 
 void CImageUI::Render()
 {
+	if (!m_bRender) return;
+
 	m_pTexture->UpdateShaderState();
 	m_pTexture->SetShaderState();
 

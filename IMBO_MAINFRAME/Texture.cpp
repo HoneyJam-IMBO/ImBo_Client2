@@ -382,7 +382,7 @@ ID3D11ShaderResourceView * CTexture::CreateTexture2DArraySRV(ID3D11ShaderResourc
 	if (L".tga" == extention || L".TGA" == extention) {
 		ScratchImage image;
 		TexMetadata info;
-		info.format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+		//info.format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 		HRESULT hr = LoadFromTGAFile(pstrFilePath, &info, image);
 		CreateShaderResourceView(GLOBALVALUEMGR->GetDevice(), image.GetImages(), image.GetImageCount(), info, &pd3dsrvTexture);
 	}

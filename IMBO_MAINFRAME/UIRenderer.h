@@ -24,7 +24,6 @@ private:
 
 	CRenderShader*	m_pRenderShader{ nullptr };
 
-
 	ID3D11BlendState*	m_pAlphaBlendState{ nullptr };
 	ID3D11BlendState*	m_pPreBlendState{ nullptr };
 	float* m_pPreBlendFactor{ nullptr };

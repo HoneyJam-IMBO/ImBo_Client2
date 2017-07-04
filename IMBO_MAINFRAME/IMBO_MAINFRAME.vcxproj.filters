@@ -438,18 +438,6 @@
     <Filter Include="1. 소스 파일\00. Singleton\-12. NetworkMGR\-1 LabClientSession">
       <UniqueIdentifier>{9c1cdf69-668a-4c94-ae9f-9788f2f82b92}</UniqueIdentifier>
     </Filter>
-    <Filter Include="1. 소스 파일\03. Scene\-02. SCLobby">
-      <UniqueIdentifier>{d7aeaee4-1509-4422-9d15-6434f287cd90}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1. 소스 파일\03. Scene\-03. SCHeroSel">
-      <UniqueIdentifier>{6f0df958-0a3a-44c7-ae84-8e7179fa8f33}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1. 소스 파일\03. Scene\-03. SCHeroSel\Charactors">
-      <UniqueIdentifier>{13b35f16-1723-4a88-b3f9-df6ff593567b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1. 소스 파일\03. Scene\-04. SCOriTown">
-      <UniqueIdentifier>{29089177-4d99-4d18-bbf7-e57f06c8c9a8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="1. 소스 파일\03. Scene\-01. Title">
       <UniqueIdentifier>{49196597-eb69-49cf-a173-5d35aef3b1ff}</UniqueIdentifier>
     </Filter>
@@ -467,6 +455,24 @@
     </Filter>
     <Filter Include="0. HLSL\16. NaviObject">
       <UniqueIdentifier>{a285637f-b439-4697-8644-0c435b54d39c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1. 소스 파일\05. GameObject\-05. Player\1.">
+      <UniqueIdentifier>{aaff5fd5-29d3-45e9-8162-d6924c4bab10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1. 소스 파일\05. GameObject\-05. Player\2.">
+      <UniqueIdentifier>{a98eb1a2-c825-4619-bc7f-699d1da8e377}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1. 소스 파일\03. Scene\-02. SCLobby">
+      <UniqueIdentifier>{d7aeaee4-1509-4422-9d15-6434f287cd90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1. 소스 파일\03. Scene\-03. SCHeroSel">
+      <UniqueIdentifier>{6f0df958-0a3a-44c7-ae84-8e7179fa8f33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1. 소스 파일\03. Scene\-03. SCHeroSel\Charactors">
+      <UniqueIdentifier>{13b35f16-1723-4a88-b3f9-df6ff593567b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1. 소스 파일\03. Scene\-04. SCOriTown">
+      <UniqueIdentifier>{29089177-4d99-4d18-bbf7-e57f06c8c9a8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -815,6 +821,9 @@
     <ClInclude Include="NaviMesh.h">
       <Filter>1. 소스 파일\04. DXObject\-02. Mesh\OBJECT\NaviMesh</Filter>
     </ClInclude>
+    <ClInclude Include="SCLobby.h">
+      <Filter>1. 소스 파일\03. Scene\-02. SCLobby</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Light.cpp">
@@ -1146,6 +1155,9 @@
     </ClCompile>
     <ClCompile Include="NaviMesh.cpp">
       <Filter>1. 소스 파일\04. DXObject\-02. Mesh\OBJECT\NaviMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="SCLobby.cpp">
+      <Filter>1. 소스 파일\03. Scene\-02. SCLobby</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

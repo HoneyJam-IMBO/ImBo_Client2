@@ -172,6 +172,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SCLobby.h" />
     <ClInclude Include="NaviMesh.h" />
     <ClInclude Include="NaviObject.h" />
     <ClInclude Include="NaviObjectManager.h" />
@@ -289,6 +290,7 @@
     <ClInclude Include="WaterRenderer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SCLobby.cpp" />
     <ClCompile Include="NaviMesh.cpp" />
     <ClCompile Include="NaviObject.cpp" />
     <ClCompile Include="NaviObjectManager.cpp" />
